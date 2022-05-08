@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
 Route::get('/{path?}', function () {
     return view('welcome');
-});
+})->where('path', '^((?!api).)*$');
 
-Auth::routes();
+Route::get('/api/users', [App\Http\Controllers\UserController::class, 'create'])->name('create');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
