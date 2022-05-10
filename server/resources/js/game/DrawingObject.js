@@ -9,7 +9,7 @@ class DrawingObject {
 
     draw(cam) {
         let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.rad);
-        cam.drawCircle(x, y, size, this.color);
+        cam.drawCircle(x, y, size, this.color, {shadow: {blur: size * 2}});
     }
 }
 

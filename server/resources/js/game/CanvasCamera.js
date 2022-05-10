@@ -110,6 +110,7 @@ class CanvasCamera {
 
     // Handle events
     handle () {
+
         // Scaling
         if (this.scale < this.target.scale) {
             this.scale = Math.min(this.scale * CAM_SCROLL_SPEED, this.target.scale);
@@ -130,7 +131,6 @@ class CanvasCamera {
             this.x = this.target.x;
             this.y = this.target.y;
         }
-        // console.log(vec);
     }
 
     // Draw objects
@@ -152,11 +152,17 @@ class CanvasCamera {
         this.ctx.beginPath();
         this.ctx.arc(x, y, rad, 0, Math.PI * 2);
 
+        if (options.shadow) {
+            this.ctx.shadowColor = options.shadow.color || color;
+            this.ctx.shadowBlur = options.shadow.blur || 10;
+        }
+
         if (options.stroke) {
             this.ctx.stroke();
         } else {
             this.ctx.fill();
         }
+
         this.ctx.closePath();
     }
 
@@ -171,6 +177,7 @@ class CanvasCamera {
 
     // Drawing additional graphics
     drawAdditionalGraphics() {
+        this.ctx.shadowBlur = 0;
         this.ctx.strokeStyle = "rgba(255, 255, 255, 1)";
         this.ctx.lineWidth = 3;
 

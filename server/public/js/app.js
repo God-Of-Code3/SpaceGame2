@@ -5786,8 +5786,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       } else {
         this.x = this.target.x;
         this.y = this.target.y;
-      } // console.log(vec);
-
+      }
     } // Draw objects
 
   }, {
@@ -5807,6 +5806,11 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.ctx.strokeStyle = color;
       this.ctx.beginPath();
       this.ctx.arc(x, y, rad, 0, Math.PI * 2);
+
+      if (options.shadow) {
+        this.ctx.shadowColor = options.shadow.color || color;
+        this.ctx.shadowBlur = options.shadow.blur || 10;
+      }
 
       if (options.stroke) {
         this.ctx.stroke();
@@ -5830,6 +5834,7 @@ var CanvasCamera = /*#__PURE__*/function () {
   }, {
     key: "drawAdditionalGraphics",
     value: function drawAdditionalGraphics() {
+      this.ctx.shadowBlur = 0;
       this.ctx.strokeStyle = "rgba(255, 255, 255, 1)";
       this.ctx.lineWidth = 3;
       var offset = 10;
@@ -5890,7 +5895,11 @@ var DrawingObject = /*#__PURE__*/function () {
           y = _cam$calcCoordsAndSiz.y,
           size = _cam$calcCoordsAndSiz.size;
 
-      cam.drawCircle(x, y, size, this.color);
+      cam.drawCircle(x, y, size, this.color, {
+        shadow: {
+          blur: size * 2
+        }
+      });
     }
   }]);
 
