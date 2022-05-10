@@ -1,19 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import Contacts from './Contacts';
+import {BrowserRouter} from "react-router-dom";
 import NavBar from './NavBar';
-import Welcome from './Welcome';
+import AppRouter from './AppRouter';
 
 function App() {
     return (
         <BrowserRouter>
             <NavBar></NavBar>
-            <Routes>
-                <Route path="/" element={<Welcome/>}></Route>
-                <Route path="/contacts" element={<Contacts/>}></Route>
-            </Routes>
-            
+            <AppRouter></AppRouter>
         </BrowserRouter>
     );
 }
