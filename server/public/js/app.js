@@ -5648,8 +5648,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 var SCROLL_SPEED = 1.2;
-var CAM_SCROLL_SPEED = 1.05;
+var CAM_SCROLL_SPEED = 1.07;
 var CAM_MOVE_SPEED = 100;
+var BG_COLOR = "#00010f";
 
 var CanvasCamera = /*#__PURE__*/function () {
   function CanvasCamera(props, cnv, ctx) {
@@ -5756,7 +5757,7 @@ var CanvasCamera = /*#__PURE__*/function () {
   }, {
     key: "fill",
     value: function fill() {
-      this.ctx.fillStyle = "#00010f";
+      this.ctx.fillStyle = BG_COLOR;
       this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
     } // Handle events
 
@@ -5797,11 +5798,33 @@ var CanvasCamera = /*#__PURE__*/function () {
       var drawX = (x - this.x) * this.scale + this.cnv.width / 2;
       var drawY = (y - this.y) * this.scale + this.cnv.height / 2;
       var drawRad = obj.rad * this.scale;
-      this.ctx.fillStyle = obj.color;
+    }
+  }, {
+    key: "drawCircle",
+    value: function drawCircle(x, y, rad, color) {
+      var options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+      this.ctx.fillStyle = color;
+      this.ctx.strokeStyle = color;
       this.ctx.beginPath();
-      this.ctx.arc(drawX, drawY, drawRad, 0, Math.PI * 2);
-      this.ctx.fill();
+      this.ctx.arc(x, y, rad, 0, Math.PI * 2);
+
+      if (options.stroke) {
+        this.ctx.stroke();
+      } else {
+        this.ctx.fill();
+      }
+
       this.ctx.closePath();
+    } // Calc coords and size
+
+  }, {
+    key: "calcCoordsAndSize",
+    value: function calcCoordsAndSize(x, y, size) {
+      return {
+        x: (x - this.x) * this.scale + this.cnv.width / 2,
+        y: (y - this.y) * this.scale + this.cnv.height / 2,
+        size: size * this.scale
+      };
     } // Drawing additional graphics
 
   }, {
@@ -5841,22 +5864,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var DrawingObject = /*#__PURE__*/function () {
+  function DrawingObject() {
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-var DrawingObject = /*#__PURE__*/_createClass(function DrawingObject() {
-  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    _classCallCheck(this, DrawingObject);
 
-  _classCallCheck(this, DrawingObject);
+    this.x = props.x || 0;
+    this.y = props.y || 0;
+    this.rad = props.rad || 20;
+    this.color = props.color || "rgba(255, 255, 255, 1)";
+  }
 
-  this.x = props.x || 0;
-  this.y = props.y || 0;
-  this.rad = props.rad || 20;
-  this.color = props.color || "rgba(255, 255, 0, 1)";
-});
+  _createClass(DrawingObject, [{
+    key: "draw",
+    value: function draw(cam) {
+      var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(this.x, this.y, this.rad),
+          x = _cam$calcCoordsAndSiz.x,
+          y = _cam$calcCoordsAndSiz.y,
+          size = _cam$calcCoordsAndSiz.size;
+
+      cam.drawCircle(x, y, size, this.color);
+    }
+  }]);
+
+  return DrawingObject;
+}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawingObject);
 
@@ -5891,7 +5930,7 @@ var startGame = function startGame(cnv, ctx) {
     cam.fill();
     cam.handle();
     objects.forEach(function (obj) {
-      cam.drawObject(obj);
+      obj.draw(cam);
     });
     cam.drawAdditionalGraphics(); // End main loop
 

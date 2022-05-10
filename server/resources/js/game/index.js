@@ -19,7 +19,7 @@ const startGame = (cnv, ctx) => {
         cam.handle();
         objects.forEach(obj => {
             
-            cam.drawObject(obj);
+            obj.draw(cam);
         })
         cam.drawAdditionalGraphics();
         // End main loop

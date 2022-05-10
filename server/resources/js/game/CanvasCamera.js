@@ -1,6 +1,8 @@
 const SCROLL_SPEED = 1.2;
-const CAM_SCROLL_SPEED = 1.05;
+const CAM_SCROLL_SPEED = 1.07;
 const CAM_MOVE_SPEED = 100;
+
+const BG_COLOR = "#00010f";
 
 
 class CanvasCamera {
@@ -102,7 +104,7 @@ class CanvasCamera {
 
     // Filling background
     fill () {
-        this.ctx.fillStyle = "#00010f";
+        this.ctx.fillStyle = BG_COLOR;
         this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
     }
 
@@ -140,11 +142,31 @@ class CanvasCamera {
         let drawY = (y - this.y) * this.scale + this.cnv.height / 2;
         let drawRad = obj.rad * this.scale;
 
-        this.ctx.fillStyle = obj.color;
+        
+    }
+
+    drawCircle(x, y, rad, color, options={}) {
+        
+        this.ctx.fillStyle = color;
+        this.ctx.strokeStyle = color;
         this.ctx.beginPath();
-        this.ctx.arc(drawX, drawY, drawRad, 0, Math.PI * 2);
-        this.ctx.fill();
+        this.ctx.arc(x, y, rad, 0, Math.PI * 2);
+
+        if (options.stroke) {
+            this.ctx.stroke();
+        } else {
+            this.ctx.fill();
+        }
         this.ctx.closePath();
+    }
+
+    // Calc coords and size
+    calcCoordsAndSize(x, y, size) {
+        return {
+            x: (x - this.x) * this.scale + this.cnv.width / 2,
+            y: (y - this.y) * this.scale + this.cnv.height / 2,
+            size: size * this.scale
+        };
     }
 
     // Drawing additional graphics
