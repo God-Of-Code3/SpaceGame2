@@ -5576,8 +5576,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Canvas_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Canvas.css */ "./resources/js/components/canvas/Canvas.css");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../game */ "./resources/js/game/index.js");
+/* harmony import */ var _Canvas_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Canvas.css */ "./resources/js/components/canvas/Canvas.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -5589,6 +5590,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -5614,7 +5616,10 @@ var Canvas = function Canvas() {
     setWidth(window.innerWidth);
     setHeight(window.innerHeight);
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    (0,_game__WEBPACK_IMPORTED_MODULE_1__["default"])(cnv.current, ctx);
+  }, [cnv, ctx]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("canvas", {
     ref: cnv,
     width: width,
     height: height
@@ -5622,6 +5627,175 @@ var Canvas = function Canvas() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Canvas);
+
+/***/ }),
+
+/***/ "./resources/js/game/CanvasCamera.js":
+/*!*******************************************!*\
+  !*** ./resources/js/game/CanvasCamera.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+var CanvasCamera = /*#__PURE__*/function () {
+  function CanvasCamera(props, cnv, ctx) {
+    _classCallCheck(this, CanvasCamera);
+
+    this.x = props.x || 0;
+    this.y = props.y || 0;
+    this.scale = props.scale || 1;
+    this.mode = props.mode || 1; // 0 - galaxy scope, 1 - local stars scope, 2 - star system scope, 3 - planet scope
+
+    this.cnv = cnv;
+    this.ctx = ctx;
+    this.addEvents();
+    this.target = {
+      x: this.x,
+      y: this.y,
+      scale: this.scale
+    };
+  } // Adding events
+
+
+  _createClass(CanvasCamera, [{
+    key: "addEvents",
+    value: function addEvents() {
+      this.cnv.addEventListener("mousedown", function () {});
+    } // Move camera to point
+
+  }, {
+    key: "moveTo",
+    value: function moveTo(_ref) {
+      var x = _ref.x,
+          y = _ref.y;
+      this.x = x;
+      this.y = y;
+    } // Calculate mouse position
+
+  }, {
+    key: "calcMouse",
+    value: function calcMouse(ev) {
+      var x = ev.clientX - this.cnv.width / 2;
+      var y = ev.clientY - this.cnv.height / 2;
+      x /= this.scale;
+      y /= this.scale;
+      x += this.x;
+      y += this.y;
+    } // Filling background
+
+  }, {
+    key: "fill",
+    value: function fill() {
+      this.ctx.fillStyle = "#00010f";
+      this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
+    } // Handle events
+
+  }, {
+    key: "handle",
+    value: function handle() {} // Draw objects
+
+  }, {
+    key: "drawObject",
+    value: function drawObject(obj) {
+      var x = obj.x;
+      var y = obj.y;
+      var drawX = (x - this.x) * this.scale + this.cnv.width / 2;
+      var drawY = (y - this.y) * this.scale + this.cnv.height / 2;
+      this.ctx.fillStyle = obj.color;
+      this.ctx.beginPath();
+      this.ctx.arc(drawX, drawY, obj.rad, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.closePath();
+    }
+  }]);
+
+  return CanvasCamera;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasCamera);
+
+/***/ }),
+
+/***/ "./resources/js/game/DrawingObject.js":
+/*!********************************************!*\
+  !*** ./resources/js/game/DrawingObject.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DrawingObject = /*#__PURE__*/_createClass(function DrawingObject() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  _classCallCheck(this, DrawingObject);
+
+  this.x = props.x || 0;
+  this.y = props.y || 0;
+  this.rad = props.rad || 20;
+  this.color = props.color || "rgba(255, 255, 0, 1)";
+});
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawingObject);
+
+/***/ }),
+
+/***/ "./resources/js/game/index.js":
+/*!************************************!*\
+  !*** ./resources/js/game/index.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CanvasCamera */ "./resources/js/game/CanvasCamera.js");
+/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+
+
+
+var startGame = function startGame(cnv, ctx) {
+  var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__["default"]({}, cnv, ctx);
+  var objects = [new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__["default"](), new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__["default"]({
+    x: 100,
+    y: 100
+  })];
+
+  var gameLoop = function gameLoop() {
+    // Main loop
+    // console.log(objects);
+    cam.fill();
+    objects.forEach(function (obj) {
+      cam.drawObject(obj);
+    }); // End main loop
+
+    requestAnimationFrame(gameLoop);
+  };
+
+  gameLoop();
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startGame);
 
 /***/ }),
 

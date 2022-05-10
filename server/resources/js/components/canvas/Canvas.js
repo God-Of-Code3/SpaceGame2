@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import startGame from '../../game';
 import './Canvas.css';
 
 const Canvas = () => {
@@ -16,6 +17,11 @@ const Canvas = () => {
         setWidth(window.innerWidth);
         setHeight(window.innerHeight);
     });
+
+    useEffect(() => {
+
+        startGame(cnv.current, ctx);
+    }, [cnv, ctx]);
 
     return (
         <canvas ref={cnv} width={width} height={height}>
