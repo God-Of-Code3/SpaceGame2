@@ -5647,6 +5647,10 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+var SCROLL_SPEED = 1.2;
+var CAM_SCROLL_SPEED = 1.05;
+var CAM_MOVE_SPEED = 100;
+
 var CanvasCamera = /*#__PURE__*/function () {
   function CanvasCamera(props, cnv, ctx) {
     _classCallCheck(this, CanvasCamera);
@@ -5664,13 +5668,56 @@ var CanvasCamera = /*#__PURE__*/function () {
       y: this.y,
       scale: this.scale
     };
+    this.mouse = {
+      startX: this.x,
+      startY: this.y,
+      camX: this.target.x,
+      camY: this.target.y,
+      active: false
+    };
   } // Adding events
 
 
   _createClass(CanvasCamera, [{
     key: "addEvents",
     value: function addEvents() {
-      this.cnv.addEventListener("mousedown", function () {});
+      var _this = this;
+
+      this.cnv.addEventListener("mousedown", function (ev) {
+        var _this$calcMouse = _this.calcMouse(ev),
+            x = _this$calcMouse.x,
+            y = _this$calcMouse.y;
+
+        _this.mouse.active = true;
+        _this.mouse.startX = x;
+        _this.mouse.startY = y;
+        _this.mouse.camX = _this.target.x;
+        _this.mouse.camY = _this.target.y;
+      });
+      this.cnv.addEventListener("mousemove", function (ev) {
+        if (_this.mouse.active) {
+          var _this$calcMouse2 = _this.calcMouse(ev),
+              x = _this$calcMouse2.x,
+              y = _this$calcMouse2.y;
+
+          var deltaX = x - _this.mouse.startX;
+          var deltaY = y - _this.mouse.startY;
+
+          _this.moveTo({
+            x: _this.mouse.camX - deltaX,
+            y: _this.mouse.camY - deltaY
+          });
+        }
+      });
+      this.cnv.addEventListener("mouseup", function (ev) {
+        _this.mouse.active = false;
+        _this.mouse.camX = _this.target.x;
+        _this.mouse.camY = _this.target.y;
+      });
+      this.cnv.addEventListener("wheel", function (ev) {
+        var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
+        _this.target.scale *= delta > 0 ? 1 / SCROLL_SPEED : SCROLL_SPEED;
+      });
     } // Move camera to point
 
   }, {
@@ -5678,8 +5725,17 @@ var CanvasCamera = /*#__PURE__*/function () {
     value: function moveTo(_ref) {
       var x = _ref.x,
           y = _ref.y;
-      this.x = x;
-      this.y = y;
+      this.target.x = x;
+      this.target.y = y;
+    } // Getting camera view size
+
+  }, {
+    key: "getViewSize",
+    value: function getViewSize() {
+      return {
+        width: this.cnv.width / this.scale,
+        height: this.cnv.height / this.scale
+      };
     } // Calculate mouse position
 
   }, {
@@ -5689,8 +5745,12 @@ var CanvasCamera = /*#__PURE__*/function () {
       var y = ev.clientY - this.cnv.height / 2;
       x /= this.scale;
       y /= this.scale;
-      x += this.x;
-      y += this.y;
+      x += this.mouse.camX;
+      y += this.mouse.camY;
+      return {
+        x: x,
+        y: y
+      };
     } // Filling background
 
   }, {
@@ -5702,7 +5762,32 @@ var CanvasCamera = /*#__PURE__*/function () {
 
   }, {
     key: "handle",
-    value: function handle() {} // Draw objects
+    value: function handle() {
+      // Scaling
+      if (this.scale < this.target.scale) {
+        this.scale = Math.min(this.scale * CAM_SCROLL_SPEED, this.target.scale);
+      } else if (this.scale > this.target.scale) {
+        this.scale = Math.max(this.scale / CAM_SCROLL_SPEED, this.target.scale);
+      } // Moving
+
+
+      var vec = {
+        x: this.target.x - this.x,
+        y: this.target.y - this.y
+      };
+      var ln = Math.pow(Math.pow(vec.x, 2) + Math.pow(vec.y, 2), 0.5);
+
+      if (ln * this.scale > CAM_MOVE_SPEED) {
+        vec.x /= ln;
+        vec.y /= ln;
+        this.x += vec.x * CAM_MOVE_SPEED / this.scale;
+        this.y += vec.y * CAM_MOVE_SPEED / this.scale;
+      } else {
+        this.x = this.target.x;
+        this.y = this.target.y;
+      } // console.log(vec);
+
+    } // Draw objects
 
   }, {
     key: "drawObject",
@@ -5711,10 +5796,29 @@ var CanvasCamera = /*#__PURE__*/function () {
       var y = obj.y;
       var drawX = (x - this.x) * this.scale + this.cnv.width / 2;
       var drawY = (y - this.y) * this.scale + this.cnv.height / 2;
+      var drawRad = obj.rad * this.scale;
       this.ctx.fillStyle = obj.color;
       this.ctx.beginPath();
-      this.ctx.arc(drawX, drawY, obj.rad, 0, Math.PI * 2);
+      this.ctx.arc(drawX, drawY, drawRad, 0, Math.PI * 2);
       this.ctx.fill();
+      this.ctx.closePath();
+    } // Drawing additional graphics
+
+  }, {
+    key: "drawAdditionalGraphics",
+    value: function drawAdditionalGraphics() {
+      this.ctx.strokeStyle = "rgba(255, 255, 255, 1)";
+      this.ctx.lineWidth = 3;
+      var offset = 10;
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.cnv.width / 2 - offset, this.cnv.height / 2);
+      this.ctx.lineTo(this.cnv.width / 2 + offset, this.cnv.height / 2);
+      this.ctx.stroke();
+      this.ctx.closePath();
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.cnv.width / 2, this.cnv.height / 2 - offset);
+      this.ctx.lineTo(this.cnv.width / 2, this.cnv.height / 2 + offset);
+      this.ctx.stroke();
       this.ctx.closePath();
     }
   }]);
@@ -5785,9 +5889,11 @@ var startGame = function startGame(cnv, ctx) {
     // Main loop
     // console.log(objects);
     cam.fill();
+    cam.handle();
     objects.forEach(function (obj) {
       cam.drawObject(obj);
-    }); // End main loop
+    });
+    cam.drawAdditionalGraphics(); // End main loop
 
     requestAnimationFrame(gameLoop);
   };

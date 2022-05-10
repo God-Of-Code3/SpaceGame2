@@ -16,10 +16,12 @@ const startGame = (cnv, ctx) => {
         // Main loop
         // console.log(objects);
         cam.fill();
+        cam.handle();
         objects.forEach(obj => {
             
             cam.drawObject(obj);
         })
+        cam.drawAdditionalGraphics();
         // End main loop
 
         requestAnimationFrame(gameLoop);
