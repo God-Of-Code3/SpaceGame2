@@ -5641,16 +5641,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-var SCROLL_SPEED = 1.2;
-var CAM_SCROLL_SPEED = 1.07;
-var CAM_MOVE_SPEED = 100;
-var BG_COLOR = "#00010f";
+
 
 var CanvasCamera = /*#__PURE__*/function () {
   function CanvasCamera(props, cnv, ctx) {
@@ -5717,7 +5715,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       });
       this.cnv.addEventListener("wheel", function (ev) {
         var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
-        _this.target.scale *= delta > 0 ? 1 / SCROLL_SPEED : SCROLL_SPEED;
+        _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED;
       });
     } // Move camera to point
 
@@ -5757,7 +5755,7 @@ var CanvasCamera = /*#__PURE__*/function () {
   }, {
     key: "fill",
     value: function fill() {
-      this.ctx.fillStyle = BG_COLOR;
+      this.ctx.fillStyle = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_COLOR;
       this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
     } // Handle events
 
@@ -5766,9 +5764,9 @@ var CanvasCamera = /*#__PURE__*/function () {
     value: function handle() {
       // Scaling
       if (this.scale < this.target.scale) {
-        this.scale = Math.min(this.scale * CAM_SCROLL_SPEED, this.target.scale);
+        this.scale = Math.min(this.scale * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
       } else if (this.scale > this.target.scale) {
-        this.scale = Math.max(this.scale / CAM_SCROLL_SPEED, this.target.scale);
+        this.scale = Math.max(this.scale / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
       } // Moving
 
 
@@ -5778,11 +5776,11 @@ var CanvasCamera = /*#__PURE__*/function () {
       };
       var ln = Math.pow(Math.pow(vec.x, 2) + Math.pow(vec.y, 2), 0.5);
 
-      if (ln * this.scale > CAM_MOVE_SPEED) {
+      if (ln * this.scale > _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED) {
         vec.x /= ln;
         vec.y /= ln;
-        this.x += vec.x * CAM_MOVE_SPEED / this.scale;
-        this.y += vec.y * CAM_MOVE_SPEED / this.scale;
+        this.x += vec.x * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED / this.scale;
+        this.y += vec.y * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED / this.scale;
       } else {
         this.x = this.target.x;
         this.y = this.target.y;
@@ -5797,7 +5795,8 @@ var CanvasCamera = /*#__PURE__*/function () {
       var drawX = (x - this.x) * this.scale + this.cnv.width / 2;
       var drawY = (y - this.y) * this.scale + this.cnv.height / 2;
       var drawRad = obj.rad * this.scale;
-    }
+    } // Basic drawing circle method
+
   }, {
     key: "drawCircle",
     value: function drawCircle(x, y, rad, color) {
@@ -5806,6 +5805,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.ctx.strokeStyle = color;
       this.ctx.beginPath();
       this.ctx.arc(x, y, rad, 0, Math.PI * 2);
+      this.ctx.shadowBlur = 0;
 
       if (options.shadow) {
         this.ctx.shadowColor = options.shadow.color || color;
@@ -5813,6 +5813,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       }
 
       if (options.stroke) {
+        this.ctx.lineWidth = options.lineWidth;
         this.ctx.stroke();
       } else {
         this.ctx.fill();
@@ -5910,6 +5911,159 @@ var DrawingObject = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./resources/js/game/SpaceObject.js":
+/*!******************************************!*\
+  !*** ./resources/js/game/SpaceObject.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
+/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+
+var SpaceObject = /*#__PURE__*/function () {
+  function SpaceObject(x, y, parent) {
+    var props = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+    var relations = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
+    _classCallCheck(this, SpaceObject);
+
+    this.x = x;
+    this.y = y;
+    this.props = props;
+    this.parent = parent;
+    this.children = [];
+    this.relations = relations;
+    this.calcCoords();
+    this.drawingObject = null;
+    this.setDrawingObject();
+    this.addToParent();
+  } // Calculating coords by relations
+
+
+  _createClass(SpaceObject, [{
+    key: "calcCoords",
+    value: function calcCoords() {
+      if (this.checkRelations()) {
+        var dist = this.relations.dist;
+        var angle = this.relations.angle;
+        var x = this.parent.x + Math.cos(angle) * dist;
+        var y = this.parent.y + Math.sin(angle) * dist;
+        this.x = x;
+        this.y = y;
+      }
+    } // Checking relations
+
+  }, {
+    key: "checkRelations",
+    value: function checkRelations() {
+      return Object.keys(this.relations) != 0;
+    } // Adding this object to parent children array
+
+  }, {
+    key: "addToParent",
+    value: function addToParent() {
+      if (this.parent) {
+        this.parent.children.push(this);
+      }
+    } // Setting drawing object
+
+  }, {
+    key: "setDrawingObject",
+    value: function setDrawingObject() {
+      this.drawingObject = new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__["default"]({
+        x: this.x,
+        y: this.y,
+        rad: this.props.rad,
+        color: this.props.color
+      });
+    } // Drawing
+
+  }, {
+    key: "draw",
+    value: function draw(cam) {
+      var _this = this;
+
+      this.drawingObject.x = this.x;
+      this.drawingObject.y = this.y;
+      this.drawingObject.draw(cam);
+      this.children.forEach(function (child) {
+        var dist = child.relations.dist;
+
+        var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(_this.x, _this.y, dist),
+            x = _cam$calcCoordsAndSiz.x,
+            y = _cam$calcCoordsAndSiz.y,
+            size = _cam$calcCoordsAndSiz.size;
+
+        cam.drawCircle(x, y, size, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_COLOR, {
+          stroke: true,
+          lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_LINE_WIDTH
+        });
+        child.draw(cam);
+      });
+
+      if (this.checkRelations()) {
+        this.relations.angle += 0.001;
+        this.calcCoords();
+      }
+    } // Adding child
+
+  }, {
+    key: "addChild",
+    value: function addChild() {
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var relations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      new SpaceObject(0, 0, this, props, relations);
+    }
+  }]);
+
+  return SpaceObject;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpaceObject);
+
+/***/ }),
+
+/***/ "./resources/js/game/constants.js":
+/*!****************************************!*\
+  !*** ./resources/js/game/constants.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var c = {
+  // Camera data
+  SCROLL_SPEED: 1.2,
+  CAM_SCROLL_SPEED: 1.07,
+  CAM_MOVE_SPEED: 100,
+  // Colors
+  BG_COLOR: "#00010f",
+  ORBIT_COLOR: "rgba(255, 255, 255, 0.3)",
+  // Distances
+  AU_TO_TKM: 1496,
+  // Sizes and widths
+  ORBIT_LINE_WIDTH: 1
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (c);
+
+/***/ }),
+
 /***/ "./resources/js/game/index.js":
 /*!************************************!*\
   !*** ./resources/js/game/index.js ***!
@@ -5923,15 +6077,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CanvasCamera */ "./resources/js/game/CanvasCamera.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+/* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
+
 
 
 
 var startGame = function startGame(cnv, ctx) {
   var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__["default"]({}, cnv, ctx);
-  var objects = [new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__["default"](), new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__["default"]({
-    x: 100,
-    y: 100
-  })];
+  var obj = new _SpaceObject__WEBPACK_IMPORTED_MODULE_2__["default"](0, 0, null, {
+    rad: 20,
+    color: "#c7eaff"
+  });
+
+  for (var i = 0; i < 180; i++) {
+    obj.addChild({
+      rad: 10,
+      color: "#1ac9ac"
+    }, {
+      dist: 100 + i * 10,
+      angle: i * 2 * (Math.PI / 180)
+    });
+  }
+
+  var objects = [obj];
 
   var gameLoop = function gameLoop() {
     // Main loop

@@ -1,8 +1,4 @@
-const SCROLL_SPEED = 1.2;
-const CAM_SCROLL_SPEED = 1.07;
-const CAM_MOVE_SPEED = 100;
-
-const BG_COLOR = "#00010f";
+import c from "./constants";
 
 
 class CanvasCamera {
@@ -69,7 +65,7 @@ class CanvasCamera {
 
         this.cnv.addEventListener("wheel", ev => {
             let delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
-            this.target.scale *= delta > 0 ? 1 / SCROLL_SPEED : SCROLL_SPEED;
+            this.target.scale *= delta > 0 ? 1 / c.SCROLL_SPEED : c.SCROLL_SPEED;
 
         });
     }
@@ -104,7 +100,7 @@ class CanvasCamera {
 
     // Filling background
     fill () {
-        this.ctx.fillStyle = BG_COLOR;
+        this.ctx.fillStyle = c.BG_COLOR;
         this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
     }
 
@@ -113,20 +109,20 @@ class CanvasCamera {
 
         // Scaling
         if (this.scale < this.target.scale) {
-            this.scale = Math.min(this.scale * CAM_SCROLL_SPEED, this.target.scale);
+            this.scale = Math.min(this.scale * c.CAM_SCROLL_SPEED, this.target.scale);
         } else if (this.scale > this.target.scale) {
-            this.scale = Math.max(this.scale / CAM_SCROLL_SPEED, this.target.scale);
+            this.scale = Math.max(this.scale / c.CAM_SCROLL_SPEED, this.target.scale);
         }
 
         // Moving
         let vec = {x: this.target.x - this.x, y: this.target.y - this.y};
         let ln = (vec.x ** 2 + vec.y ** 2) ** 0.5;
-        if (ln * this.scale > CAM_MOVE_SPEED) {
+        if (ln * this.scale > c.CAM_MOVE_SPEED) {
             
             vec.x /= ln;
             vec.y /= ln;
-            this.x += vec.x * CAM_MOVE_SPEED / this.scale;
-            this.y += vec.y * CAM_MOVE_SPEED / this.scale;
+            this.x += vec.x * c.CAM_MOVE_SPEED / this.scale;
+            this.y += vec.y * c.CAM_MOVE_SPEED / this.scale;
         } else {
             this.x = this.target.x;
             this.y = this.target.y;
@@ -141,10 +137,9 @@ class CanvasCamera {
         let drawX = (x - this.x) * this.scale + this.cnv.width / 2;
         let drawY = (y - this.y) * this.scale + this.cnv.height / 2;
         let drawRad = obj.rad * this.scale;
-
-        
     }
 
+    // Basic drawing circle method
     drawCircle(x, y, rad, color, options={}) {
         
         this.ctx.fillStyle = color;
@@ -152,12 +147,14 @@ class CanvasCamera {
         this.ctx.beginPath();
         this.ctx.arc(x, y, rad, 0, Math.PI * 2);
 
+        this.ctx.shadowBlur = 0;
         if (options.shadow) {
             this.ctx.shadowColor = options.shadow.color || color;
             this.ctx.shadowBlur = options.shadow.blur || 10;
         }
 
         if (options.stroke) {
+            this.ctx.lineWidth = options.lineWidth;
             this.ctx.stroke();
         } else {
             this.ctx.fill();
