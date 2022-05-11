@@ -12,12 +12,13 @@ class UserController extends Controller
     // }
     function create()
     {
-        $user = new User;
-        $user->name = "Sanchopansa";
-        $user->email = "god@lifegame.su";
-        $user->password = "123";
+        // $user = new User;
+        // $user->name = "Sanchopansa";
+        // $user->email = "god@lifegame.su";
+        // $user->password = "123";
 
-        $user->save();
-        dd($user);
+        // $user->save();
+        // dd($user);
+        echo "<a href='" . asset('storage/images/1.png') . "'>Img</a>";
     }
 }

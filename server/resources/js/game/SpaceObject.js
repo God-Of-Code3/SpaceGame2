@@ -1,5 +1,5 @@
 import c from "./constants";
-import DrawingObject from "./DrawingObject";
+import DrawingObject, { ImageDrawingObject } from "./DrawingObject";
 
 class SpaceObject {
     constructor (x, y, parent, props={}, relations={}) {
@@ -47,11 +47,12 @@ class SpaceObject {
 
     // Setting drawing object
     setDrawingObject() {
-        this.drawingObject = new DrawingObject({
+        this.drawingObject = new ImageDrawingObject({
             x: this.x,
             y: this.y,
             rad: this.props.rad,
-            color: this.props.color
+            color: this.props.color,
+            img: './storage/images/planets/alive-standart/planet.png'
         });
     }
 

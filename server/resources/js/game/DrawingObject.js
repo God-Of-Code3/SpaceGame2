@@ -13,4 +13,22 @@ class DrawingObject {
     }
 }
 
+
+class ImageDrawingObject extends DrawingObject {
+    constructor(props={}) {
+        super(props);
+
+        this.imageSrc = props.img;
+        this.image = new Image();
+        this.image.src = this.imageSrc;
+    }
+
+    draw(cam) {
+        let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.rad);
+        cam.drawImage(this.image, x, y, size, size, this.color, {shadow: {blur: size * 2}});
+    }
+}
+
+
+export { ImageDrawingObject };
 export default DrawingObject;

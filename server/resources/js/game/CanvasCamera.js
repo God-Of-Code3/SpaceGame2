@@ -139,6 +139,15 @@ class CanvasCamera {
         let drawRad = obj.rad * this.scale;
     }
 
+    // Setting shadow
+    setShadow(color, options) {
+        this.ctx.shadowBlur = 0;
+        if (options.shadow) {
+            this.ctx.shadowColor = options.shadow.color || color;
+            this.ctx.shadowBlur = options.shadow.blur || 10;
+        }
+    }
+
     // Basic drawing circle method
     drawCircle(x, y, rad, color, options={}) {
         
@@ -146,12 +155,7 @@ class CanvasCamera {
         this.ctx.strokeStyle = color;
         this.ctx.beginPath();
         this.ctx.arc(x, y, rad, 0, Math.PI * 2);
-
-        this.ctx.shadowBlur = 0;
-        if (options.shadow) {
-            this.ctx.shadowColor = options.shadow.color || color;
-            this.ctx.shadowBlur = options.shadow.blur || 10;
-        }
+        this.setShadow(color, options);
 
         if (options.stroke) {
             this.ctx.lineWidth = options.lineWidth;
@@ -161,6 +165,13 @@ class CanvasCamera {
         }
 
         this.ctx.closePath();
+    }
+
+    // Basic drawing image
+    drawImage(img, x, y, w, h, color, options={}) {
+        this.setShadow(color, options);
+
+        this.ctx.drawImage(img, x - w / 2, y - h / 2, w, h);
     }
 
     // Calc coords and size

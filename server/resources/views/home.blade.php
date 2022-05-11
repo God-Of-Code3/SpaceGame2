@@ -9,11 +9,13 @@
 
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
                     @endif
-
+                    @php
+                    echo asset('storage/images/1.png');
+                    @endphp
                     {{ __('You are logged in!') }}
                 </div>
             </div>
