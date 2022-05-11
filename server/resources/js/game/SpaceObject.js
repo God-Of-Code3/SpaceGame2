@@ -2,7 +2,7 @@ import c from "./constants";
 import DrawingObject, { ImageDrawingObject } from "./DrawingObject";
 
 class SpaceObject {
-    constructor (x, y, parent, props={}, relations={}) {
+    constructor (props={}, x, y, parent, relations={}) {
         this.x = x;
         this.y = y;
         this.props = props;
@@ -81,7 +81,7 @@ class SpaceObject {
 
     // Adding child
     addChild(props={}, relations={}) {
-        new SpaceObject(0, 0, this, props, relations);
+        new SpaceObject(props, 0, 0, this, relations);
         
     }
 }

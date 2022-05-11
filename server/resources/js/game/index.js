@@ -1,15 +1,16 @@
 import CanvasCamera from "./CanvasCamera";
 import DrawingObject from "./DrawingObject";
 import SpaceObject from "./SpaceObject";
+import StarObject from "./StarObject";
 
 
 
 const startGame = (cnv, ctx) => {
     const cam = new CanvasCamera({}, cnv, ctx);
-    let obj = new SpaceObject(0, 0, null, {
+    let obj = new StarObject({
         rad: 20,
-        color: "#c7eaff",
-    });
+        temperature: 5.7,
+    }, 0, 0, null);
     for (let i = 0; i < 180; i ++) {
         obj.addChild({
                 rad: 10,

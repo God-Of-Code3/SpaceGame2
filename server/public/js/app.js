@@ -6004,8 +6004,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var SpaceObject = /*#__PURE__*/function () {
-  function SpaceObject(x, y, parent) {
-    var props = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+  function SpaceObject() {
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var x = arguments.length > 1 ? arguments[1] : undefined;
+    var y = arguments.length > 2 ? arguments[2] : undefined;
+    var parent = arguments.length > 3 ? arguments[3] : undefined;
     var relations = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
     _classCallCheck(this, SpaceObject);
@@ -6096,7 +6099,7 @@ var SpaceObject = /*#__PURE__*/function () {
     value: function addChild() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var relations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      new SpaceObject(0, 0, this, props, relations);
+      new SpaceObject(props, 0, 0, this, relations);
     }
   }]);
 
@@ -6104,6 +6107,96 @@ var SpaceObject = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpaceObject);
+
+/***/ }),
+
+/***/ "./resources/js/game/StarObject.js":
+/*!*****************************************!*\
+  !*** ./resources/js/game/StarObject.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _math_stars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./math/stars */ "./resources/js/game/math/stars.js");
+/* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
+/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var StarObject = /*#__PURE__*/function (_SpaceObject) {
+  _inherits(StarObject, _SpaceObject);
+
+  var _super = _createSuper(StarObject);
+
+  function StarObject() {
+    var _this;
+
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, StarObject);
+
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this, props].concat(args));
+    _this.temperature = props.temperature; // 10^3 K
+
+    _this.luminosity = props.luminosity; // 10^x solar luminosity
+
+    _this.mass = props.mass; // solar mass
+
+    _this.starClass = (0,_math_stars__WEBPACK_IMPORTED_MODULE_0__.temperatureToClass)(_this.temperature);
+    _this.props.color = (0,_math_stars__WEBPACK_IMPORTED_MODULE_0__.classToColor)(_this.starClass);
+
+    _this.setDrawingObject();
+
+    return _this;
+  }
+
+  _createClass(StarObject, [{
+    key: "setDrawingObject",
+    value: function setDrawingObject() {
+      this.drawingObject = new _DrawingObject__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        x: this.x,
+        y: this.y,
+        rad: this.props.rad,
+        color: this.props.color
+      });
+    }
+  }]);
+
+  return StarObject;
+}(_SpaceObject__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StarObject);
 
 /***/ }),
 
@@ -6149,16 +6242,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CanvasCamera */ "./resources/js/game/CanvasCamera.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
 /* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
+/* harmony import */ var _StarObject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./StarObject */ "./resources/js/game/StarObject.js");
+
 
 
 
 
 var startGame = function startGame(cnv, ctx) {
   var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__["default"]({}, cnv, ctx);
-  var obj = new _SpaceObject__WEBPACK_IMPORTED_MODULE_2__["default"](0, 0, null, {
+  var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_3__["default"]({
     rad: 20,
-    color: "#c7eaff"
-  });
+    temperature: 5.7
+  }, 0, 0, null);
 
   for (var i = 0; i < 180; i++) {
     obj.addChild({
@@ -6189,6 +6284,61 @@ var startGame = function startGame(cnv, ctx) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startGame);
+
+/***/ }),
+
+/***/ "./resources/js/game/math/stars.js":
+/*!*****************************************!*\
+  !*** ./resources/js/game/math/stars.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "classToColor": () => (/* binding */ classToColor),
+/* harmony export */   "temperatureToClass": () => (/* binding */ temperatureToClass)
+/* harmony export */ });
+/*
+
+Spectral class by Hertzsprung-Russell diagram shows dependence of the stellar magnitude on color, also it shows dependence of the luminosity on temperature spectrum
+*Temperature in 1000 K
+    Temp.               Col.
+O:  30.0    -   60.0    Gradus blue (#007dff)
+B:  10.0    -   30.0    Light blue (#9ce9ff)
+A:  7.5     -   10.0    White (#f0f0f0)
+F:  6.0     -   7.5     Canary yellow (#ffff99)
+G:  5.0     -   6.0     Yellow (#ffff00)
+K:  3.5     -   5.0     Orange (#ffa500)
+M:  2.0     -   3.5     Red (#ff2400)
+
+*/
+var classColours = {
+  O: "#007dff",
+  B: "#9ce9ff",
+  A: "#f0f0f0",
+  F: "#ffff99",
+  G: "#ffff00",
+  K: "#ffa500",
+  M: "#ff2400"
+}; // Temperature to spectrum class
+
+var temperatureToClass = function temperatureToClass(temp) {
+  if (temp < 3.5) return "M";
+  if (temp < 5) return "K";
+  if (temp < 6) return "G";
+  if (temp < 7.5) return "F";
+  if (temp < 10) return "A";
+  if (temp < 30) return "B";
+  return "O";
+}; // Class to color
+
+
+var classToColor = function classToColor(cls) {
+  return classColours[cls];
+};
+
+
 
 /***/ }),
 
