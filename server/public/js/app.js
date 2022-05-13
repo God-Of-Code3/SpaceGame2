@@ -5666,18 +5666,50 @@ var CanvasCamera = /*#__PURE__*/function () {
       x: this.x,
       y: this.y,
       scale: this.scale
-    };
+    }; // Mouse for dragging
+
     this.mouse = {
       startX: this.x,
       startY: this.y,
       camX: this.target.x,
       camY: this.target.y,
       active: false
+    }; // Mouse coords
+
+    this.mouseCoords = {
+      x: this.x,
+      y: this.y
+    }; // Mouse selecting and focusing
+
+    this.actionObjects = {
+      hover: null,
+      focus: null
     };
-  } // Adding events
+  } // Set hover action object
 
 
   _createClass(CanvasCamera, [{
+    key: "setHover",
+    value: function setHover(obj, value) {
+      if (value) this.actionObjects.hover = obj;
+      if (!value && this.actionObjects.hover == obj) this.actionObjects.hover = null;
+    } // Set focus action object
+
+  }, {
+    key: "setFocus",
+    value: function setFocus(obj) {
+      if (obj == null && this.actionObjects.focus != null) {
+        this.actionObjects.focus.setFocus(false);
+      }
+
+      this.actionObjects.focus = obj;
+
+      if (obj != null) {
+        obj.setFocus(true);
+      }
+    } // Adding events
+
+  }, {
     key: "addEvents",
     value: function addEvents() {
       var _this = this;
@@ -5694,11 +5726,11 @@ var CanvasCamera = /*#__PURE__*/function () {
         _this.mouse.camY = _this.target.y;
       });
       this.cnv.addEventListener("mousemove", function (ev) {
-        if (_this.mouse.active) {
-          var _this$calcMouse2 = _this.calcMouse(ev),
-              x = _this$calcMouse2.x,
-              y = _this$calcMouse2.y;
+        var _this$calcMouse2 = _this.calcMouse(ev),
+            x = _this$calcMouse2.x,
+            y = _this$calcMouse2.y;
 
+        if (_this.mouse.active) {
           var deltaX = x - _this.mouse.startX;
           var deltaY = y - _this.mouse.startY;
 
@@ -5707,6 +5739,9 @@ var CanvasCamera = /*#__PURE__*/function () {
             y: _this.mouse.camY - deltaY
           });
         }
+
+        _this.mouseCoords.x = x;
+        _this.mouseCoords.y = y;
       });
       this.cnv.addEventListener("mouseup", function (ev) {
         _this.mouse.active = false;
@@ -5717,6 +5752,34 @@ var CanvasCamera = /*#__PURE__*/function () {
         var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
         _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED;
       });
+      this.cnv.addEventListener("contextmenu", function (ev) {
+        ev.preventDefault();
+
+        if (_this.actionObjects.hover) {
+          _this.moveTo({
+            x: _this.actionObjects.hover.x,
+            y: _this.actionObjects.hover.y
+          });
+
+          if (_this.actionObjects.hover != _this.actionObjects.focus) {
+            _this.setFocus(null);
+          }
+        }
+      });
+      this.cnv.addEventListener("dblclick", function (ev) {
+        if (_this.actionObjects.hover) {
+          _this.moveTo({
+            x: _this.actionObjects.hover.x,
+            y: _this.actionObjects.hover.y
+          });
+
+          _this.scaleTo(_this.actionObjects.hover.scaleValue);
+
+          _this.setFocus(null);
+
+          _this.setFocus(_this.actionObjects.hover);
+        }
+      });
     } // Move camera to point
 
   }, {
@@ -5726,6 +5789,14 @@ var CanvasCamera = /*#__PURE__*/function () {
           y = _ref.y;
       this.target.x = x;
       this.target.y = y;
+      this.mouse.camX = x;
+      this.mouse.camY = y;
+    } // Scale camera to value
+
+  }, {
+    key: "scaleTo",
+    value: function scaleTo(value) {
+      this.target.scale = value;
     } // Getting camera view size
 
   }, {
@@ -5806,6 +5877,13 @@ var CanvasCamera = /*#__PURE__*/function () {
         this.ctx.shadowColor = options.shadow.color || color;
         this.ctx.shadowBlur = options.shadow.blur || 10;
       }
+    } // Setting stroke
+
+  }, {
+    key: "setStroke",
+    value: function setStroke(options) {
+      this.ctx.lineWidth = options.lineWidth;
+      this.ctx.setLineDash(options.dash ? options.dash : []);
     } // Basic drawing circle method
 
   }, {
@@ -5819,7 +5897,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.setShadow(color, options);
 
       if (options.stroke) {
-        this.ctx.lineWidth = options.lineWidth;
+        this.setStroke(options);
         this.ctx.stroke();
       } else {
         this.ctx.fill();
@@ -6023,10 +6101,22 @@ var SpaceObject = /*#__PURE__*/function () {
     this.drawingObject = null;
     this.setDrawingObject();
     this.addToParent();
-  } // Calculating coords by relations
+    this.state = {
+      hover: false,
+      focus: false
+    }; // Value of camera scale that is needed to make object's size SPACE_OBJECT_SCOPE_SIZE
+
+    this.scaleValue = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
+  } // Setting focus
 
 
   _createClass(SpaceObject, [{
+    key: "setFocus",
+    value: function setFocus(value) {
+      this.state.focus = value;
+    } // Calculating coords by relations
+
+  }, {
     key: "calcCoords",
     value: function calcCoords() {
       if (this.checkRelations()) {
@@ -6059,7 +6149,7 @@ var SpaceObject = /*#__PURE__*/function () {
       this.drawingObject = new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__.ImageDrawingObject({
         x: this.x,
         y: this.y,
-        rad: this.props.rad,
+        rad: this.props.rad * 2,
         color: this.props.color,
         img: './storage/images/planets/alive-standart/planet.png'
       });
@@ -6072,14 +6162,41 @@ var SpaceObject = /*#__PURE__*/function () {
 
       this.drawingObject.x = this.x;
       this.drawingObject.y = this.y;
-      this.drawingObject.draw(cam);
-      this.children.forEach(function (child) {
-        var dist = child.relations.dist;
+      this.drawingObject.draw(cam); // Drawing hover circle
 
-        var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(_this.x, _this.y, dist),
+      if (this.state.hover) {
+        var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(this.x, this.y, this.props.rad),
             x = _cam$calcCoordsAndSiz.x,
             y = _cam$calcCoordsAndSiz.y,
             size = _cam$calcCoordsAndSiz.size;
+
+        cam.drawCircle(x, y, size + _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_OFFSET, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_COLOR, {
+          stroke: true,
+          lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_LINE_WIDTH
+        });
+      } // Drawing focus circle
+
+
+      if (this.state.focus) {
+        var _cam$calcCoordsAndSiz2 = cam.calcCoordsAndSize(this.x, this.y, this.props.rad),
+            _x = _cam$calcCoordsAndSiz2.x,
+            _y = _cam$calcCoordsAndSiz2.y,
+            _size = _cam$calcCoordsAndSiz2.size;
+
+        cam.drawCircle(_x, _y, _size + _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_OFFSET, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_COLOR, {
+          stroke: true,
+          dash: [4, 22],
+          lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_LINE_WIDTH
+        });
+      }
+
+      this.children.forEach(function (child) {
+        var dist = child.relations.dist;
+
+        var _cam$calcCoordsAndSiz3 = cam.calcCoordsAndSize(_this.x, _this.y, dist),
+            x = _cam$calcCoordsAndSiz3.x,
+            y = _cam$calcCoordsAndSiz3.y,
+            size = _cam$calcCoordsAndSiz3.size;
 
         cam.drawCircle(x, y, size, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_COLOR, {
           stroke: true,
@@ -6087,11 +6204,24 @@ var SpaceObject = /*#__PURE__*/function () {
         });
         child.draw(cam);
       });
+    } // Handling
 
-      if (this.checkRelations()) {
-        this.relations.angle += 0.001;
-        this.calcCoords();
+  }, {
+    key: "handle",
+    value: function handle(cam) {
+      var d = Math.pow(this.x - cam.mouseCoords.x, 2) + Math.pow(this.y - cam.mouseCoords.y, 2);
+
+      if (d < Math.pow(this.props.rad, 2)) {
+        this.state.hover = true;
+        cam.setHover(this, true);
+      } else {
+        this.state.hover = false;
+        cam.setHover(this, false);
       }
+
+      this.children.forEach(function (child) {
+        return child.handle(cam);
+      });
     } // Adding child
 
   }, {
@@ -6215,14 +6345,22 @@ var c = {
   // Camera data
   SCROLL_SPEED: 1.2,
   CAM_SCROLL_SPEED: 1.07,
-  CAM_MOVE_SPEED: 100,
+  CAM_MOVE_SPEED: 50,
   // Colors
   BG_COLOR: "#00010f",
   ORBIT_COLOR: "rgba(255, 255, 255, 0.3)",
+  HOVER_COLOR: "rgba(255, 255, 255, 0.7)",
+  FOCUS_COLOR: "rgba(255, 255, 255, 0.2)",
   // Distances
   AU_TO_TKM: 1496,
   // Sizes and widths
-  ORBIT_LINE_WIDTH: 1
+  ORBIT_LINE_WIDTH: 1,
+  HOVER_LINE_WIDTH: 5,
+  FOCUS_LINE_WIDTH: 15,
+  HOVER_OFFSET: 6,
+  FOCUS_OFFSET: 40,
+  // Special
+  SPACE_OBJECT_SCOPE_SIZE: 200
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (c);
 
@@ -6254,17 +6392,13 @@ var startGame = function startGame(cnv, ctx) {
     rad: 20,
     temperature: 5.7
   }, 0, 0, null);
-
-  for (var i = 0; i < 180; i++) {
-    obj.addChild({
-      rad: 10,
-      color: "#1ac9ac"
-    }, {
-      dist: 100 + i * 10,
-      angle: i * 2 * (Math.PI / 180)
-    });
-  }
-
+  obj.addChild({
+    rad: 5,
+    color: "#1ac9ac"
+  }, {
+    dist: 100,
+    angle: Math.PI / 6
+  });
   var objects = [obj];
 
   var gameLoop = function gameLoop() {
@@ -6273,6 +6407,7 @@ var startGame = function startGame(cnv, ctx) {
     cam.fill();
     cam.handle();
     objects.forEach(function (obj) {
+      obj.handle(cam);
       obj.draw(cam);
     });
     cam.drawAdditionalGraphics(); // End main loop

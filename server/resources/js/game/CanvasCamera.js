@@ -19,14 +19,47 @@ class CanvasCamera {
             scale: this.scale,
         };
 
+        // Mouse for dragging
         this.mouse = {
             startX: this.x,
             startY: this.y,
             camX: this.target.x,
             camY: this.target.y,
             active: false
+        };
+
+        // Mouse coords
+        this.mouseCoords = {
+            x: this.x,
+            y: this.y
+        };
+
+        // Mouse selecting and focusing
+        this.actionObjects = {
+            hover: null,
+            focus: null
         }
     }
+
+    // Set hover action object
+    setHover(obj, value) {
+        if (value)
+            this.actionObjects.hover = obj;
+        if (!value && this.actionObjects.hover == obj)
+            this.actionObjects.hover = null;
+    }
+
+    // Set focus action object
+    setFocus(obj) {
+        if (obj == null && this.actionObjects.focus != null) {
+            this.actionObjects.focus.setFocus(false);
+        }
+        this.actionObjects.focus = obj;
+        if (obj != null) {
+            obj.setFocus(true);
+        }
+    }
+
 
     // Adding events
     addEvents() {
@@ -42,8 +75,8 @@ class CanvasCamera {
         });
 
         this.cnv.addEventListener("mousemove", ev => {
+            let {x, y} = this.calcMouse(ev);
             if (this.mouse.active) {
-                let {x, y} = this.calcMouse(ev);
 
                 let deltaX = x - this.mouse.startX;
                 let deltaY = y - this.mouse.startY;
@@ -54,6 +87,8 @@ class CanvasCamera {
                 });
 
             }
+            this.mouseCoords.x = x;
+            this.mouseCoords.y = y;
 
         });
 
@@ -61,12 +96,40 @@ class CanvasCamera {
             this.mouse.active = false;
             this.mouse.camX = this.target.x;
             this.mouse.camY = this.target.y;
-        })
+        });
 
         this.cnv.addEventListener("wheel", ev => {
             let delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
             this.target.scale *= delta > 0 ? 1 / c.SCROLL_SPEED : c.SCROLL_SPEED;
 
+        });
+
+        this.cnv.addEventListener("contextmenu", ev => {
+            ev.preventDefault();
+            if (this.actionObjects.hover) {
+                
+                this.moveTo({
+                    x: this.actionObjects.hover.x,
+                    y: this.actionObjects.hover.y,
+                });
+
+                if (this.actionObjects.hover != this.actionObjects.focus) {
+                    this.setFocus(null);
+                }
+            }
+            
+        });
+
+        this.cnv.addEventListener("dblclick", ev => {
+            if (this.actionObjects.hover) {
+                this.moveTo({
+                    x: this.actionObjects.hover.x,
+                    y: this.actionObjects.hover.y,
+                });
+                this.scaleTo(this.actionObjects.hover.scaleValue);
+                this.setFocus(null);
+                this.setFocus(this.actionObjects.hover);
+            }
         });
     }
 
@@ -74,7 +137,13 @@ class CanvasCamera {
     moveTo ({x, y}) {
         this.target.x = x;
         this.target.y = y;
+        this.mouse.camX = x;
+        this.mouse.camY = y;
+    }
 
+    // Scale camera to value
+    scaleTo(value) {
+        this.target.scale = value;
     }
 
     // Getting camera view size
@@ -148,6 +217,12 @@ class CanvasCamera {
         }
     }
 
+    // Setting stroke
+    setStroke(options) {
+        this.ctx.lineWidth = options.lineWidth;
+        this.ctx.setLineDash(options.dash ? options.dash : []);
+    }
+
     // Basic drawing circle method
     drawCircle(x, y, rad, color, options={}) {
         
@@ -158,7 +233,7 @@ class CanvasCamera {
         this.setShadow(color, options);
 
         if (options.stroke) {
-            this.ctx.lineWidth = options.lineWidth;
+            this.setStroke(options);
             this.ctx.stroke();
         } else {
             this.ctx.fill();

@@ -11309,3 +11309,10 @@ nav.navbar {
 .container {
   padding-top: 100px;
 }
+
+nav.navbar {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}

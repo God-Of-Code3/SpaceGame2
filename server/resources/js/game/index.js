@@ -11,15 +11,13 @@ const startGame = (cnv, ctx) => {
         rad: 20,
         temperature: 5.7,
     }, 0, 0, null);
-    for (let i = 0; i < 180; i ++) {
-        obj.addChild({
-                rad: 10,
-                color: "#1ac9ac",
-            }, {
-                dist: 100 + i * 10,
-                angle:  i * 2 * (Math.PI / 180)
-        });
-    }
+    obj.addChild({
+            rad: 5,
+            color: "#1ac9ac",
+        }, {
+            dist: 100,
+            angle:  (Math.PI / 6)
+    });
     
 
     const objects = [
@@ -35,6 +33,7 @@ const startGame = (cnv, ctx) => {
         cam.handle();
         objects.forEach(obj => {
             
+            obj.handle(cam);
             obj.draw(cam);
         })
         cam.drawAdditionalGraphics();

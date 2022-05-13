@@ -17,6 +17,19 @@ class SpaceObject {
         this.setDrawingObject();
         
         this.addToParent();
+
+        this.state = {
+            hover: false,
+            focus: false
+        };
+
+        // Value of camera scale that is needed to make object's size SPACE_OBJECT_SCOPE_SIZE
+        this.scaleValue = c.SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
+    }
+
+    // Setting focus
+    setFocus(value) {
+        this.state.focus = value;
     }
 
     // Calculating coords by relations
@@ -50,7 +63,7 @@ class SpaceObject {
         this.drawingObject = new ImageDrawingObject({
             x: this.x,
             y: this.y,
-            rad: this.props.rad,
+            rad: this.props.rad * 2,
             color: this.props.color,
             img: './storage/images/planets/alive-standart/planet.png'
         });
@@ -61,6 +74,26 @@ class SpaceObject {
         this.drawingObject.x = this.x;
         this.drawingObject.y = this.y;
         this.drawingObject.draw(cam);
+
+        // Drawing hover circle
+        if (this.state.hover) {
+            let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.props.rad);
+            cam.drawCircle(x, y, size + c.HOVER_OFFSET, c.HOVER_COLOR, {
+                stroke: true,
+                lineWidth: c.HOVER_LINE_WIDTH
+            });
+        }
+
+        // Drawing focus circle
+        if (this.state.focus) {
+            let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.props.rad);
+            cam.drawCircle(x, y, size + c.FOCUS_OFFSET, c.FOCUS_COLOR, {
+                stroke: true,
+                dash: [4, 22],
+                lineWidth: c.FOCUS_LINE_WIDTH
+            });
+        }
+
         this.children.forEach(child => {
             let dist = child.relations.dist;
 
@@ -73,10 +106,20 @@ class SpaceObject {
             child.draw(cam);
         });
 
-        if (this.checkRelations()) {
-            this.relations.angle += 0.001;
-            this.calcCoords();
+    }
+
+    // Handling
+    handle(cam) {
+        let d = (this.x - cam.mouseCoords.x) ** 2 + (this.y - cam.mouseCoords.y) ** 2;
+        if (d < this.props.rad ** 2) {
+            this.state.hover = true;
+            cam.setHover(this, true);
+        } else {
+            this.state.hover = false;
+            cam.setHover(this, false);
         }
+
+        this.children.forEach(child => child.handle(cam));
     }
 
     // Adding child
