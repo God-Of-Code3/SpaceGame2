@@ -123,8 +123,8 @@ class SpaceObject {
     }
 
     // Adding child
-    addChild(props={}, relations={}) {
-        new SpaceObject(props, 0, 0, this, relations);
+    addChild(props={}, relations={}, cls=SpaceObject) {
+        new cls(props, 0, 0, this, relations);
         
     }
 }
