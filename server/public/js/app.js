@@ -6046,7 +6046,7 @@ var ImageDrawingObject = /*#__PURE__*/function (_DrawingObject) {
 
       cam.drawImage(this.image, x, y, size, size, this.color, {
         shadow: {
-          blur: size * 2
+          blur: size
         }
       });
     }
@@ -6481,15 +6481,15 @@ __webpack_require__.r(__webpack_exports__);
 var startGame = function startGame(cnv, ctx) {
   var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__["default"]({}, cnv, ctx);
   var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_4__["default"]({
-    rad: 20,
+    rad: 40,
     temperature: 5.7
   }, 0, 0, null);
   obj.addChild({
-    rad: 20,
+    rad: 10,
     color: "#1ac9ac",
     image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png"
   }, {
-    dist: 2000,
+    dist: 200,
     angle: Math.PI / 6
   }, _PlanetObject__WEBPACK_IMPORTED_MODULE_2__["default"]);
   var objects = [obj];

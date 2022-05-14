@@ -25,7 +25,7 @@ class ImageDrawingObject extends DrawingObject {
 
     draw(cam) {
         let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.rad * 2);
-        cam.drawImage(this.image, x, y, size, size, this.color, {shadow: {blur: size * 2}});
+        cam.drawImage(this.image, x, y, size, size, this.color, {shadow: {blur: size}});
     }
 }
 
