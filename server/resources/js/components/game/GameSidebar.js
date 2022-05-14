@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import GameSidebarSection from './GameSidebarSection';
 
 const GameSidebar = ({sidebarData, ...props}) => {
 
@@ -18,7 +19,11 @@ const GameSidebar = ({sidebarData, ...props}) => {
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setShow(false)}></button>
                 </div>
                 <div className="offcanvas-body">
-                    Content for the offcanvas goes here. You can place just about any Bootstrap component or custom elements here.
+                    {
+                        sidebarData.sections ? sidebarData.sections.map(section => 
+                            <GameSidebarSection section={section}/>    
+                        ) : ""
+                    }
                 </div>
             </div>
         </div>

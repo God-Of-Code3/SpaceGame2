@@ -5665,7 +5665,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _GameSidebarSection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameSidebarSection */ "./resources/js/components/game/GameSidebarSection.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["sidebarData"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -5688,6 +5689,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
 var GameSidebar = function GameSidebar(_ref) {
   var sidebarData = _ref.sidebarData,
       props = _objectWithoutProperties(_ref, _excluded);
@@ -5704,22 +5706,22 @@ var GameSidebar = function GameSidebar(_ref) {
       setShow(false);
     }
   }, [sidebarData]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "offcanvas offcanvas-sm offcanvas-start ".concat(show ? "show" : ""),
       "data-bs-backdrop": "false",
       tabIndex: "-1",
       id: "offcanvas",
       "aria-labelledby": "offcanvasLabel",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "offcanvas-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
           className: "offcanvas-title",
           id: "offcanvasLabel",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("b", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("b", {
             children: sidebarData.title
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
           type: "button",
           className: "btn-close",
           "data-bs-dismiss": "offcanvas",
@@ -5728,15 +5730,67 @@ var GameSidebar = function GameSidebar(_ref) {
             return setShow(false);
           }
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "offcanvas-body",
-        children: "Content for the offcanvas goes here. You can place just about any Bootstrap component or custom elements here."
+        children: sidebarData.sections ? sidebarData.sections.map(function (section) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_GameSidebarSection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            section: section
+          });
+        }) : ""
       })]
     })
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameSidebar);
+
+/***/ }),
+
+/***/ "./resources/js/components/game/GameSidebarSection.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/game/GameSidebarSection.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _SpaceObjectCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpaceObjectCard */ "./resources/js/components/game/SpaceObjectCard.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["section"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+
+var GameSidebarSection = function GameSidebarSection(_ref) {
+  var section = _ref.section,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "mb-2",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h6", {
+      children: section.title
+    }), section.content.map(function (item) {
+      switch (item.type) {
+        case "spaceObjectCard":
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_SpaceObjectCard__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            item: item
+          });
+      }
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameSidebarSection);
 
 /***/ }),
 
@@ -5777,6 +5831,60 @@ var GameUi = function GameUi(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameUi);
+
+/***/ }),
+
+/***/ "./resources/js/components/game/SpaceObjectCard.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/game/SpaceObjectCard.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["item"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+var SpaceObjectCard = function SpaceObjectCard(_ref) {
+  var item = _ref.item,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "card",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "row",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "col-md-3 bg-space center rounded",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "circle",
+          style: {
+            width: '30px',
+            height: '30px',
+            background: item.color,
+            boxShadow: "0px 0px 20px ".concat(item.color)
+          }
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "card-body col-md-9",
+        children: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto, ratione!"
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpaceObjectCard);
 
 /***/ }),
 
@@ -6132,11 +6240,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _components_game_GameSidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/game/GameSidebar */ "./resources/js/components/game/GameSidebar.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 
 
 
@@ -6156,7 +6266,14 @@ var DataControlManager = /*#__PURE__*/function () {
     value: function showFocusedObjectData(obj) {
       if (obj) {
         this.uiElements.setSidebarData({
-          title: obj.props.color
+          title: _constants__WEBPACK_IMPORTED_MODULE_2__["default"].OBJECT_TYPES[obj.objectType][1],
+          sections: [{
+            title: "Информация о звезде",
+            content: [{
+              type: 'spaceObjectCard',
+              color: obj.props.color
+            }]
+          }]
         });
       } else {
         this.uiElements.setSidebarData({});
@@ -6349,6 +6466,7 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
 
     _this.setDrawingObject();
 
+    _this.objectType = 2;
     return _this;
   }
 
@@ -6420,6 +6538,7 @@ var SpaceObject = /*#__PURE__*/function () {
     }; // Value of camera scale that is needed to make object's size SPACE_OBJECT_SCOPE_SIZE
 
     this.scaleValue = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
+    this.objectType = 0;
   } // Setting focus
 
 
@@ -6622,6 +6741,7 @@ var StarObject = /*#__PURE__*/function (_SpaceObject) {
 
     _this.setDrawingObject();
 
+    _this.objectType = 1;
     return _this;
   }
 
@@ -6674,7 +6794,12 @@ var c = {
   HOVER_OFFSET: 6,
   FOCUS_OFFSET: 40,
   // Special
-  SPACE_OBJECT_SCOPE_SIZE: 200
+  SPACE_OBJECT_SCOPE_SIZE: 200,
+  OBJECT_TYPES: {
+    0: ["Object", "Объект"],
+    1: ["Star", "Звезда"],
+    2: ["Planet", "Планета"]
+  }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (c);
 

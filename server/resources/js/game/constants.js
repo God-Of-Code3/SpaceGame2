@@ -22,6 +22,11 @@ const c = {
 
     // Special
     SPACE_OBJECT_SCOPE_SIZE: 200,
+    OBJECT_TYPES: {
+        0: ["Object", "Объект"],
+        1: ["Star", "Звезда"],
+        2: ["Planet", "Планета"]
+    }
 }
 
 export default c;

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import GameSidebar from "../components/game/GameSidebar";
+import c from "./constants";
 
 class DataControlManager {
     constructor(cam, uiElements) {
@@ -15,7 +16,18 @@ class DataControlManager {
         if (obj) {
             
             this.uiElements.setSidebarData({
-                title: obj.props.color
+                title: c.OBJECT_TYPES[obj.objectType][1],
+                sections: [
+                    {
+                        title: "Информация о звезде",
+                        content: [
+                            {
+                                type: 'spaceObjectCard',
+                                color: obj.props.color
+                            }
+                        ]
+                    }
+                ]
             });
         } else {
             this.uiElements.setSidebarData({});

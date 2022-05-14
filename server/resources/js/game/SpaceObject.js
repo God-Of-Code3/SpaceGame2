@@ -25,6 +25,8 @@ class SpaceObject {
 
         // Value of camera scale that is needed to make object's size SPACE_OBJECT_SCOPE_SIZE
         this.scaleValue = c.SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
+
+        this.objectType = 0;
     }
 
     // Setting focus

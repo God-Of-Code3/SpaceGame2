@@ -11295,6 +11295,10 @@ canvas {
   height: 100%;
 }
 
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-weight: bold;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -11323,4 +11327,17 @@ nav.navbar {
 
 .offcanvas.show {
   visibility: visible;
+}
+
+.bg-space {
+  background: #00010f;
+}
+
+.center {
+  display: grid;
+  place-items: center;
+}
+
+.circle {
+  border-radius: 50%;
 }

@@ -17,6 +17,8 @@ class StarObject extends SpaceObject {
         this.props.color = classToColor(this.starClass);
         this.setDrawingObject();
 
+        
+        this.objectType = 1;
     }
 
     setDrawingObject() {

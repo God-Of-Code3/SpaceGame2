@@ -15,6 +15,8 @@ class PlanetObject extends SpaceObject {
 
         this.props.image = props.image;
         this.setDrawingObject();
+
+        this.objectType = 2;
     }
 
     setDrawingObject() {
