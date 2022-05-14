@@ -5930,6 +5930,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.ctx.shadowBlur = 0;
       this.ctx.strokeStyle = "rgba(255, 255, 255, 1)";
       this.ctx.lineWidth = 3;
+      this.ctx.setLineDash([]);
       var offset = 10;
       this.ctx.beginPath();
       this.ctx.moveTo(this.cnv.width / 2 - offset, this.cnv.height / 2);

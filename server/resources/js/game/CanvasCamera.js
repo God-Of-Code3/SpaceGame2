@@ -263,6 +263,7 @@ class CanvasCamera {
         this.ctx.shadowBlur = 0;
         this.ctx.strokeStyle = "rgba(255, 255, 255, 1)";
         this.ctx.lineWidth = 3;
+        this.ctx.setLineDash([]);
 
         let offset = 10;
 
