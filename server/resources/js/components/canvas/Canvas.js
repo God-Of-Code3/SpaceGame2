@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import startGame from '../../game';
+import GameUi from '../game/GameUi';
 import './Canvas.css';
 
 const Canvas = () => {
@@ -18,15 +19,25 @@ const Canvas = () => {
         setHeight(window.innerHeight);
     });
 
+    const [sidebarData, setSidebarData] = useState({});
+    const [dataManager, setDataManager] = useState(null);
+
+    // Starting game
     useEffect(() => {
 
-        startGame(cnv.current, ctx);
+        setDataManager(startGame(cnv.current, ctx, {
+            setSidebarData: setSidebarData
+        }));
+        
     }, [cnv, ctx]);
 
     return (
-        <canvas ref={cnv} width={width} height={height}>
+        <div className="area">
+            <GameUi dataManager={dataManager} sidebarData={sidebarData}></GameUi>
+            <canvas ref={cnv} width={width} height={height}>
 
-        </canvas>
+            </canvas>
+        </div>
     );
 };
 

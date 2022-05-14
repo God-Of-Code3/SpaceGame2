@@ -36,3 +36,11 @@ nav.navbar {
 nav.navbar {
     user-select: none;
 }
+
+.offcanvas {
+    max-width: 300px;
+}
+
+.offcanvas.show {
+    visibility: visible;
+}

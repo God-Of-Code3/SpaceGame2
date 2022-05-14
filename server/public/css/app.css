@@ -11316,3 +11316,11 @@ nav.navbar {
       -ms-user-select: none;
           user-select: none;
 }
+
+.offcanvas {
+  max-width: 300px;
+}
+
+.offcanvas.show {
+  visibility: visible;
+}

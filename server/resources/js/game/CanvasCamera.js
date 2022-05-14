@@ -39,6 +39,9 @@ class CanvasCamera {
             hover: null,
             focus: null
         }
+
+        // Data manager
+        this.dataManager = null;
     }
 
     // Set hover action object
@@ -49,17 +52,25 @@ class CanvasCamera {
             this.actionObjects.hover = null;
     }
 
+    // Set data manager
+    setDataManager(manager) {
+        this.dataManager = manager;
+    }
+
     // Set focus action object
     setFocus(obj) {
         if (obj == null && this.actionObjects.focus != null) {
             this.actionObjects.focus.setFocus(false);
+            
+            this.dataManager.showFocusedObjectData(obj);
         }
         this.actionObjects.focus = obj;
         if (obj != null) {
             obj.setFocus(true);
+            
+            this.dataManager.showFocusedObjectData(obj);
         }
     }
-
 
     // Adding events
     addEvents() {
@@ -129,6 +140,13 @@ class CanvasCamera {
                 this.scaleTo(this.actionObjects.hover.scaleValue);
                 this.setFocus(null);
                 this.setFocus(this.actionObjects.hover);
+
+                if(document.selection && document.selection.empty) {
+                    document.selection.empty();
+                } else if(window.getSelection) {
+                    var sel = window.getSelection();
+                    sel.removeAllRanges();
+                }
             }
         });
     }
@@ -261,8 +279,8 @@ class CanvasCamera {
     // Drawing additional graphics
     drawAdditionalGraphics() {
         this.ctx.shadowBlur = 0;
-        this.ctx.strokeStyle = "rgba(255, 255, 255, 1)";
-        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+        this.ctx.lineWidth = 1;
         this.ctx.setLineDash([]);
 
         let offset = 10;

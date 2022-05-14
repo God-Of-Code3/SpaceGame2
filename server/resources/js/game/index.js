@@ -1,4 +1,5 @@
 import CanvasCamera from "./CanvasCamera";
+import DataControlManager from "./DataControlManager";
 import DrawingObject from "./DrawingObject";
 import PlanetObject from "./PlanetObject";
 import SpaceObject from "./SpaceObject";
@@ -6,8 +7,9 @@ import StarObject from "./StarObject";
 
 
 
-const startGame = (cnv, ctx) => {
+const startGame = (cnv, ctx, uiElements) => {
     const cam = new CanvasCamera({}, cnv, ctx);
+    const dataControlManager = new DataControlManager(cam, uiElements);
     let obj = new StarObject({
         rad: 40,
         temperature: 5.7,
@@ -44,6 +46,8 @@ const startGame = (cnv, ctx) => {
         requestAnimationFrame(gameLoop);
     }
     gameLoop();
+
+    return dataControlManager;
 }
 
 export default startGame;
