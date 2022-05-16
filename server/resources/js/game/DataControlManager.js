@@ -14,21 +14,8 @@ class DataControlManager {
     // Showing focused object
     showFocusedObjectData(obj) {
         if (obj) {
-            let mainInformation = obj.getMainInformation();
-            mainInformation.type = 'spaceObjectCard'
-
-
-            this.uiElements.setSidebarData({
-                title: c.OBJECT_TYPES[obj.objectType][1],
-                sections: [
-                    {
-                        title: "Основная информация",
-                        content: [
-                            mainInformation
-                        ]
-                    }
-                ]
-            });
+            let sidebar = obj.getSidebar();
+            this.uiElements.setSidebarData(sidebar);
         } else {
             this.uiElements.setSidebarData({});
         }

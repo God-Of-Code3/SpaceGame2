@@ -3,7 +3,7 @@ import SpaceObjectCard from './SpaceObjectCard';
 
 const GameSidebarSection = ({section, ...props}) => {
     return (
-        <div className='mb-2'>
+        <div className='mb-3'>
             <h6>{section.title}</h6>
             {
                 section.content.map(item => {

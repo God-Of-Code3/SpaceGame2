@@ -5776,7 +5776,7 @@ var GameSidebarSection = function GameSidebarSection(_ref) {
       props = _objectWithoutProperties(_ref, _excluded);
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "mb-2",
+    className: "mb-3",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h6", {
       children: section.title
     }), section.content.map(function (item) {
@@ -6285,15 +6285,8 @@ var DataControlManager = /*#__PURE__*/function () {
     key: "showFocusedObjectData",
     value: function showFocusedObjectData(obj) {
       if (obj) {
-        var mainInformation = obj.getMainInformation();
-        mainInformation.type = 'spaceObjectCard';
-        this.uiElements.setSidebarData({
-          title: _constants__WEBPACK_IMPORTED_MODULE_2__["default"].OBJECT_TYPES[obj.objectType][1],
-          sections: [{
-            title: "Основная информация",
-            content: [mainInformation]
-          }]
-        });
+        var sidebar = obj.getSidebar();
+        this.uiElements.setSidebarData(sidebar);
       } else {
         this.uiElements.setSidebarData({});
       }
@@ -6539,6 +6532,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -6576,15 +6581,64 @@ var SpaceObject = /*#__PURE__*/function () {
     this.scaleValue = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
     this.objectType = 0;
     this.name = this.props.name;
-  } // Main information
+  } // Getting sidebar information
 
 
   _createClass(SpaceObject, [{
+    key: "getSidebar",
+    value: function getSidebar() {
+      var mainSection = this.getSidebarMainSection();
+      var sections = [mainSection].concat(_toConsumableArray(this.getSidebarAdditionalSections()));
+      var sidebar = {
+        title: this.getSidebarTitle(),
+        sections: sections
+      };
+      return sidebar;
+    } // Getting sidebar title
+
+  }, {
+    key: "getSidebarTitle",
+    value: function getSidebarTitle() {
+      return _constants__WEBPACK_IMPORTED_MODULE_0__["default"].OBJECT_TYPES[this.objectType][1];
+    } // Getting sidebar main section
+
+  }, {
+    key: "getSidebarMainSection",
+    value: function getSidebarMainSection() {
+      var mainInformation = this.getMainInformation();
+      return {
+        title: "Основная информация",
+        content: [mainInformation]
+      };
+    } // Get sidebar additional sections
+
+  }, {
+    key: "getSidebarAdditionalSections",
+    value: function getSidebarAdditionalSections() {
+      var sections = [];
+
+      if (this.children.length > 0) {
+        var section = {
+          title: "Система",
+          content: []
+        };
+        this.children.forEach(function (child) {
+          var mainInformation = child.getMainInformation();
+          section.content.push(mainInformation);
+        });
+        sections.push(section);
+      }
+
+      return sections;
+    } // Main information
+
+  }, {
     key: "getMainInformation",
     value: function getMainInformation() {
       return {
         color: this.props.color,
-        title: this.name
+        title: this.name,
+        type: 'spaceObjectCard'
       };
     } // Setting focus
 

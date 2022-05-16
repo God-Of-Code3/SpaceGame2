@@ -31,11 +31,62 @@ class SpaceObject {
         this.name = this.props.name;
     }
 
+    // Getting sidebar information
+    getSidebar() {
+        let mainSection = this.getSidebarMainSection();
+
+        let sections = [mainSection, ...this.getSidebarAdditionalSections()];
+
+        let sidebar = {
+            title: this.getSidebarTitle(),
+            sections: sections
+        };
+
+        return sidebar;
+    }
+
+    // Getting sidebar title
+    getSidebarTitle() {
+        return c.OBJECT_TYPES[this.objectType][1];
+    }
+
+    // Getting sidebar main section
+    getSidebarMainSection() {
+        let mainInformation = this.getMainInformation();
+        return {
+            title: "Основная информация",
+            content: [
+                mainInformation
+            ]
+        }
+    }
+
+    // Get sidebar additional sections
+    getSidebarAdditionalSections() {
+        let sections = [];
+        if (this.children.length > 0) {
+            let section = {
+                title: "Система",
+                content: []
+            };
+
+            this.children.forEach(child => {
+                let mainInformation = child.getMainInformation();
+
+                section.content.push(mainInformation);
+            });
+            
+            sections.push(section);
+        }
+        return sections;
+    }
+
     // Main information
     getMainInformation() {
         return {
             color: this.props.color,
             title: this.name,
+            type: 'spaceObjectCard'
         }
     }
 
