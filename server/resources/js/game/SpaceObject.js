@@ -69,13 +69,14 @@ class SpaceObject {
                 title: "Система",
                 content: []
             };
-
+            
+            // Adding card for every children
             this.children.forEach(child => {
                 let mainInformation = child.getMainInformation();
 
                 section.content.push(mainInformation);
             });
-            
+
             sections.push(section);
         }
         return sections;
@@ -128,8 +129,15 @@ class SpaceObject {
             y: this.y,
             rad: this.props.rad * 2,
             color: this.props.color,
+            rotation: this.props.rotation,
             img: './storage/images/planets/alive-standart/planet.png'
         });
+    }
+
+    // Set object rotation
+    setDrawingObjectRotation(angle) {
+        this.drawingObject.rotation = angle;
+        this.props.rotation = angle;
     }
 
     // Drawing

@@ -6203,10 +6203,14 @@ var CanvasCamera = /*#__PURE__*/function () {
 
   }, {
     key: "drawImage",
-    value: function drawImage(img, x, y, w, h, color) {
-      var options = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : {};
+    value: function drawImage(img, x, y, w, h, rotation, color) {
+      var options = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : {};
       this.setShadow(color, options);
-      this.ctx.drawImage(img, x - w / 2, y - h / 2, w, h);
+      this.ctx.save();
+      this.ctx.translate(x, y);
+      this.ctx.rotate(rotation);
+      this.ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      this.ctx.restore();
     } // Calc coords and size
 
   }, {
@@ -6348,6 +6352,7 @@ var DrawingObject = /*#__PURE__*/function () {
     this.x = props.x || 0;
     this.y = props.y || 0;
     this.rad = props.rad || 20;
+    this.rotation = props.rotation;
     this.color = props.color || "rgba(255, 255, 255, 1)";
   }
 
@@ -6397,7 +6402,7 @@ var ImageDrawingObject = /*#__PURE__*/function (_DrawingObject) {
           y = _cam$calcCoordsAndSiz2.y,
           size = _cam$calcCoordsAndSiz2.size;
 
-      cam.drawImage(this.image, x, y, size, size, this.color, {
+      cam.drawImage(this.image, x, y, size, size, this.rotation, this.color, {
         shadow: {
           blur: size
         }
@@ -6507,7 +6512,8 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
         y: this.y,
         rad: this.props.rad,
         color: this.props.color,
-        img: this.props.image
+        img: this.props.image,
+        rotation: this.props.rotation
       });
     }
   }]);
@@ -6621,7 +6627,8 @@ var SpaceObject = /*#__PURE__*/function () {
         var section = {
           title: "Система",
           content: []
-        };
+        }; // Adding card for every children
+
         this.children.forEach(function (child) {
           var mainInformation = child.getMainInformation();
           section.content.push(mainInformation);
@@ -6683,8 +6690,16 @@ var SpaceObject = /*#__PURE__*/function () {
         y: this.y,
         rad: this.props.rad * 2,
         color: this.props.color,
+        rotation: this.props.rotation,
         img: './storage/images/planets/alive-standart/planet.png'
       });
+    } // Set object rotation
+
+  }, {
+    key: "setDrawingObjectRotation",
+    value: function setDrawingObjectRotation(angle) {
+      this.drawingObject.rotation = angle;
+      this.props.rotation = angle;
     } // Drawing
 
   }, {
@@ -6948,6 +6963,7 @@ var startGame = function startGame(cnv, ctx, uiElements) {
   var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_5__["default"]({
     rad: 40,
     temperature: 5.7,
+    rotation: Math.PI / 3,
     name: "Солнце"
   }, 0, 0, null);
   obj.addChild({
@@ -6955,6 +6971,7 @@ var startGame = function startGame(cnv, ctx, uiElements) {
     color: "#1ac9ac",
     name: "Земля",
     image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
+    rotation: Math.PI / 3,
     compositionType: 'rock'
   }, {
     dist: 200,

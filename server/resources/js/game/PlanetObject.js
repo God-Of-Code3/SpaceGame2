@@ -35,7 +35,8 @@ class PlanetObject extends SpaceObject {
             y: this.y,
             rad: this.props.rad,
             color: this.props.color,
-            img: this.props.image
+            img: this.props.image,
+            rotation: this.props.rotation,
         });
     }
 }

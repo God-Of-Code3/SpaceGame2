@@ -261,10 +261,15 @@ class CanvasCamera {
     }
 
     // Basic drawing image
-    drawImage(img, x, y, w, h, color, options={}) {
+    drawImage(img, x, y, w, h, rotation, color, options={}) {
         this.setShadow(color, options);
+        this.ctx.save();
+        this.ctx.translate(x, y);
+        this.ctx.rotate(rotation);
 
-        this.ctx.drawImage(img, x - w / 2, y - h / 2, w, h);
+        this.ctx.drawImage(img,  - w / 2,  - h / 2, w, h);
+
+        this.ctx.restore();
     }
 
     // Calc coords and size

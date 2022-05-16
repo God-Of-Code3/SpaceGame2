@@ -3,6 +3,7 @@ class DrawingObject {
         this.x = props.x || 0;
         this.y = props.y || 0;
         this.rad = props.rad || 20;
+        this.rotation = props.rotation;
 
         this.color = props.color || "rgba(255, 255, 255, 1)";
     }
@@ -25,7 +26,7 @@ class ImageDrawingObject extends DrawingObject {
 
     draw(cam) {
         let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.rad * 2);
-        cam.drawImage(this.image, x, y, size, size, this.color, {shadow: {blur: size}});
+        cam.drawImage(this.image, x, y, size, size, this.rotation, this.color, {shadow: {blur: size}});
     }
 }
 
