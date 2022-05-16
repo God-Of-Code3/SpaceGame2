@@ -27,6 +27,16 @@ class SpaceObject {
         this.scaleValue = c.SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
 
         this.objectType = 0;
+
+        this.name = this.props.name;
+    }
+
+    // Main information
+    getMainInformation() {
+        return {
+            color: this.props.color,
+            title: this.name,
+        }
     }
 
     // Setting focus

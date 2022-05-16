@@ -11334,10 +11334,24 @@ nav.navbar {
 }
 
 .center {
-  display: grid;
+  display: inline-grid;
   place-items: center;
 }
 
 .circle {
   border-radius: 50%;
+}
+
+p, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  margin: 0;
+  line-height: 1;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.small-icon {
+  height: 100%;
 }

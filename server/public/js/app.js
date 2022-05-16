@@ -5862,12 +5862,22 @@ var SpaceObjectCard = function SpaceObjectCard(_ref) {
       props = _objectWithoutProperties(_ref, _excluded);
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "card",
+    className: "mt-2",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      className: "row",
+      className: "row flex-nowrap rounded border",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "col-md-3 bg-space center rounded",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "col-3 bg-space center rounded-start",
+        children: item.image ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+          src: item.image,
+          alt: "ObjectImage",
+          className: "circle",
+          style: {
+            width: '30px',
+            height: '30px',
+            background: item.color,
+            boxShadow: "0px 0px 20px ".concat(item.color)
+          }
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "circle",
           style: {
             width: '30px',
@@ -5876,9 +5886,19 @@ var SpaceObjectCard = function SpaceObjectCard(_ref) {
             boxShadow: "0px 0px 20px ".concat(item.color)
           }
         })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "col-8 p-3",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h6", {
+          children: item.title
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+          className: "text-secondary mt-1",
+          children: item.subtitle
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "card-body col-md-9",
-        children: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto, ratione!"
+        className: "col-1 p-0 pl-3 d-flex align-items-center justify-space-between bg-light rounded-end",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: "bi bi-chevron-right m-1"
+        })
       })]
     })
   });
@@ -6265,14 +6285,13 @@ var DataControlManager = /*#__PURE__*/function () {
     key: "showFocusedObjectData",
     value: function showFocusedObjectData(obj) {
       if (obj) {
+        var mainInformation = obj.getMainInformation();
+        mainInformation.type = 'spaceObjectCard';
         this.uiElements.setSidebarData({
           title: _constants__WEBPACK_IMPORTED_MODULE_2__["default"].OBJECT_TYPES[obj.objectType][1],
           sections: [{
-            title: "Информация о звезде",
-            content: [{
-              type: 'spaceObjectCard',
-              color: obj.props.color
-            }]
+            title: "Основная информация",
+            content: [mainInformation]
           }]
         });
       } else {
@@ -6414,6 +6433,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+/* harmony import */ var _math_planets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math/planets */ "./resources/js/game/math/planets.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6421,6 +6441,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -6435,6 +6459,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -6458,7 +6483,7 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
     _this = _super.call.apply(_super, [this, props].concat(args));
     _this.temperature = props.temperature; // 10^3 K
 
-    _this.mass = props.mass; // solar mass
+    _this.mass = props.mass; // earth mass
 
     _this.compositionType = props.compositionType; // Composition type (ice, rock and gase) 
 
@@ -6468,9 +6493,20 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
 
     _this.objectType = 2;
     return _this;
-  }
+  } // Main information
+
 
   _createClass(PlanetObject, [{
+    key: "getMainInformation",
+    value: function getMainInformation() {
+      var info = _get(_getPrototypeOf(PlanetObject.prototype), "getMainInformation", this).call(this);
+
+      info.image = this.props.image;
+      info.subtitle = (0,_math_planets__WEBPACK_IMPORTED_MODULE_2__.compTypeToText)(this.compositionType, this.temperature, this.mass) + ' планета';
+      return info;
+    } // Image drawing object instead of standart drawing object
+
+  }, {
     key: "setDrawingObject",
     value: function setDrawingObject() {
       this.drawingObject = new _DrawingObject__WEBPACK_IMPORTED_MODULE_1__.ImageDrawingObject({
@@ -6539,10 +6575,20 @@ var SpaceObject = /*#__PURE__*/function () {
 
     this.scaleValue = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
     this.objectType = 0;
-  } // Setting focus
+    this.name = this.props.name;
+  } // Main information
 
 
   _createClass(SpaceObject, [{
+    key: "getMainInformation",
+    value: function getMainInformation() {
+      return {
+        color: this.props.color,
+        title: this.name
+      };
+    } // Setting focus
+
+  }, {
     key: "setFocus",
     value: function setFocus(value) {
       this.state.focus = value;
@@ -6695,6 +6741,10 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -6743,9 +6793,18 @@ var StarObject = /*#__PURE__*/function (_SpaceObject) {
 
     _this.objectType = 1;
     return _this;
-  }
+  } // Main information
+
 
   _createClass(StarObject, [{
+    key: "getMainInformation",
+    value: function getMainInformation() {
+      var info = _get(_getPrototypeOf(StarObject.prototype), "getMainInformation", this).call(this);
+
+      info.subtitle = 'Звезда класса ' + this.starClass;
+      return info;
+    }
+  }, {
     key: "setDrawingObject",
     value: function setDrawingObject() {
       this.drawingObject = new _DrawingObject__WEBPACK_IMPORTED_MODULE_2__["default"]({
@@ -6834,12 +6893,15 @@ var startGame = function startGame(cnv, ctx, uiElements) {
   var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_1__["default"](cam, uiElements);
   var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_5__["default"]({
     rad: 40,
-    temperature: 5.7
+    temperature: 5.7,
+    name: "Солнце"
   }, 0, 0, null);
   obj.addChild({
     rad: 10,
     color: "#1ac9ac",
-    image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png"
+    name: "Земля",
+    image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
+    compositionType: 'rock'
   }, {
     dist: 200,
     angle: Math.PI / 6
@@ -6865,6 +6927,31 @@ var startGame = function startGame(cnv, ctx, uiElements) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (startGame);
+
+/***/ }),
+
+/***/ "./resources/js/game/math/planets.js":
+/*!*******************************************!*\
+  !*** ./resources/js/game/math/planets.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "compTypeToText": () => (/* binding */ compTypeToText)
+/* harmony export */ });
+var compTypes = {
+  'ice': 'Ледяная',
+  'rock': 'Железно-каменная',
+  'gase': 'Газовая'
+};
+
+var compTypeToText = function compTypeToText(compType, temperature, mass) {
+  return compTypes[compType];
+};
+
+
 
 /***/ }),
 

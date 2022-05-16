@@ -21,6 +21,13 @@ class StarObject extends SpaceObject {
         this.objectType = 1;
     }
 
+    // Main information
+    getMainInformation() {
+        let info = super.getMainInformation();
+        info.subtitle = 'Звезда класса ' + this.starClass;
+        return info;
+    }
+
     setDrawingObject() {
         this.drawingObject = new DrawingObject({
             x: this.x,

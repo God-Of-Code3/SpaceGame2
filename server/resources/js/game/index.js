@@ -13,11 +13,14 @@ const startGame = (cnv, ctx, uiElements) => {
     let obj = new StarObject({
         rad: 40,
         temperature: 5.7,
+        name: "Солнце"
     }, 0, 0, null);
     obj.addChild({
             rad: 10,
             color: "#1ac9ac",
-            image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png"
+            name: "Земля",
+            image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
+            compositionType: 'rock'
         }, {
             dist: 200,
             angle:  (Math.PI / 6)

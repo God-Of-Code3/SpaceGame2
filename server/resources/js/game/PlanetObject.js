@@ -1,5 +1,6 @@
 import SpaceObject from "./SpaceObject";
 import {ImageDrawingObject} from "./DrawingObject";
+import { compTypeToText } from "./math/planets";
 
 
 
@@ -9,7 +10,7 @@ class PlanetObject extends SpaceObject {
         super(props, ...args);
 
         this.temperature = props.temperature; // 10^3 K
-        this.mass = props.mass; // solar mass
+        this.mass = props.mass; // earth mass
         this.compositionType = props.compositionType; // Composition type (ice, rock and gase) 
 
 
@@ -19,6 +20,15 @@ class PlanetObject extends SpaceObject {
         this.objectType = 2;
     }
 
+    // Main information
+    getMainInformation() {
+        let info = super.getMainInformation();
+        info.image = this.props.image;
+        info.subtitle = compTypeToText(this.compositionType, this.temperature, this.mass) + ' планета';
+        return info;
+    }
+
+    // Image drawing object instead of standart drawing object
     setDrawingObject() {
         this.drawingObject = new ImageDrawingObject({
             x: this.x,
