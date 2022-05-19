@@ -17,7 +17,7 @@ class PlanetObject extends SpaceObject {
 
         this.props.image = props.image;
         this.minRad = c.MIN_PLANET_RAD;
-        
+
         this.setDrawingObject();
 
         this.objectType = 2;
@@ -42,6 +42,13 @@ class PlanetObject extends SpaceObject {
             minRad: this.minRad,
             rotation: this.props.rotation,
         });
+    }
+
+    handle(cam) {
+        if (this.render) {
+            super.handle(cam);
+        }
+        this.render = cam.scale > 0.05;
     }
 }
 

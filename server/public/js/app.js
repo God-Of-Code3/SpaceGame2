@@ -5968,11 +5968,11 @@ var CanvasCamera = /*#__PURE__*/function () {
 
     this.bgStars = [];
 
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 200; i++) {
       this.bgStars.push({
         x: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(-1000, 1000),
         y: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(-1000, 1000),
-        z: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)
+        z: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(0.5 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)
       });
     }
   } // Set hover action object
@@ -6022,6 +6022,8 @@ var CanvasCamera = /*#__PURE__*/function () {
         _this.mouse.startY = y;
         _this.mouse.camX = _this.target.x;
         _this.mouse.camY = _this.target.y;
+
+        _this.setFocus(null);
       });
       this.cnv.addEventListener("mousemove", function (ev) {
         var _this$calcMouse2 = _this.calcMouse(ev),
@@ -6050,6 +6052,7 @@ var CanvasCamera = /*#__PURE__*/function () {
         var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
         _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED;
         _this.target.scale = Math.max(_this.target.scale, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE);
+        console.log(_this.target.scale);
       });
       this.cnv.addEventListener("contextmenu", function (ev) {
         ev.preventDefault();
@@ -6112,6 +6115,19 @@ var CanvasCamera = /*#__PURE__*/function () {
         width: this.cnv.width / this.scale,
         height: this.cnv.height / this.scale
       };
+    } // Getting view area points
+
+  }, {
+    key: "checkObjectInView",
+    value: function checkObjectInView(x, y, size) {
+      var dX = Math.abs(x - this.mouse.camX);
+      var dY = Math.abs(y - this.mouse.camY);
+
+      var _this$getViewSize = this.getViewSize(),
+          width = _this$getViewSize.width,
+          height = _this$getViewSize.height;
+
+      return dX < width / 2 + size && dY < height / 2 + size;
     } // Calculate mouse position
 
   }, {
@@ -6140,14 +6156,7 @@ var CanvasCamera = /*#__PURE__*/function () {
   }, {
     key: "handle",
     value: function handle() {
-      // Scaling
-      if (this.scale < this.target.scale) {
-        this.scale = Math.min(this.scale * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
-      } else if (this.scale > this.target.scale) {
-        this.scale = Math.max(this.scale / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
-      } // Moving
-
-
+      // Moving
       var vec = {
         x: this.target.x - this.x,
         y: this.target.y - this.y
@@ -6161,7 +6170,13 @@ var CanvasCamera = /*#__PURE__*/function () {
         this.y += vec.y * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED / this.scale;
       } else {
         this.x = this.target.x;
-        this.y = this.target.y;
+        this.y = this.target.y; // Scaling
+
+        if (this.scale < this.target.scale) {
+          this.scale = Math.min(this.scale * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
+        } else if (this.scale > this.target.scale) {
+          this.scale = Math.max(this.scale / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
+        }
       }
     } // Draw objects
 
@@ -6266,7 +6281,11 @@ var CanvasCamera = /*#__PURE__*/function () {
         x = (star.x - _this2.x / star.z) * Math.pow(_this2.scale, 1 / star.z);
         y = (star.y - _this2.y / star.z) * Math.pow(_this2.scale, 1 / star.z);
 
-        _this2.drawCircle(x + _this2.cnv.width / 2, y + _this2.cnv.height / 2, (1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 1 + 1, "rgba(255, 255, 255, ".concat((1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 0.6, ")"));
+        _this2.drawCircle(x + _this2.cnv.width / 2, y + _this2.cnv.height / 2, (1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 1 + 1, "rgba(255, 255, 255, ".concat((1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 0.6, ")"), {
+          shadow: {
+            blur: 15
+          }
+        });
       });
     }
   }]);
@@ -6550,6 +6569,15 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
         rotation: this.props.rotation
       });
     }
+  }, {
+    key: "handle",
+    value: function handle(cam) {
+      if (this.render) {
+        _get(_getPrototypeOf(PlanetObject.prototype), "handle", this).call(this, cam);
+      }
+
+      this.render = cam.scale > 0.05;
+    }
   }]);
 
   return PlanetObject;
@@ -6622,7 +6650,11 @@ var SpaceObject = /*#__PURE__*/function () {
     this.objectType = 0;
     this.name = this.props.name; // Min drawing rad
 
-    this.minRad = 0;
+    this.minRad = 0; // Render
+
+    this.render = true; // Maximum orbit radius
+
+    this.systemRadius = this.props.rad;
   } // Getting sidebar information
 
 
@@ -6744,68 +6776,82 @@ var SpaceObject = /*#__PURE__*/function () {
     value: function draw(cam) {
       var _this = this;
 
-      this.drawingObject.x = this.x;
-      this.drawingObject.y = this.y;
-      this.drawingObject.draw(cam); // Drawing hover circle
+      // If render mode is active, we draw object
+      if (this.render) {
+        // Drawing all children
+        this.children.forEach(function (child) {
+          if (child.render) {
+            var dist = child.relations.dist;
 
-      if (this.state.hover) {
-        var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(this.x, this.y, this.props.rad),
-            x = _cam$calcCoordsAndSiz.x,
-            y = _cam$calcCoordsAndSiz.y,
-            size = _cam$calcCoordsAndSiz.size;
+            var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(_this.x, _this.y, dist),
+                x = _cam$calcCoordsAndSiz.x,
+                y = _cam$calcCoordsAndSiz.y,
+                size = _cam$calcCoordsAndSiz.size; // Drawing orbit if its radius is less than maximum radius
 
-        cam.drawCircle(x, y, size + _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_OFFSET, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_COLOR, {
-          stroke: true,
-          lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_LINE_WIDTH
+
+            if (size <= _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MAX_ORBIT_RADIUS) {
+              cam.drawCircle(x, y, size, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_COLOR, {
+                stroke: true,
+                lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_LINE_WIDTH
+              });
+            }
+
+            child.draw(cam);
+          }
         });
-      } // Drawing focus circle
+        this.drawingObject.x = this.x;
+        this.drawingObject.y = this.y;
+        this.drawingObject.draw(cam); // Drawing hover circle
+
+        if (this.state.hover) {
+          var _cam$calcCoordsAndSiz2 = cam.calcCoordsAndSize(this.x, this.y, this.props.rad),
+              x = _cam$calcCoordsAndSiz2.x,
+              y = _cam$calcCoordsAndSiz2.y,
+              size = _cam$calcCoordsAndSiz2.size;
+
+          cam.drawCircle(x, y, size + _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_OFFSET, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_COLOR, {
+            stroke: true,
+            lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOVER_LINE_WIDTH
+          });
+        } // Drawing focus circle
 
 
-      if (this.state.focus) {
-        var _cam$calcCoordsAndSiz2 = cam.calcCoordsAndSize(this.x, this.y, this.props.rad),
-            _x = _cam$calcCoordsAndSiz2.x,
-            _y = _cam$calcCoordsAndSiz2.y,
-            _size = _cam$calcCoordsAndSiz2.size;
+        if (this.state.focus) {
+          var _cam$calcCoordsAndSiz3 = cam.calcCoordsAndSize(this.x, this.y, this.props.rad),
+              _x = _cam$calcCoordsAndSiz3.x,
+              _y = _cam$calcCoordsAndSiz3.y,
+              _size = _cam$calcCoordsAndSiz3.size;
 
-        cam.drawCircle(_x, _y, _size + _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_OFFSET, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_COLOR, {
-          stroke: true,
-          dash: [4, 22],
-          lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_LINE_WIDTH
-        });
+          cam.drawCircle(_x, _y, _size + _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_OFFSET, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_COLOR, {
+            stroke: true,
+            dash: [4, 1],
+            lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].FOCUS_LINE_WIDTH
+          });
+        }
       }
-
-      this.children.forEach(function (child) {
-        var dist = child.relations.dist;
-
-        var _cam$calcCoordsAndSiz3 = cam.calcCoordsAndSize(_this.x, _this.y, dist),
-            x = _cam$calcCoordsAndSiz3.x,
-            y = _cam$calcCoordsAndSiz3.y,
-            size = _cam$calcCoordsAndSiz3.size;
-
-        cam.drawCircle(x, y, size, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_COLOR, {
-          stroke: true,
-          lineWidth: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ORBIT_LINE_WIDTH
-        });
-        child.draw(cam);
-      });
     } // Handling
 
   }, {
     key: "handle",
     value: function handle(cam) {
-      var d = Math.pow(this.x - cam.mouseCoords.x, 2) + Math.pow(this.y - cam.mouseCoords.y, 2);
+      var checked = cam.checkObjectInView(this.x, this.y, this.systemRadius);
+      this.render = checked;
 
-      if (d < Math.pow(Math.max(this.props.rad, this.minRad / cam.scale), 2)) {
-        this.state.hover = true;
-        cam.setHover(this, true);
-      } else {
-        this.state.hover = false;
-        cam.setHover(this, false);
+      if (this.render) {
+        var d = Math.pow(this.x - cam.mouseCoords.x, 2) + Math.pow(this.y - cam.mouseCoords.y, 2);
+
+        if (d < Math.pow(Math.max(this.props.rad, this.minRad / cam.scale), 2)) {
+          this.state.hover = true;
+          cam.setHover(this, true);
+        } else {
+          this.state.hover = false;
+          cam.setHover(this, false);
+        }
+
+        this.children.forEach(function (child) {
+          return child.handle(cam);
+        });
       }
-
-      this.children.forEach(function (child) {
-        return child.handle(cam);
-      });
     } // Adding child
 
   }, {
@@ -6815,6 +6861,8 @@ var SpaceObject = /*#__PURE__*/function () {
       var relations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var cls = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : SpaceObject;
       new cls(props, 0, 0, this, relations);
+      var d = props.rad + relations.dist;
+      this.systemRadius = Math.max(this.systemRadius, d);
     }
   }]);
 
@@ -6946,26 +6994,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var c = {
   // Camera data
-  SCROLL_SPEED: 1.2,
-  CAM_SCROLL_SPEED: 1.07,
+  SCROLL_SPEED: 1.25,
+  CAM_SCROLL_SPEED: 1.09,
   CAM_MOVE_SPEED: 50,
-  MIN_SCALE: 0.01,
-  BG_STARS_DIFF: 6,
+  MIN_SCALE: 0.001,
+  BG_STARS_DIFF: 3,
+  CAM_SCALE_MODES: {
+    0.02: 0
+  },
   // Colors
   BG_COLOR: "#00010f",
   ORBIT_COLOR: "rgba(255, 255, 255, 0.3)",
   HOVER_COLOR: "rgba(255, 255, 255, 0.7)",
-  FOCUS_COLOR: "rgba(255, 255, 255, 0.2)",
+  FOCUS_COLOR: "rgba(255, 255, 255, 0.1)",
   // Distances
-  AU_TO_TKM: 1496,
+  AU_TO_TKM: 149600,
+  SQUARE_SIZES: 40,
   // Sizes and widths
   ORBIT_LINE_WIDTH: 1,
   HOVER_LINE_WIDTH: 5,
-  FOCUS_LINE_WIDTH: 15,
+  FOCUS_LINE_WIDTH: 5,
   HOVER_OFFSET: 6,
-  FOCUS_OFFSET: 40,
-  MIN_STAR_RAD: 3,
-  MIN_PLANET_RAD: 2,
+  FOCUS_OFFSET: 30,
+  MIN_STAR_RAD: 4,
+  MIN_PLANET_RAD: 3,
+  MAX_ORBIT_RADIUS: 5000,
   // Special
   SPACE_OBJECT_SCOPE_SIZE: 200,
   OBJECT_TYPES: {
@@ -6994,11 +7047,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CanvasCamera */ "./resources/js/game/CanvasCamera.js");
-/* harmony import */ var _DataControlManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DataControlManager */ "./resources/js/game/DataControlManager.js");
-/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
-/* harmony import */ var _PlanetObject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PlanetObject */ "./resources/js/game/PlanetObject.js");
-/* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
-/* harmony import */ var _StarObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./StarObject */ "./resources/js/game/StarObject.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
+/* harmony import */ var _DataControlManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DataControlManager */ "./resources/js/game/DataControlManager.js");
+/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+/* harmony import */ var _PlanetObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PlanetObject */ "./resources/js/game/PlanetObject.js");
+/* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
+/* harmony import */ var _StarObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./StarObject */ "./resources/js/game/StarObject.js");
+
 
 
 
@@ -7008,25 +7063,42 @@ __webpack_require__.r(__webpack_exports__);
 
 var startGame = function startGame(cnv, ctx, uiElements) {
   var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__["default"]({}, cnv, ctx);
-  var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_1__["default"](cam, uiElements);
-  var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_5__["default"]({
-    rad: 40,
+  var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_2__["default"](cam, uiElements);
+  var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    rad: 109 * 6 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
     temperature: 5.7,
     rotation: Math.PI / 3,
     name: "Солнце"
   }, 0, 0, null);
   obj.addChild({
-    rad: 10,
+    rad: 6 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
     color: "#1ac9ac",
     name: "Земля",
     image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
     rotation: Math.PI / 3,
     compositionType: 'rock'
   }, {
-    dist: 200,
+    dist: 1,
     angle: Math.PI / 6
-  }, _PlanetObject__WEBPACK_IMPORTED_MODULE_3__["default"]);
-  var objects = [obj];
+  }, _PlanetObject__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  var obj2 = new _StarObject__WEBPACK_IMPORTED_MODULE_6__["default"]({
+    rad: 109 * 6 * 0.145 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
+    temperature: 3.1,
+    rotation: Math.PI / 3,
+    name: "Проксима Центавра"
+  }, 270000, 0, null);
+  obj2.addChild({
+    rad: 2 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
+    color: "#1AAAC9",
+    name: "Земля 2",
+    image: "http://127.0.0.1:8000/storage/images/planets/alive-red/planet7.png",
+    rotation: Math.PI * 0.02,
+    compositionType: 'rock'
+  }, {
+    dist: 2,
+    angle: 0.4 * Math.PI
+  }, _PlanetObject__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  var objects = [obj, obj2];
 
   var gameLoop = function gameLoop() {
     // Main loop

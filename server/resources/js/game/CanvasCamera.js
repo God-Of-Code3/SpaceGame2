@@ -45,11 +45,11 @@ class CanvasCamera {
 
         // Bg stars
         this.bgStars = [];
-        for (let i = 0; i < 1000; i ++) {
+        for (let i = 0; i < 200; i ++) {
             this.bgStars.push({
                 x: c.RANDINT(-1000, 1000),
                 y: c.RANDINT(-1000, 1000),
-                z: c.RANDINT(1 / c.MIN_SCALE, c.BG_STARS_DIFF / c.MIN_SCALE),
+                z: c.RANDINT(0.5 / c.MIN_SCALE, c.BG_STARS_DIFF / c.MIN_SCALE),
             });
         }
     }
@@ -93,6 +93,8 @@ class CanvasCamera {
 
             this.mouse.camX = this.target.x;
             this.mouse.camY = this.target.y;
+
+            this.setFocus(null);
         });
 
         this.cnv.addEventListener("mousemove", ev => {
@@ -124,6 +126,8 @@ class CanvasCamera {
             this.target.scale *= delta > 0 ? 1 / c.SCROLL_SPEED : c.SCROLL_SPEED;
             
             this.target.scale = Math.max(this.target.scale, c.MIN_SCALE);
+
+            console.log(this.target.scale);
         });
 
         this.cnv.addEventListener("contextmenu", ev => {
@@ -183,6 +187,15 @@ class CanvasCamera {
         };
     }
 
+    // Getting view area points
+    checkObjectInView(x, y, size) {
+        let dX = Math.abs(x - this.mouse.camX);
+        let dY = Math.abs(y - this.mouse.camY);
+        let {width, height} = this.getViewSize();
+
+        return dX < (width / 2 + size) && dY < (height / 2 + size);
+    }
+
     // Calculate mouse position
     calcMouse (ev) {
         let x = ev.clientX - this.cnv.width / 2;
@@ -208,13 +221,6 @@ class CanvasCamera {
     // Handle events
     handle () {
 
-        // Scaling
-        if (this.scale < this.target.scale) {
-            this.scale = Math.min(this.scale * c.CAM_SCROLL_SPEED, this.target.scale);
-        } else if (this.scale > this.target.scale) {
-            this.scale = Math.max(this.scale / c.CAM_SCROLL_SPEED, this.target.scale);
-        }
-
         // Moving
         let vec = {x: this.target.x - this.x, y: this.target.y - this.y};
         let ln = (vec.x ** 2 + vec.y ** 2) ** 0.5;
@@ -227,7 +233,16 @@ class CanvasCamera {
         } else {
             this.x = this.target.x;
             this.y = this.target.y;
+            // Scaling
+            if (this.scale < this.target.scale) {
+                this.scale = Math.min(this.scale * c.CAM_SCROLL_SPEED, this.target.scale);
+            } else if (this.scale > this.target.scale) {
+                this.scale = Math.max(this.scale / c.CAM_SCROLL_SPEED, this.target.scale);
+            }
         }
+
+        
+
     }
 
     // Draw objects
@@ -325,7 +340,7 @@ class CanvasCamera {
             let y = star.y;
             x = (star.x - this.x / star.z) * Math.pow(this.scale, 1 / star.z);
             y = (star.y - this.y / star.z) * Math.pow(this.scale, 1 / star.z);
-            this.drawCircle(x + this.cnv.width / 2, y + this.cnv.height / 2, (1 - star.z / (c.BG_STARS_DIFF / c.MIN_SCALE)) * 1 + 1, `rgba(255, 255, 255, ${(1 - star.z / (c.BG_STARS_DIFF / c.MIN_SCALE)) * 0.6})`);
+            this.drawCircle(x + this.cnv.width / 2, y + this.cnv.height / 2, (1 - star.z / (c.BG_STARS_DIFF / c.MIN_SCALE)) * 1 + 1, `rgba(255, 255, 255, ${(1 - star.z / (c.BG_STARS_DIFF / c.MIN_SCALE)) * 0.6})`, {shadow: {blur: 15}});
         });
     }
 }

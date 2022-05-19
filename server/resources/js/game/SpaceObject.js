@@ -32,6 +32,12 @@ class SpaceObject {
 
         // Min drawing rad
         this.minRad = 0;
+
+        // Render
+        this.render = true;
+
+        // Maximum orbit radius
+        this.systemRadius = this.props.rad;
     }
 
     // Getting sidebar information
@@ -146,61 +152,78 @@ class SpaceObject {
 
     // Drawing
     draw(cam) {
-        this.drawingObject.x = this.x;
-        this.drawingObject.y = this.y;
-        this.drawingObject.draw(cam);
 
-        // Drawing hover circle
-        if (this.state.hover) {
-            let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.props.rad);
-            cam.drawCircle(x, y, size + c.HOVER_OFFSET, c.HOVER_COLOR, {
-                stroke: true,
-                lineWidth: c.HOVER_LINE_WIDTH
+        // If render mode is active, we draw object
+        if (this.render) {
+            // Drawing all children
+            this.children.forEach(child => {
+                if (child.render) {
+                    let dist = child.relations.dist;
+
+                    let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, dist);
+
+                    // Drawing orbit if its radius is less than maximum radius
+                    if (size <= c.MAX_ORBIT_RADIUS) {
+                        cam.drawCircle(x, y, size, c.ORBIT_COLOR, {
+                            stroke: true,
+                            lineWidth: c.ORBIT_LINE_WIDTH
+                        });
+                    }
+
+                    child.draw(cam);
+                }
             });
+
+            this.drawingObject.x = this.x;
+            this.drawingObject.y = this.y;
+            
+            this.drawingObject.draw(cam);
+        
+            // Drawing hover circle
+            if (this.state.hover) {
+                let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.props.rad);
+                cam.drawCircle(x, y, size + c.HOVER_OFFSET, c.HOVER_COLOR, {
+                    stroke: true,
+                    lineWidth: c.HOVER_LINE_WIDTH
+                });
+            }
+
+            // Drawing focus circle
+            if (this.state.focus) {
+                let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.props.rad);
+                cam.drawCircle(x, y, size + c.FOCUS_OFFSET, c.FOCUS_COLOR, {
+                    stroke: true,
+                    dash: [4, 1],
+                    lineWidth: c.FOCUS_LINE_WIDTH
+                });
+            }
         }
-
-        // Drawing focus circle
-        if (this.state.focus) {
-            let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.props.rad);
-            cam.drawCircle(x, y, size + c.FOCUS_OFFSET, c.FOCUS_COLOR, {
-                stroke: true,
-                dash: [4, 22],
-                lineWidth: c.FOCUS_LINE_WIDTH
-            });
-        }
-
-        this.children.forEach(child => {
-            let dist = child.relations.dist;
-
-            let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, dist);
-            cam.drawCircle(x, y, size, c.ORBIT_COLOR, {
-                stroke: true,
-                lineWidth: c.ORBIT_LINE_WIDTH
-            });
-
-            child.draw(cam);
-        });
 
     }
 
     // Handling
     handle(cam) {
-        let d = (this.x - cam.mouseCoords.x) ** 2 + (this.y - cam.mouseCoords.y) ** 2;
-        if (d < Math.max(this.props.rad, this.minRad / cam.scale) ** 2) {
-            this.state.hover = true;
-            cam.setHover(this, true);
-        } else {
-            this.state.hover = false;
-            cam.setHover(this, false);
-        }
+        let checked = cam.checkObjectInView(this.x, this.y, this.systemRadius);
+        this.render = checked;
+        if (this.render) {
+            let d = (this.x - cam.mouseCoords.x) ** 2 + (this.y - cam.mouseCoords.y) ** 2;
+            if (d < Math.max(this.props.rad, this.minRad / cam.scale) ** 2) {
+                this.state.hover = true;
+                cam.setHover(this, true);
+            } else {
+                this.state.hover = false;
+                cam.setHover(this, false);
+            }
 
-        this.children.forEach(child => child.handle(cam));
+            this.children.forEach(child => child.handle(cam));
+        }
     }
 
     // Adding child
     addChild(props={}, relations={}, cls=SpaceObject) {
         new cls(props, 0, 0, this, relations);
-        
+        let d = props.rad + relations.dist;
+        this.systemRadius = Math.max(this.systemRadius, d);
     }
 }
 
