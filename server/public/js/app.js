@@ -5443,12 +5443,66 @@ var Container = function Container(_ref) {
       props = _objectWithoutProperties(_ref, _excluded);
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "container container-md",
+    className: "container container-md text-light",
     children: children
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Container);
+
+/***/ }),
+
+/***/ "./resources/js/components/LoginForm.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/LoginForm.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Container */ "./resources/js/components/Container.js");
+/* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/Form */ "./resources/js/components/form/Form.js");
+/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/Btn */ "./resources/js/components/form/Btn.js");
+/* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/Input */ "./resources/js/components/form/Input.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+var LoginForm = function LoginForm() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
+      children: "Login"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "bg-dark text-light p-4 rounded mt-5",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        action: function action(e) {
+          return console.log(e);
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          name: "email",
+          label: "Email:"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          name: "password",
+          label: "Password:",
+          type: "password"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: "Login"
+        })]
+      })
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LoginForm);
 
 /***/ }),
 
@@ -5515,6 +5569,64 @@ var NavBar = function NavBar() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBar);
+
+/***/ }),
+
+/***/ "./resources/js/components/RegisterForm.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/RegisterForm.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Container */ "./resources/js/components/Container.js");
+/* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/Form */ "./resources/js/components/form/Form.js");
+/* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/Input */ "./resources/js/components/form/Input.js");
+/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/Btn */ "./resources/js/components/form/Btn.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+var RegisterForm = function RegisterForm() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
+      children: "Registration"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "bg-dark text-light p-4 rounded mt-5",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        action: function action(e) {
+          e.preventDefault();
+          console.log(e);
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          name: "name",
+          label: "Name:"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          name: "email",
+          label: "Email:"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          name: "password",
+          label: "Password:",
+          type: "password"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: "Register"
+        })]
+      })
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RegisterForm);
 
 /***/ }),
 
@@ -5650,6 +5762,130 @@ var Canvas = function Canvas() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Canvas);
+
+/***/ }),
+
+/***/ "./resources/js/components/form/Btn.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/form/Btn.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["children"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var Btn = function Btn(_ref) {
+  var children = _ref.children,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+    className: "mt-4 btn btn-primary",
+    children: children
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Btn);
+
+/***/ }),
+
+/***/ "./resources/js/components/form/Form.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/form/Form.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["action", "children"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var Form = function Form(_ref) {
+  var action = _ref.action,
+      children = _ref.children,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("form", {
+    action: "#",
+    onSubmit: function onSubmit(e) {
+      return action(e);
+    },
+    children: children
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Form);
+
+/***/ }),
+
+/***/ "./resources/js/components/form/Input.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/form/Input.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["name", "label", "type", "value"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+var Input = function Input(_ref) {
+  var name = _ref.name,
+      label = _ref.label,
+      type = _ref.type,
+      value = _ref.value,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "mb-4",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+      htmlFor: name,
+      children: label
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      type: type ? type : "text",
+      name: name,
+      value: value,
+      className: "form-control text-light"
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Input);
 
 /***/ }),
 
@@ -7216,6 +7452,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_canvas_Canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/canvas/Canvas */ "./resources/js/components/canvas/Canvas.js");
 /* harmony import */ var _components_Contacts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Contacts */ "./resources/js/components/Contacts.js");
 /* harmony import */ var _components_Welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Welcome */ "./resources/js/components/Welcome.js");
+/* harmony import */ var _components_LoginForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoginForm */ "./resources/js/components/LoginForm.js");
+/* harmony import */ var _components_RegisterForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/RegisterForm */ "./resources/js/components/RegisterForm.js");
+
+
 
 
 
@@ -7236,6 +7476,18 @@ var routes = [{
   element: _components_canvas_Canvas__WEBPACK_IMPORTED_MODULE_0__["default"],
   exact: true,
   label: 'Canvas',
+  show: true
+}, {
+  path: '/login',
+  element: _components_LoginForm__WEBPACK_IMPORTED_MODULE_3__["default"],
+  exact: true,
+  label: 'Login',
+  show: true
+}, {
+  path: '/register',
+  element: _components_RegisterForm__WEBPACK_IMPORTED_MODULE_4__["default"],
+  exact: true,
+  label: 'Register',
   show: true
 }];
 
