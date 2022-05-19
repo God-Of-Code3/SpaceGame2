@@ -1,6 +1,7 @@
 import { classToColor, temperatureToClass } from "./math/stars";
 import SpaceObject from "./SpaceObject";
 import DrawingObject from "./DrawingObject";
+import c from "./constants";
 
 
 
@@ -15,8 +16,9 @@ class StarObject extends SpaceObject {
 
         this.starClass = temperatureToClass(this.temperature);
         this.props.color = classToColor(this.starClass);
-        this.setDrawingObject();
 
+        this.minRad = c.MIN_STAR_RAD;
+        this.setDrawingObject();
         
         this.objectType = 1;
     }
@@ -33,6 +35,7 @@ class StarObject extends SpaceObject {
             x: this.x,
             y: this.y,
             rad: this.props.rad,
+            minRad: this.minRad,
             color: this.props.color
         });
     }

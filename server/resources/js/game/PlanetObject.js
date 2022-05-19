@@ -1,6 +1,7 @@
 import SpaceObject from "./SpaceObject";
 import {ImageDrawingObject} from "./DrawingObject";
 import { compTypeToText } from "./math/planets";
+import c from "./constants";
 
 
 
@@ -15,6 +16,8 @@ class PlanetObject extends SpaceObject {
 
 
         this.props.image = props.image;
+        this.minRad = c.MIN_PLANET_RAD;
+        
         this.setDrawingObject();
 
         this.objectType = 2;
@@ -36,6 +39,7 @@ class PlanetObject extends SpaceObject {
             rad: this.props.rad,
             color: this.props.color,
             img: this.props.image,
+            minRad: this.minRad,
             rotation: this.props.rotation,
         });
     }

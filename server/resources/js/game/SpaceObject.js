@@ -29,6 +29,9 @@ class SpaceObject {
         this.objectType = 0;
 
         this.name = this.props.name;
+
+        // Min drawing rad
+        this.minRad = 0;
     }
 
     // Getting sidebar information
@@ -130,6 +133,7 @@ class SpaceObject {
             rad: this.props.rad * 2,
             color: this.props.color,
             rotation: this.props.rotation,
+            minRad: this.minRad,
             img: './storage/images/planets/alive-standart/planet.png'
         });
     }
@@ -182,7 +186,7 @@ class SpaceObject {
     // Handling
     handle(cam) {
         let d = (this.x - cam.mouseCoords.x) ** 2 + (this.y - cam.mouseCoords.y) ** 2;
-        if (d < this.props.rad ** 2) {
+        if (d < Math.max(this.props.rad, this.minRad / cam.scale) ** 2) {
             this.state.hover = true;
             cam.setHover(this, true);
         } else {

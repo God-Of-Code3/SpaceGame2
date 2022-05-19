@@ -4,12 +4,14 @@ class DrawingObject {
         this.y = props.y || 0;
         this.rad = props.rad || 20;
         this.rotation = props.rotation;
+        this.minRad = props.minRad || 0;
 
         this.color = props.color || "rgba(255, 255, 255, 1)";
     }
 
     draw(cam) {
         let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.rad);
+        size = Math.max(this.minRad, size);
         cam.drawCircle(x, y, size, this.color, {shadow: {blur: size * 2}});
     }
 }
@@ -26,6 +28,7 @@ class ImageDrawingObject extends DrawingObject {
 
     draw(cam) {
         let {x, y, size} = cam.calcCoordsAndSize(this.x, this.y, this.rad * 2);
+        size = Math.max(this.minRad, size);
         cam.drawImage(this.image, x, y, size, size, this.rotation, this.color, {shadow: {blur: size}});
     }
 }

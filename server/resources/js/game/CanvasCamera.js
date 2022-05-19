@@ -42,6 +42,16 @@ class CanvasCamera {
 
         // Data manager
         this.dataManager = null;
+
+        // Bg stars
+        this.bgStars = [];
+        for (let i = 0; i < 1000; i ++) {
+            this.bgStars.push({
+                x: c.RANDINT(-1000, 1000),
+                y: c.RANDINT(-1000, 1000),
+                z: c.RANDINT(1 / c.MIN_SCALE, c.BG_STARS_DIFF / c.MIN_SCALE),
+            });
+        }
     }
 
     // Set hover action object
@@ -112,7 +122,8 @@ class CanvasCamera {
         this.cnv.addEventListener("wheel", ev => {
             let delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
             this.target.scale *= delta > 0 ? 1 / c.SCROLL_SPEED : c.SCROLL_SPEED;
-
+            
+            this.target.scale = Math.max(this.target.scale, c.MIN_SCALE);
         });
 
         this.cnv.addEventListener("contextmenu", ev => {
@@ -189,6 +200,9 @@ class CanvasCamera {
     fill () {
         this.ctx.fillStyle = c.BG_COLOR;
         this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
+        
+
+        this.drawBackgroundStars();
     }
 
     // Handle events
@@ -302,6 +316,17 @@ class CanvasCamera {
         
         this.ctx.stroke();
         this.ctx.closePath();
+    }
+
+    // Draw background stars
+    drawBackgroundStars() {
+        this.bgStars.forEach(star => {
+            let x = star.x;
+            let y = star.y;
+            x = (star.x - this.x / star.z) * Math.pow(this.scale, 1 / star.z);
+            y = (star.y - this.y / star.z) * Math.pow(this.scale, 1 / star.z);
+            this.drawCircle(x + this.cnv.width / 2, y + this.cnv.height / 2, (1 - star.z / (c.BG_STARS_DIFF / c.MIN_SCALE)) * 1 + 1, `rgba(255, 255, 255, ${(1 - star.z / (c.BG_STARS_DIFF / c.MIN_SCALE)) * 0.6})`);
+        });
     }
 }
 

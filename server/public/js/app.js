@@ -5964,7 +5964,17 @@ var CanvasCamera = /*#__PURE__*/function () {
       focus: null
     }; // Data manager
 
-    this.dataManager = null;
+    this.dataManager = null; // Bg stars
+
+    this.bgStars = [];
+
+    for (var i = 0; i < 1000; i++) {
+      this.bgStars.push({
+        x: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(-1000, 1000),
+        y: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(-1000, 1000),
+        z: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)
+      });
+    }
   } // Set hover action object
 
 
@@ -6039,6 +6049,7 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.cnv.addEventListener("wheel", function (ev) {
         var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
         _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED;
+        _this.target.scale = Math.max(_this.target.scale, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE);
       });
       this.cnv.addEventListener("contextmenu", function (ev) {
         ev.preventDefault();
@@ -6123,6 +6134,7 @@ var CanvasCamera = /*#__PURE__*/function () {
     value: function fill() {
       this.ctx.fillStyle = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_COLOR;
       this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
+      this.drawBackgroundStars();
     } // Handle events
 
   }, {
@@ -6241,6 +6253,21 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.ctx.lineTo(this.cnv.width / 2, this.cnv.height / 2 + offset);
       this.ctx.stroke();
       this.ctx.closePath();
+    } // Draw background stars
+
+  }, {
+    key: "drawBackgroundStars",
+    value: function drawBackgroundStars() {
+      var _this2 = this;
+
+      this.bgStars.forEach(function (star) {
+        var x = star.x;
+        var y = star.y;
+        x = (star.x - _this2.x / star.z) * Math.pow(_this2.scale, 1 / star.z);
+        y = (star.y - _this2.y / star.z) * Math.pow(_this2.scale, 1 / star.z);
+
+        _this2.drawCircle(x + _this2.cnv.width / 2, y + _this2.cnv.height / 2, (1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 1 + 1, "rgba(255, 255, 255, ".concat((1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 0.6, ")"));
+      });
     }
   }]);
 
@@ -6353,6 +6380,7 @@ var DrawingObject = /*#__PURE__*/function () {
     this.y = props.y || 0;
     this.rad = props.rad || 20;
     this.rotation = props.rotation;
+    this.minRad = props.minRad || 0;
     this.color = props.color || "rgba(255, 255, 255, 1)";
   }
 
@@ -6364,6 +6392,7 @@ var DrawingObject = /*#__PURE__*/function () {
           y = _cam$calcCoordsAndSiz.y,
           size = _cam$calcCoordsAndSiz.size;
 
+      size = Math.max(this.minRad, size);
       cam.drawCircle(x, y, size, this.color, {
         shadow: {
           blur: size * 2
@@ -6402,6 +6431,7 @@ var ImageDrawingObject = /*#__PURE__*/function (_DrawingObject) {
           y = _cam$calcCoordsAndSiz2.y,
           size = _cam$calcCoordsAndSiz2.size;
 
+      size = Math.max(this.minRad, size);
       cam.drawImage(this.image, x, y, size, size, this.rotation, this.color, {
         shadow: {
           blur: size
@@ -6432,6 +6462,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
 /* harmony import */ var _math_planets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math/planets */ "./resources/js/game/math/planets.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6462,6 +6493,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
   _inherits(PlanetObject, _SpaceObject);
 
@@ -6486,6 +6518,7 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
     _this.compositionType = props.compositionType; // Composition type (ice, rock and gase) 
 
     _this.props.image = props.image;
+    _this.minRad = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].MIN_PLANET_RAD;
 
     _this.setDrawingObject();
 
@@ -6513,6 +6546,7 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
         rad: this.props.rad,
         color: this.props.color,
         img: this.props.image,
+        minRad: this.minRad,
         rotation: this.props.rotation
       });
     }
@@ -6586,7 +6620,9 @@ var SpaceObject = /*#__PURE__*/function () {
 
     this.scaleValue = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SPACE_OBJECT_SCOPE_SIZE / this.props.rad;
     this.objectType = 0;
-    this.name = this.props.name;
+    this.name = this.props.name; // Min drawing rad
+
+    this.minRad = 0;
   } // Getting sidebar information
 
 
@@ -6691,6 +6727,7 @@ var SpaceObject = /*#__PURE__*/function () {
         rad: this.props.rad * 2,
         color: this.props.color,
         rotation: this.props.rotation,
+        minRad: this.minRad,
         img: './storage/images/planets/alive-standart/planet.png'
       });
     } // Set object rotation
@@ -6758,7 +6795,7 @@ var SpaceObject = /*#__PURE__*/function () {
     value: function handle(cam) {
       var d = Math.pow(this.x - cam.mouseCoords.x, 2) + Math.pow(this.y - cam.mouseCoords.y, 2);
 
-      if (d < Math.pow(this.props.rad, 2)) {
+      if (d < Math.pow(Math.max(this.props.rad, this.minRad / cam.scale), 2)) {
         this.state.hover = true;
         cam.setHover(this, true);
       } else {
@@ -6802,6 +6839,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _math_stars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./math/stars */ "./resources/js/game/math/stars.js");
 /* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6832,6 +6870,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var StarObject = /*#__PURE__*/function (_SpaceObject) {
   _inherits(StarObject, _SpaceObject);
 
@@ -6857,6 +6896,7 @@ var StarObject = /*#__PURE__*/function (_SpaceObject) {
 
     _this.starClass = (0,_math_stars__WEBPACK_IMPORTED_MODULE_0__.temperatureToClass)(_this.temperature);
     _this.props.color = (0,_math_stars__WEBPACK_IMPORTED_MODULE_0__.classToColor)(_this.starClass);
+    _this.minRad = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].MIN_STAR_RAD;
 
     _this.setDrawingObject();
 
@@ -6880,6 +6920,7 @@ var StarObject = /*#__PURE__*/function (_SpaceObject) {
         x: this.x,
         y: this.y,
         rad: this.props.rad,
+        minRad: this.minRad,
         color: this.props.color
       });
     }
@@ -6908,6 +6949,8 @@ var c = {
   SCROLL_SPEED: 1.2,
   CAM_SCROLL_SPEED: 1.07,
   CAM_MOVE_SPEED: 50,
+  MIN_SCALE: 0.01,
+  BG_STARS_DIFF: 6,
   // Colors
   BG_COLOR: "#00010f",
   ORBIT_COLOR: "rgba(255, 255, 255, 0.3)",
@@ -6921,12 +6964,18 @@ var c = {
   FOCUS_LINE_WIDTH: 15,
   HOVER_OFFSET: 6,
   FOCUS_OFFSET: 40,
+  MIN_STAR_RAD: 3,
+  MIN_PLANET_RAD: 2,
   // Special
   SPACE_OBJECT_SCOPE_SIZE: 200,
   OBJECT_TYPES: {
     0: ["Object", "Объект"],
     1: ["Star", "Звезда"],
     2: ["Planet", "Планета"]
+  },
+  // Random
+  RANDINT: function RANDINT(min, max) {
+    return Math.trunc((max - min + 1) * Math.random()) + min;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (c);
