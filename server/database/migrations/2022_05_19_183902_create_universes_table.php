@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\SpaceObjectType;
-use App\Models\Universe;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpaceObjectsTable extends Migration
+class CreateUniversesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,16 +14,14 @@ class CreateSpaceObjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('space_objects', function (Blueprint $table) {
+        Schema::create('universes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
             $table->string("name");
-            $table->foreignIdFor(Universe::class);
-            $table->float("x", 20, 8);
-            $table->float("y", 20, 8);
-            $table->float("rad", 20, 8);
-            $table->foreignIdFor(SpaceObjectType::class);
+            $table->string("description");
+
+            $table->foreignIdFor(User::class);
         });
     }
 
@@ -35,6 +32,6 @@ class CreateSpaceObjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('space_objects');
+        Schema::dropIfExists('universes');
     }
 }
