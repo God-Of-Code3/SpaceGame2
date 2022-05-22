@@ -5,11 +5,21 @@ import Btn from './form/Btn';
 import Input from './form/Input';
 
 const LoginForm = () => {
+
+    const nav = useNavigate();
+    const handle = r => {
+        if (r.status == "OK") {
+            setToken(r.content.token);
+
+            nav("/home");
+        }
+    }
+
     return (
         <Container>
             <h1>Login</h1>
             <div className="bg-dark text-light p-4 rounded mt-5">
-                <Form action={e => console.log(e)}>
+                <Form action={handle}>
                     <Input name={"email"} label={"Email:"}></Input>
                     <Input name={"password"} label={"Password:"} type={"password"}></Input>
                     <Btn>Login</Btn>

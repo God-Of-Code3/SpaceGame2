@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -28,11 +29,13 @@ class UserController extends Controller
         $user->name = $req->input("name");
         $user->email = $req->input("email");
         $user->password = $req->input("password");
+        $user->api_token = Str::random(60);
 
         $user->save();
 
         $resp = ApiController::getResp();
         $resp->addFormAlert("success", "User added");
+        $resp->setContent(["token" => $user->api_token]);
         $resp->echo();
     }
 }

@@ -5255,6 +5255,33 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/api/Client.js":
+/*!************************************!*\
+  !*** ./resources/js/api/Client.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getToken": () => (/* binding */ getToken),
+/* harmony export */   "setToken": () => (/* binding */ setToken)
+/* harmony export */ });
+/* harmony import */ var react_client_session__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-client-session */ "./node_modules/react-client-session/dist/App.js");
+
+
+var setToken = function setToken(token) {
+  react_client_session__WEBPACK_IMPORTED_MODULE_0__.ReactSession.set("token", token);
+};
+
+var getToken = function getToken() {
+  return react_client_session__WEBPACK_IMPORTED_MODULE_0__.ReactSession.get("token");
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/js/api/FormHandler.js":
 /*!*****************************************!*\
   !*** ./resources/js/api/FormHandler.js ***!
@@ -5358,10 +5385,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NavBar */ "./resources/js/components/NavBar.js");
 /* harmony import */ var _AppRouter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AppRouter */ "./resources/js/components/AppRouter.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_client_session__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-client-session */ "./node_modules/react-client-session/dist/App.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -5369,17 +5397,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+react_client_session__WEBPACK_IMPORTED_MODULE_4__.ReactSession.setStoreType("sessionStorage");
 
 function App() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.BrowserRouter, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_NavBar__WEBPACK_IMPORTED_MODULE_2__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_AppRouter__WEBPACK_IMPORTED_MODULE_3__["default"], {})]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_NavBar__WEBPACK_IMPORTED_MODULE_2__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_AppRouter__WEBPACK_IMPORTED_MODULE_3__["default"], {})]
   });
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
 if (document.getElementById('app')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(App, {}), document.getElementById('app'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(App, {}), document.getElementById('app'));
 }
 
 /***/ }),
@@ -5483,6 +5513,59 @@ var Container = function Container(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Home.js":
+/*!*****************************************!*\
+  !*** ./resources/js/components/Home.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _api_Client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/Client */ "./resources/js/api/Client.js");
+/* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Container */ "./resources/js/components/Container.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var Home = function Home() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      tk = _useState2[0],
+      setTk = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setTk((0,_api_Client__WEBPACK_IMPORTED_MODULE_1__.getToken)());
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h1", {
+      children: ["Token: ", tk]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+
+/***/ }),
+
 /***/ "./resources/js/components/LoginForm.js":
 /*!**********************************************!*\
   !*** ./resources/js/components/LoginForm.js ***!
@@ -5509,15 +5592,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var LoginForm = function LoginForm() {
+  var nav = useNavigate();
+
+  var handle = function handle(r) {
+    if (r.status == "OK") {
+      setToken(r.content.token);
+      nav("/home");
+    }
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
       children: "Login"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "bg-dark text-light p-4 rounded mt-5",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: function action(e) {
-          return console.log(e);
-        },
+        action: handle,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
           name: "email",
           label: "Email:"
@@ -5619,7 +5709,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/Form */ "./resources/js/components/form/Form.js");
 /* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/Input */ "./resources/js/components/form/Input.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../api/Client */ "./resources/js/api/Client.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
@@ -5629,27 +5723,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var RegisterForm = function RegisterForm() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
+  var nav = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
+
+  var handle = function handle(r) {
+    if (r.status == "OK") {
+      (0,_api_Client__WEBPACK_IMPORTED_MODULE_5__.setToken)(r.content.token);
+      nav("/home");
+    }
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h1", {
       children: "Registration"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "bg-dark text-light p-4 rounded mt-5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         action: "/api/user",
-        callback: function callback(r) {
-          return console.log(r);
-        },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        callback: handle,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "name",
           label: "Name:"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "email",
           label: "Email:"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "password",
           label: "Password:",
           type: "password"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
           children: "Register"
         })]
       })
@@ -7532,6 +7633,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Welcome */ "./resources/js/components/Welcome.js");
 /* harmony import */ var _components_LoginForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoginForm */ "./resources/js/components/LoginForm.js");
 /* harmony import */ var _components_RegisterForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/RegisterForm */ "./resources/js/components/RegisterForm.js");
+/* harmony import */ var _components_Home__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Home */ "./resources/js/components/Home.js");
+
 
 
 
@@ -7540,6 +7643,12 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: '',
   element: _components_Welcome__WEBPACK_IMPORTED_MODULE_2__["default"],
+  exact: true,
+  label: 'Welcome',
+  show: true
+}, {
+  path: '/home',
+  element: _components_Home__WEBPACK_IMPORTED_MODULE_5__["default"],
   exact: true,
   label: 'Home',
   show: true
@@ -31031,6 +31140,244 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+
+/***/ "./node_modules/react-client-session/dist/App.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/react-client-session/dist/App.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+Object.defineProperty(exports, "ReactSession", ({
+  enumerable: true,
+  get: function get() {
+    return _ReactSession["default"];
+  }
+}));
+
+var _ReactSession = _interopRequireDefault(__webpack_require__(/*! ./ReactSession */ "./node_modules/react-client-session/dist/ReactSession.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+/***/ }),
+
+/***/ "./node_modules/react-client-session/dist/ReactSession.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-client-session/dist/ReactSession.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var ReactSession = function () {
+  var SESSION_OBJECT_NAME = "__react_session__";
+  var COOKIE_EXPIRATION_DAYS = 7; // TODO: Make this a prop?
+
+  var SessionWriter = null;
+  var sessionData = {};
+
+  var get = function get(key) {
+    return SessionWriter.get(key);
+  };
+
+  var set = function set(key, value) {
+    SessionWriter.set(key, value);
+  };
+
+  var remove = function remove(key) {
+    SessionWriter.remove(key);
+  };
+
+  var setStoreType = function setStoreType(storeType) {
+    if (!['memory', 'cookie', 'localstorage', 'sessionstorage'].includes(storeType.toLowerCase())) {
+      throw "Unknown store type";
+    }
+
+    SessionWriter = getSessionWriter(storeType);
+  };
+
+  var getSessionWriter = function getSessionWriter(storeType) {
+    switch (storeType.toLowerCase()) {
+      case "memory":
+        return MemoryWriter;
+
+      case "cookie":
+        return CookieWriter;
+
+      case "localstorage":
+        return LocalStorageWriter;
+
+      case "sessionstorage":
+        return SessionStorageWriter;
+
+      default:
+        return MemoryWriter;
+    }
+  };
+
+  var MemoryWriter = {
+    set: function set(key, value) {
+      sessionData[key] = value;
+    },
+    get: function get(key) {
+      return sessionData[key];
+    },
+    remove: function remove(key) {
+      if (sessionData.hasOwnProperty(key)) {
+        delete sessionData[key];
+      }
+    }
+  };
+  var LocalStorageWriter = {
+    set: function set(key, value) {
+      setItem(localStorage, key, value);
+    },
+    get: function get(key) {
+      return getItem(localStorage, key);
+    },
+    remove: function remove(key) {
+      removeItem(localStorage, key);
+    }
+  };
+  var SessionStorageWriter = {
+    set: function set(key, value) {
+      setItem(sessionStorage, key, value);
+    },
+    get: function get(key) {
+      return getItem(sessionStorage, key);
+    },
+    remove: function remove(key) {
+      removeItem(sessionStorage, key);
+    }
+  };
+  var CookieWriter = {
+    set: function set(key, value) {
+      setCookieParam(key, value, COOKIE_EXPIRATION_DAYS);
+    },
+    get: function get(key) {
+      return getCookieParam(key);
+    },
+    remove: function remove(key) {
+      deleteCookieParam(key);
+    }
+  };
+  SessionWriter = MemoryWriter;
+
+  var setItem = function setItem(storageObject, key, value) {
+    var item = getStorageItem(storageObject);
+    item[key] = value;
+    setStorageItem(storageObject, item);
+  };
+
+  var getItem = function getItem(storageObject, key) {
+    var item = getStorageItem(storageObject);
+    return item[key];
+  };
+
+  var removeItem = function removeItem(storageObject, key) {
+    var item = getStorageItem(storageObject);
+    delete item[key];
+    setStorageItem(storageObject, item);
+  };
+
+  var getStorageItem = function getStorageItem(storageObject) {
+    var item = storageObject.getItem(SESSION_OBJECT_NAME);
+    return item ? JSON.parse(item) : {};
+  };
+
+  var setStorageItem = function setStorageItem(storageObject, item) {
+    storageObject.setItem(SESSION_OBJECT_NAME, JSON.stringify(item));
+  };
+
+  var getUpdatedTime = function getUpdatedTime(numDays) {
+    var now = new Date();
+    now.setTime(now.getTime() + numDays * 24 * 60 * 60 * 1000);
+    return now.toUTCString();
+  };
+
+  var setCookieParam = function setCookieParam(key, value, numDays) {
+    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var existingCookie = getCookie(SESSION_OBJECT_NAME);
+    var cookieJson = {};
+
+    if (existingCookie) {
+      cookieJson = JSON.parse(existingCookie);
+    }
+
+    cookieJson[key] = value;
+    var cookieStr = SESSION_OBJECT_NAME + "=" + JSON.stringify(cookieJson) + ";";
+    cookieStr += expires + ";path=/";
+    document.cookie = cookieStr;
+  };
+
+  var getCookieParam = function getCookieParam(key) {
+    var cookieParam = JSON.parse(getCookie(SESSION_OBJECT_NAME));
+    return cookieParam[key];
+  };
+
+  var getCookie = function getCookie(cookieName) {
+    var name = cookieName + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookies = decodedCookie.split(';');
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+
+      while (cookie.charAt(0) == ' ') {
+        cookie = cookie.substring(1);
+      }
+
+      if (cookie.indexOf(name) == 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+
+    return "";
+  };
+
+  var deleteCookieParam = function deleteCookieParam(key) {
+    var expires = "expires=" + getUpdatedTime(COOKIE_EXPIRATION_DAYS);
+    var existingCookie = getCookie(SESSION_OBJECT_NAME);
+    var cookieJson = {};
+
+    if (existingCookie) {
+      cookieJson = JSON.parse(existingCookie);
+      delete cookieJson[key];
+    }
+
+    var cookieStr = SESSION_OBJECT_NAME + "=" + JSON.stringify(cookieJson) + ";";
+    cookieStr += expires + ";path=/";
+    document.cookie = cookieStr;
+  };
+
+  return {
+    getCookie: getCookie,
+    setStoreType: setStoreType,
+    remove: remove,
+    get: get,
+    set: set
+  };
+}();
+
+var _default = ReactSession;
+exports["default"] = _default;
 
 /***/ }),
 
