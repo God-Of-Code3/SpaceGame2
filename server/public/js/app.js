@@ -5255,6 +5255,37 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/api/FormHandler.js":
+/*!*****************************************!*\
+  !*** ./resources/js/api/FormHandler.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchForm": () => (/* binding */ fetchForm)
+/* harmony export */ });
+var fetchForm = function fetchForm(to, method, f, messages, setMessages) {
+  var callback = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : function () {};
+  fetch(to, {
+    method: method,
+    body: new FormData(f),
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  }).then(function (r) {
+    return r.json();
+  }).then(function (r) {
+    setMessages(r.formAlerts);
+    callback(r);
+  });
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -5604,9 +5635,9 @@ var RegisterForm = function RegisterForm() {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "bg-dark text-light p-4 rounded mt-5",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: function action(e) {
-          e.preventDefault();
-          console.log(e);
+        action: "/api/user",
+        callback: function callback(r) {
+          return console.log(r);
         },
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "name",
@@ -5813,8 +5844,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["action", "children"];
+/* harmony import */ var _api_FormHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/FormHandler */ "./resources/js/api/FormHandler.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["action", "callback", "children"];
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -5823,17 +5867,51 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
+
 var Form = function Form(_ref) {
   var action = _ref.action,
+      callback = _ref.callback,
       children = _ref.children,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("form", {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      messages = _useState2[0],
+      setMessages = _useState2[1];
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
     action: "#",
     onSubmit: function onSubmit(e) {
-      return action(e);
+      e.preventDefault();
+      (0,_api_FormHandler__WEBPACK_IMPORTED_MODULE_1__.fetchForm)(action, "POST", e.target, messages, setMessages, callback);
     },
-    children: children
+    children: [children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "mt-3",
+      children: messages ? messages.map(function (msg) {
+        var cls = {
+          'error': 'danger',
+          'warning': 'warning',
+          'success': 'success',
+          'primary': 'primary'
+        }[msg.type] || 'primary';
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "mt-2 alert alert-".concat(cls, " alert-dismissible fade show "),
+          role: "alert",
+          children: [msg.text, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            type: "button",
+            className: "btn-close",
+            "data-dismiss": "alert",
+            "aria-label": "Close",
+            onClick: function onClick() {
+              return setMessages(messages.filter(function (mes) {
+                return mes.key != msg.key;
+              }));
+            }
+          })]
+        }, msg.key);
+      }) : ""
+    })]
   });
 };
 

@@ -10,15 +10,29 @@ class UserController extends Controller
     // function getUsers() {
 
     // }
-    function create()
+    function create(Request $req)
     {
-        // $user = new User;
-        // $user->name = "Sanchopansa";
-        // $user->email = "god@lifegame.su";
-        // $user->password = "123";
+        $email = $req->input('email');
+        $user_with_this_email = User::where('email', $email)->first();
 
-        // $user->save();
-        // dd($user);
-        echo "<a href='" . asset('storage/images/1.png') . "'>Img</a>";
+        if ($user_with_this_email) {
+            $resp = ApiController::getResp();
+            $resp->setMessage("Email already used");
+            $resp->setStatus("Error");
+            $resp->addFormAlert("error", "Email already used");
+            $resp->echo();
+            return;
+        }
+
+        $user = new User();
+        $user->name = $req->input("name");
+        $user->email = $req->input("email");
+        $user->password = $req->input("password");
+
+        $user->save();
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert("success", "User added");
+        $resp->echo();
     }
 }

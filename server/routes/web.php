@@ -19,6 +19,7 @@ Route::get('/{path?}', function () {
     return view('welcome');
 })->where('path', '^((?!api).)*$');
 
-Route::get('/api/users', [App\Http\Controllers\UserController::class, 'create'])->name('create');
+// Route::get('/api/users', [App\Http\Controllers\UserController::class, 'create'])->name('create');
+Route::post('/api/user', [App\Http\Controllers\UserController::class, 'create'])->name('create');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
