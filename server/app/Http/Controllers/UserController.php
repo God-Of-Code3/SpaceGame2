@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -11,31 +16,125 @@ class UserController extends Controller
     // function getUsers() {
 
     // }
-    function create(Request $req)
-    {
-        $email = $req->input('email');
-        $user_with_this_email = User::where('email', $email)->first();
 
-        if ($user_with_this_email) {
-            $resp = ApiController::getResp();
-            $resp->setMessage("Email already used");
-            $resp->setStatus("Error");
-            $resp->addFormAlert("error", "Email already used");
+    public function register(Request $request)
+    {
+        $resp = ApiController::getResp();
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $resp->setFieldErrors($validator->errors()->get('*'));
+
+            // foreach ($validator->errors()->get() as $error) {
+
+            //     $resp->addFormAlert("error", $error);
+            // }
+            $resp->fail();
             $resp->echo();
             return;
         }
-
-        $user = new User();
-        $user->name = $req->input("name");
-        $user->email = $req->input("email");
-        $user->password = $req->input("password");
-        $user->api_token = Str::random(60);
-
-        $user->save();
-
-        $resp = ApiController::getResp();
-        $resp->addFormAlert("success", "User added");
-        $resp->setContent(["token" => $user->api_token]);
+        $user = $this->create($request->all());
+        $this->guard()->login($user);
+        // return response()->json([
+        //     'user' => $user,
+        //     'message' => 'registration successful'
+        // ], 200);
+        $token = $user->createToken(Str::random(60));
+        $resp->addFormAlert("success", "registration successful");
+        $resp->setContent([
+            'token' => $token->plainTextToken
+        ]);
         $resp->echo();
     }
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            //'password' => ['required', 'string', 'min:4', 'confirmed'],
+            // NO PASSWORD CONFIRMATION
+            'password' => ['required', 'string', 'min:4'],
+        ]);
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\User
+     */
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ]);
+    }
+    protected function guard()
+    {
+        return Auth::guard();
+    }
+
+    public function login(Request $request)
+    {
+        $resp = ApiController::getResp();
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            $authuser = auth()->user();
+            $token = $authuser->createToken(Str::random(60));
+            $resp->addFormAlert('success', 'Login successful');
+            $resp->setContent([
+                'token' => $token->plainTextToken
+            ]);
+        } else {
+
+            $resp->fail();
+            $resp->addFormAlert('error', 'Invalid email or password');
+        }
+
+        $resp->echo();
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json(['message' => 'Logged Out'], 200);
+    }
 }
+// function create(Request $req)
+// {
+//     $email = $req->input('email');
+//     $user_with_this_email = User::where('email', $email)->first();
+
+//     if ($user_with_this_email) {
+//         $resp = ApiController::getResp();
+//         $resp->setMessage("Email already used");
+//         $resp->setStatus("Error");
+//         $resp->addFormAlert("error", "Email already used");
+//         $resp->echo();
+//         return;
+//     }
+
+//     $user = new User();
+//     $user->name = $req->input("name");
+//     $user->email = $req->input("email");
+//     $user->password = $req->input("password");
+//     $user->api_token = Str::random(60);
+
+//     $user->save();
+//     $this->guard()->login($user);
+
+//     $resp = ApiController::getResp();
+//     $resp->addFormAlert("success", "User added");
+//     $resp->setContent(["token" => $user->api_token]);
+//     $resp->echo();
+// }

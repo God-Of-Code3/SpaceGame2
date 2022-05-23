@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { fetchForm } from '../../api/FormHandler';
+
+export const fieldErrorsContext = createContext();
 
 const Form = ({action, callback, children, ...props}) => {
 
     const [messages, setMessages] = useState([]);
-
+    const [fieldErrors, setFieldErrors] = useState({});
     return (
         <form action="#" onSubmit={e => {
                 e.preventDefault();
-                fetchForm(action, "POST", e.target, messages, setMessages, callback);
+                fetchForm(action, "POST", e.target, messages, setMessages, setFieldErrors, callback);
             }}>
-            {children}
+            <fieldErrorsContext.Provider value={{fieldErrors, setFieldErrors}}>
+                
+                {children}
+            </fieldErrorsContext.Provider>
             <div className="mt-3">
                 {
                     messages 

@@ -1,4 +1,4 @@
-const fetchForm = (to, method, f, messages, setMessages, callback=()=>{}) => {
+const fetchForm = (to, method, f, messages, setMessages, setFieldErrors, callback=()=>{}) => {
     fetch(to, {
         method: method,
         body: new FormData(f),
@@ -7,6 +7,7 @@ const fetchForm = (to, method, f, messages, setMessages, callback=()=>{}) => {
         }
     }).then(r => r.json()).then(r => {
         setMessages(r.formAlerts);
+        setFieldErrors(r.fieldErrors);
         callback(r);
     });
 }

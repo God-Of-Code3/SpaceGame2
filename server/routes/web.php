@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/{path?}', function () {
     return view('welcome');
 })->where('path', '^((?!api).)*$');
 
 // Route::get('/api/users', [App\Http\Controllers\UserController::class, 'create'])->name('create');
-Route::post('/api/user', [App\Http\Controllers\UserController::class, 'create'])->name('create');
-Route::post('/api/auth', [App\Http\Controllers\UserController::class, 'auth'])->name('auth');
+// Route::post('/api/user', [App\Http\Controllers\UserController::class, 'create'])->name('create');
+// Route::post('/api/auth', [App\Http\Controllers\UserController::class, 'auth'])->name('auth');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

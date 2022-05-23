@@ -5293,8 +5293,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchForm": () => (/* binding */ fetchForm)
 /* harmony export */ });
-var fetchForm = function fetchForm(to, method, f, messages, setMessages) {
-  var callback = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : function () {};
+var fetchForm = function fetchForm(to, method, f, messages, setMessages, setFieldErrors) {
+  var callback = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : function () {};
   fetch(to, {
     method: method,
     body: new FormData(f),
@@ -5305,6 +5305,7 @@ var fetchForm = function fetchForm(to, method, f, messages, setMessages) {
     return r.json();
   }).then(function (r) {
     setMessages(r.formAlerts);
+    setFieldErrors(r.fieldErrors);
     callback(r);
   });
 };
@@ -5582,7 +5583,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./form/Form */ "./resources/js/components/form/Form.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form/Btn */ "./resources/js/components/form/Btn.js");
 /* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./form/Input */ "./resources/js/components/form/Input.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _api_Client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../api/Client */ "./resources/js/api/Client.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
@@ -5592,30 +5597,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var LoginForm = function LoginForm() {
-  var nav = useNavigate();
+  var nav = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
 
   var handle = function handle(r) {
     if (r.status == "OK") {
-      setToken(r.content.token);
+      (0,_api_Client__WEBPACK_IMPORTED_MODULE_5__.setToken)(r.content.token);
       nav("/home");
     }
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h1", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h1", {
       children: "Login"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "bg-dark text-light p-4 rounded mt-5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: handle,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        action: "/api/login",
+        callback: handle,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
           name: "email",
           label: "Email:"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
           name: "password",
           label: "Password:",
           type: "password"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
           children: "Login"
         })]
       })
@@ -5730,6 +5736,8 @@ var RegisterForm = function RegisterForm() {
       (0,_api_Client__WEBPACK_IMPORTED_MODULE_5__.setToken)(r.content.token);
       nav("/home");
     }
+
+    console.log(r);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5738,7 +5746,7 @@ var RegisterForm = function RegisterForm() {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "bg-dark text-light p-4 rounded mt-5",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: "/api/user",
+        action: "/api/register",
         callback: handle,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "name",
@@ -5942,7 +5950,8 @@ var Btn = function Btn(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "fieldErrorsContext": () => (/* binding */ fieldErrorsContext)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _api_FormHandler__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/FormHandler */ "./resources/js/api/FormHandler.js");
@@ -5969,6 +5978,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+var fieldErrorsContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
 
 var Form = function Form(_ref) {
   var action = _ref.action,
@@ -5981,13 +5991,24 @@ var Form = function Form(_ref) {
       messages = _useState2[0],
       setMessages = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      fieldErrors = _useState4[0],
+      setFieldErrors = _useState4[1];
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("form", {
     action: "#",
     onSubmit: function onSubmit(e) {
       e.preventDefault();
-      (0,_api_FormHandler__WEBPACK_IMPORTED_MODULE_1__.fetchForm)(action, "POST", e.target, messages, setMessages, callback);
+      (0,_api_FormHandler__WEBPACK_IMPORTED_MODULE_1__.fetchForm)(action, "POST", e.target, messages, setMessages, setFieldErrors, callback);
     },
-    children: [children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(fieldErrorsContext.Provider, {
+      value: {
+        fieldErrors: fieldErrors,
+        setFieldErrors: setFieldErrors
+      },
+      children: children
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "mt-3",
       children: messages ? messages.map(function (msg) {
         var cls = {
@@ -6032,12 +6053,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/components/form/Form.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["name", "label", "type", "value"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
 
 
 
@@ -6050,17 +6074,28 @@ var Input = function Input(_ref) {
       value = _ref.value,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Form__WEBPACK_IMPORTED_MODULE_1__.fieldErrorsContext),
+      fieldErrors = _useContext.fieldErrors;
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(fieldErrors, fieldErrors[name]);
+  }, [fieldErrors]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "mb-4",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       htmlFor: name,
       children: label
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
       type: type ? type : "text",
       name: name,
       value: value,
       className: "form-control text-light"
-    })]
+    }), fieldErrors[name] ? fieldErrors[name].map(function (err) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "text-danger",
+        children: err
+      });
+    }) : ""]
   });
 };
 

@@ -12,7 +12,8 @@ class Response
             "status" => "OK",
             "message" => "",
             "content" => [],
-            "formAlerts" => []
+            "formAlerts" => [],
+            "fieldErrors" => [],
         ];
     }
 
@@ -29,6 +30,16 @@ class Response
     function setStatus($status)
     {
         $this->content["status"] = $status;
+    }
+
+    function fail()
+    {
+        $this->content['status'] = "Error";
+    }
+
+    function setFieldErrors($errors)
+    {
+        $this->content['fieldErrors'] = $errors;
     }
 
     function addFormAlert($type, $text)
