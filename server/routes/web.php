@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{path?}', function () {
     return view('welcome');
-})->where('path', '^((?!api).)*$');
+})->where('path', '^((?!api|sanctum).)*$');
 
 // Route::get('/api/users', [App\Http\Controllers\UserController::class, 'create'])->name('create');
 // Route::post('/api/user', [App\Http\Controllers\UserController::class, 'create'])->name('create');

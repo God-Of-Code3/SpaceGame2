@@ -5314,6 +5314,47 @@ var fetchForm = function fetchForm(to, method, f, messages, setMessages, setFiel
 
 /***/ }),
 
+/***/ "./resources/js/api/Reqeust.js":
+/*!*************************************!*\
+  !*** ./resources/js/api/Reqeust.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Client */ "./resources/js/api/Client.js");
+
+
+var request = function request(to, params, callback) {
+  var method = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "POST";
+  var fd = new FormData();
+
+  for (var key in params) {
+    fd.append(key, params[key]);
+  }
+
+  fetch(to, {
+    method: method,
+    body: method == "POST" ? fd : null,
+    headers: {
+      'Accept': 'application/json',
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // 'Authorization': `Bearer ${getToken()}`
+
+    }
+  }).then(function (r) {
+    return r.json();
+  }).then(function (r) {
+    callback(r);
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (request);
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -5528,7 +5569,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _api_Client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/Client */ "./resources/js/api/Client.js");
 /* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Container */ "./resources/js/components/Container.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Reqeust__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/Reqeust */ "./resources/js/api/Reqeust.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -5547,19 +5589,43 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Home = function Home() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
       tk = _useState2[0],
       setTk = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      user = _useState4[0],
+      setUser = _useState4[1];
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setTk((0,_api_Client__WEBPACK_IMPORTED_MODULE_1__.getToken)());
+    (0,_api_Reqeust__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/user", {}, function (r) {
+      if (r.message) {
+        setUser({
+          name: "Unauthorized",
+          email: "----"
+        });
+      } else {
+        setUser(r);
+      }
+    }, "GET");
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h1", {
-      children: ["Token: ", tk]
-    })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "bg-dark text-light p-4 rounded mt-5",
+      children: user ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+          children: user.name
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+          className: "text-muted mt-2",
+          children: user.email
+        })]
+      }) : null
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {})]
   });
 };
 
@@ -5601,7 +5667,6 @@ var LoginForm = function LoginForm() {
 
   var handle = function handle(r) {
     if (r.status == "OK") {
-      (0,_api_Client__WEBPACK_IMPORTED_MODULE_5__.setToken)(r.content.token);
       nav("/home");
     }
   };
@@ -5733,7 +5798,6 @@ var RegisterForm = function RegisterForm() {
 
   var handle = function handle(r) {
     if (r.status == "OK") {
-      (0,_api_Client__WEBPACK_IMPORTED_MODULE_5__.setToken)(r.content.token);
       nav("/home");
     }
 

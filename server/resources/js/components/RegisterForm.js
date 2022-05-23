@@ -10,7 +10,6 @@ const RegisterForm = () => {
     const nav = useNavigate();
     const handle = r => {
         if (r.status == "OK") {
-            setToken(r.content.token);
 
             nav("/home");
         }

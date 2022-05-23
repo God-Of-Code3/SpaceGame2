@@ -1,17 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../api/Client';
 import Container from './Container';
+import request from '../api/Reqeust';
 
 const Home = () => {
     const [tk, setTk] = useState("");
+    const [user, setUser] = useState({});
 
     useEffect(() => {
-        setTk(getToken());
+        request("/api/user", {}, r => {
+            if (r.message) {
+                setUser({
+                    name: "Unauthorized",
+                    email: "----"
+                })
+            } else {
+                setUser(r);
+            }
+        }, "GET");
     }, []);
 
     return (
         <Container>
-            <h1>Token: {tk}</h1> 
+            <div className="bg-dark text-light p-4 rounded mt-5">
+                {
+                    user ? 
+
+                        <div className="">
+                            <h1>{user.name}</h1>
+                            <p className="text-muted mt-2">{user.email}</p>
+                        </div>
+                        
+                    : null
+                }
+            </div>
+            <h1></h1> 
         </Container>
     );
 };

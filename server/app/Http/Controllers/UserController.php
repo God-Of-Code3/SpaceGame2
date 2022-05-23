@@ -39,11 +39,7 @@ class UserController extends Controller
         //     'user' => $user,
         //     'message' => 'registration successful'
         // ], 200);
-        $token = $user->createToken(Str::random(60));
         $resp->addFormAlert("success", "registration successful");
-        $resp->setContent([
-            'token' => $token->plainTextToken
-        ]);
         $resp->echo();
     }
     /**
@@ -90,11 +86,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             $authuser = auth()->user();
-            $token = $authuser->createToken(Str::random(60));
             $resp->addFormAlert('success', 'Login successful');
-            $resp->setContent([
-                'token' => $token->plainTextToken
-            ]);
         } else {
 
             $resp->fail();
