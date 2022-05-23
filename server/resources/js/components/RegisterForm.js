@@ -3,7 +3,6 @@ import Container from './Container';
 import Form from './form/Form';
 import Input from './form/Input';
 import Btn from './form/Btn';
-import { getToken, setToken } from '../api/Client';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
@@ -13,7 +12,6 @@ const RegisterForm = () => {
 
             nav("/home");
         }
-        console.log(r);
     }
 
     return (

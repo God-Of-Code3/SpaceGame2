@@ -24,3 +24,4 @@ Route::get('/{path?}', function () {
 // Route::post('/api/auth', [App\Http\Controllers\UserController::class, 'auth'])->name('auth');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/login')->name('login');
