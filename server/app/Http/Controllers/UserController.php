@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,12 @@ class UserController extends Controller
             return;
         }
         $user = $this->create($request->all());
+        $user = User::find($user['id']);
+        $role = Role::find($user['role_id']);
+        $user['role'] = $role;
+        $resp->setContent([
+            "user" => $user
+        ]);
         $this->guard()->login($user);
         // return response()->json([
         //     'user' => $user,
@@ -86,6 +93,11 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             $authuser = auth()->user();
+            $role = Role::find($authuser['role_id']);
+            $authuser['role'] = $role;
+            $resp->setContent([
+                "user" => $authuser
+            ]);
             $resp->addFormAlert('success', 'Login successful');
         } else {
 

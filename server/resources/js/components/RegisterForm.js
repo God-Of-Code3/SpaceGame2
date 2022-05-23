@@ -4,12 +4,16 @@ import Form from './form/Form';
 import Input from './form/Input';
 import Btn from './form/Btn';
 import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { authContext } from './App';
 
 const RegisterForm = () => {
     const nav = useNavigate();
+    const {setAuth} = useContext(authContext);
+
     const handle = r => {
         if (r.status == "OK") {
-
+            setAuth(r.content.user.role.level);
             nav("/home");
         }
     }

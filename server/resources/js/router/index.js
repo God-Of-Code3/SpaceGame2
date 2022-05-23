@@ -5,6 +5,7 @@ import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
 import Home from "../components/Home";
 import Profile from "../components/Profile";
+import Logout from "../components/Logout";
 
 
 export const routes = {
@@ -21,7 +22,7 @@ export const routes = {
         {path: '/home', element: Home, exact: true, label: 'Home', show: true},
         {path: '/dashboard', element: Contacts, exact: true, label: 'Dashboard', show: true},
         {path: '/profile', element: Profile, exact: true, label: 'Profile', show: true},
-        {path: '/logout', element: LoginForm, exact: true, label: 'Logout', show: true},
+        {path: '/logout', element: Logout, exact: true, label: 'Logout', show: true},
     ],
     2: [
 
@@ -30,6 +31,11 @@ export const routes = {
 
     ],
     4: [
-
+        {path: '', element: Welcome, exact: true, label: 'Welcome', show: true},
+        {path: '/home', element: Home, exact: true, label: 'Home', show: true},
+        {path: '/dashboard', element: Contacts, exact: true, label: 'Dashboard', show: true},
+        {path: '/content', element: Contacts, exact: true, label: 'Content', show: true},
+        {path: '/profile', element: Profile, exact: true, label: 'Profile', show: true},
+        {path: '/logout', element: Logout, exact: true, label: 'Logout', show: true},
     ]
 }
