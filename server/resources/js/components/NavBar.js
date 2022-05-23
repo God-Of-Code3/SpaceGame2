@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../router';
 
-const NavBar = () => {
+const NavBar = ({auth, ...props}) => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -14,7 +14,7 @@ const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     {
-                        routes.map((route, i) => 
+                        routes[auth].map((route, i) => 
                             <li className="nav-item">
                                 <Link key={i} className="nav-link" to={route.path}>{route.label}</Link>
                             </li>

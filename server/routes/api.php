@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Role;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +18,11 @@ use App\Http\Controllers\UserController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $userData = $request->user();
+    $user = User::find($userData['id']);
+    $role = Role::find($user['role_id']);
+    $user['role'] = $role;
+    return $user;
 });
 
 

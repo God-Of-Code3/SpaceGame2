@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getToken } from '../api/Client';
 import Container from './Container';
-import request from '../api/Reqeust';
+import request from '../api/Request';
 
 const Home = () => {
-    const [tk, setTk] = useState("");
     const [user, setUser] = useState({});
 
     useEffect(() => {

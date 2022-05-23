@@ -1,4 +1,3 @@
-import { getToken } from "./Client";
 
 const request = (to, params, callback, method="POST") => {
     let fd = new FormData();

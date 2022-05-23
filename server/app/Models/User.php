@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         $this->attributes['api_token'] = Hash::make($value);
     }
+
+    public function role()
+    {
+        return $this->hasOne(Role::class);
+    }
 }
