@@ -17,7 +17,7 @@ const LoginForm = () => {
             
             console.log(r);
             setAuth(r.content.user.role.level);
-            nav("/home");
+            nav("/");
         }
     }
 

@@ -1,38 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import Container from './Container';
-import request from '../api/Request';
 
 const Home = () => {
-    const [user, setUser] = useState({});
-
-    useEffect(() => {
-        request("/api/user", {}, r => {
-            if (r.message) {
-                setUser({
-                    name: "Unauthorized",
-                    email: "----"
-                })
-            } else {
-                setUser(r);
-            }
-        }, "GET");
-    }, []);
 
     return (
         <Container>
-            <div className="bg-dark text-light p-4 rounded mt-5">
-                {
-                    user ? 
-
-                        <div className="">
-                            <h1>{user.name}</h1>
-                            <p className="text-muted mt-2">{user.email}</p>
+            <div className="row">
+                <div className="col-4">
+                    <div className="card text-white bg-dark">
+                        <div className="card-header">
+                            Header 2
                         </div>
-                        
-                    : null
-                }
+                        <div className="card-body">
+                            <h2>Welcome to space game</h2>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h1></h1> 
         </Container>
     );
 };

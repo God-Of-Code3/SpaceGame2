@@ -14,7 +14,7 @@ const RegisterForm = () => {
     const handle = r => {
         if (r.status == "OK") {
             setAuth(r.content.user.role.level);
-            nav("/home");
+            nav("/");
         }
     }
 

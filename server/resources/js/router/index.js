@@ -10,18 +10,15 @@ import Logout from "../components/Logout";
 
 export const routes = {
     0: [
-        {path: '', element: Welcome, exact: true, label: 'Welcome', show: true},
-        {path: '/home', element: Home, exact: true, label: 'Home', show: true},
-        {path: '/contacts', element: Contacts, exact: true, label: 'Contacts', show: true},
-        {path: '/canvas', element: Canvas, exact: true, label: 'Canvas', show: true},
+        {path: '', element: Home, exact: true, label: 'Home', show: true},
         {path: '/login', element: LoginForm, exact: true, label: 'Login', show: true},
         {path: '/register', element: RegisterForm, exact: true, label: 'Register', show: true},
     ],
     1: [
-        {path: '', element: Welcome, exact: true, label: 'Welcome', show: true},
-        {path: '/home', element: Home, exact: true, label: 'Home', show: true},
+        {path: '', element: Home, exact: true, label: 'Home', show: true},
         {path: '/dashboard', element: Contacts, exact: true, label: 'Dashboard', show: true},
         {path: '/profile', element: Profile, exact: true, label: 'Profile', show: true},
+        {path: '/canvas', element: Canvas, exact: true, label: 'Canvas', show: true},
         {path: '/logout', element: Logout, exact: true, label: 'Logout', show: true},
     ],
     2: [
@@ -31,11 +28,11 @@ export const routes = {
 
     ],
     4: [
-        {path: '', element: Welcome, exact: true, label: 'Welcome', show: true},
-        {path: '/home', element: Home, exact: true, label: 'Home', show: true},
+        {path: '', element: Home, exact: true, label: 'Home', show: true},
         {path: '/dashboard', element: Contacts, exact: true, label: 'Dashboard', show: true},
         {path: '/content', element: Contacts, exact: true, label: 'Content', show: true},
         {path: '/profile', element: Profile, exact: true, label: 'Profile', show: true},
+        {path: '/canvas', element: Canvas, exact: true, label: 'Canvas', show: true},
         {path: '/logout', element: Logout, exact: true, label: 'Logout', show: true},
     ]
 }
