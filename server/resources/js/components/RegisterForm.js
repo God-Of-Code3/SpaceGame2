@@ -6,6 +6,7 @@ import Btn from './form/Btn';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { authContext } from './App';
+import Block from './Block';
 
 const RegisterForm = () => {
     const nav = useNavigate();
@@ -21,14 +22,14 @@ const RegisterForm = () => {
     return (
         <Container>
             <h1>Registration</h1>
-            <div className="bg-dark text-light p-4 rounded mt-5">
+            <Block>
                 <Form action={"/api/register"} callback={handle}>
                     <Input name={"name"} label={"Name:"}></Input>
                     <Input name={"email"} label={"Email:"}></Input>
                     <Input name={"password"} label={"Password:"} type={"password"}></Input>
                     <Btn>Register</Btn>
                 </Form>
-            </div>
+            </Block>
         </Container>
     );
 };

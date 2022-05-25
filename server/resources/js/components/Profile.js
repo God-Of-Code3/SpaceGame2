@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Container from './Container';
 import request from '../api/Request';
+import Block from './Block';
 
 const Profile = () => {
     const [user, setUser] = useState({});
@@ -22,7 +23,7 @@ const Profile = () => {
     return (
         <Container>
             <h3>Profile</h3>
-            <div className="bg-dark text-light p-4 rounded mt-5">
+            <Block>
                 {
                     user ? 
 
@@ -33,7 +34,8 @@ const Profile = () => {
                         
                     : null
                 }
-            </div>
+            </Block>
+                
         </Container>
     );
 };

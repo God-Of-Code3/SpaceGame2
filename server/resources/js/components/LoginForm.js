@@ -6,6 +6,7 @@ import Input from './form/Input';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { authContext } from './App';
+import Block from './Block';
 
 const LoginForm = () => {
 
@@ -24,13 +25,13 @@ const LoginForm = () => {
     return (
         <Container>
             <h1>Login</h1>
-            <div className="bg-dark text-light p-4 rounded mt-5">
+            <Block>
                 <Form action={"/api/login"} callback={handle}>
                     <Input name={"email"} label={"Email:"}></Input>
                     <Input name={"password"} label={"Password:"} type={"password"}></Input>
                     <Btn>Login</Btn>
                 </Form>
-            </div>
+            </Block>
         </Container>
     );
 };
