@@ -12,7 +12,6 @@ const Profile = () => {
                 setUser({
                     name: "Unauthorized",
                     email: "----"
-
                 })
             } else {
                 setUser(r);

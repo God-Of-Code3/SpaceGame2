@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UniverseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -29,3 +30,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::get('/logout', [UserController::class, 'logout']);
+
+
+Route::middleware('auth:sanctum')->prefix('universe')->group(function () {
+    Route::get('/get', [UniverseController::class, 'get'])->middleware('isadmin');
+    Route::post('/', [UniverseController::class, 'create'])->middleware('isadmin');
+    Route::delete('/{universe}', [UniverseController::class, 'delete'])->middleware('isadmin');
+    Route::get('/{universe}', [UniverseController::class, 'getOne'])->middleware('isadmin');
+    Route::post('/{universe}', [UniverseController::class, 'update'])->middleware('isadmin');
+});

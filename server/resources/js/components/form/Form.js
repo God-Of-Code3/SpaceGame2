@@ -3,14 +3,14 @@ import { fetchForm } from '../../api/FormHandler';
 
 export const fieldErrorsContext = createContext();
 
-const Form = ({action, callback, children, ...props}) => {
+const Form = ({action, callback, children, method="POST", ...props}) => {
 
     const [messages, setMessages] = useState([]);
     const [fieldErrors, setFieldErrors] = useState({});
     return (
-        <form action="#" onSubmit={e => {
+        <form action="#" className="d-flex flex-column gap-3 align-items-start" onSubmit={e => {
                 e.preventDefault();
-                fetchForm(action, "POST", e.target, messages, setMessages, setFieldErrors, callback);
+                fetchForm(action, method, e.target, messages, setMessages, setFieldErrors, callback);
             }}>
             <fieldErrorsContext.Provider value={{fieldErrors, setFieldErrors}}>
                 
