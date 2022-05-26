@@ -10,7 +10,7 @@ const UniversesList = ({reloadContent, setContent, content, ...props}) => {
     const [universes, setUniverses] = useState([]);
 
     const reload = () => {
-        request('api/universe/get', {}, r => {
+        request('api/universe/', {}, r => {
             setUniverses(r.content);
         }, "GET");
     }
@@ -28,7 +28,26 @@ const UniversesList = ({reloadContent, setContent, content, ...props}) => {
 
     return (
         <div className="">
-            <h1>Universes</h1>
+            <h1>Content</h1>
+            <Block>
+                <h3>Types, props management </h3>
+                <div className="d-flex gap-3">
+                        <Btn onClick={() => {
+                            setContent({
+                                type: 'spaceObjectTypes'
+                            });
+                        }}>Edit types</Btn>
+                    <Btn onClick={() => {
+                            setContent({
+                                type: 'spaceObjectPropTypes'
+                            });
+                        }}>Edit prop types</Btn>
+
+                </div>
+                
+            </Block>
+            <br />
+            <h2>Universes</h2>
             <Block>
                 <h3>Creating new universe</h3>
                 <br />

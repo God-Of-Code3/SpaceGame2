@@ -11,7 +11,7 @@ class CRUDController extends Controller
         $resp = ApiController::getResp();
 
         $resp->setContent([
-            'universe' => [
+            'Universe' => [
                 'title' => 'Вселенные',
                 'api' => 'universe',
                 'actions' => ['get', 'getOne', 'create', 'update', 'delete']

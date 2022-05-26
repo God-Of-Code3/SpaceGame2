@@ -5,7 +5,7 @@ import Input from '../form/Input';
 import Btn from '../form/Btn';
 import Block from '../Block';
 
-const UniverseInfo = ({reloadContent, setContent, content, ...props}) => {
+const UniverseInfo = ( ) => {
 
     const [universeData, setUniverseData] = useState({});
 
@@ -35,6 +35,7 @@ const UniverseInfo = ({reloadContent, setContent, content, ...props}) => {
                     </div>
                 </Form>
             </Block>
+            
         </div>
     );
 };

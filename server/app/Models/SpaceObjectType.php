@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class SpaceObjectType extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'runame'
+    ];
 }

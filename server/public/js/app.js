@@ -5561,7 +5561,7 @@ var Block = function Block(_ref) {
       props = _objectWithoutProperties(_ref, _excluded);
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "bg-dark text-light p-4 rounded mt-5",
+    className: "bg-dark text-light p-4 rounded my-3",
     children: children
   });
 };
@@ -6076,15 +6076,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Container */ "./resources/js/components/Container.js");
-/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Block */ "./resources/js/components/Block.js");
-/* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/Form */ "./resources/js/components/form/Form.js");
-/* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
-/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var _UniversePanel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./UniversePanel */ "./resources/js/components/admin/UniversePanel.js");
-/* harmony import */ var _UniversesList__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./UniversesList */ "./resources/js/components/admin/UniversesList.js");
-/* harmony import */ var _UniverseInfo__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./UniverseInfo */ "./resources/js/components/admin/UniverseInfo.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _tabs_Tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tabs/Tabs */ "./resources/js/components/tabs/Tabs.js");
+/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -6096,12 +6090,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
 
 
 
@@ -6111,348 +6099,38 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Content = function Content() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    type: 'universes',
-    props: {}
-  }),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      content = _useState2[0],
-      setContent = _useState2[1];
-
-  var backs = {
-    universes: null,
-    universe: "universes"
-  };
-  var contentComponents = {
-    universes: _UniversesList__WEBPACK_IMPORTED_MODULE_8__["default"],
-    universe: _UniverseInfo__WEBPACK_IMPORTED_MODULE_9__["default"]
-  };
-
-  var reloadContent = function reloadContent() {};
+      tabs = _useState2[0],
+      setTabs = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    reloadContent();
-  }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    children: [backs[content.type] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("p", {
-      className: "fs-5 text-danger fw-bold mb-2",
-      role: "button",
-      onClick: function onClick() {
-        setContent({
-          type: backs[content.type],
-          props: content.props
+    (0,_api_Request__WEBPACK_IMPORTED_MODULE_3__["default"])('/api/crud-controls/get-tabs', {}, function (r) {
+      var tbs = [];
+
+      for (var key in r.content) {
+        tbs.push({
+          title: r.content[key]['title'],
+          action: function action() {
+            return console.log(909090);
+          }
         });
-      },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("i", {
-        className: "bi bi-arrow-left-short"
-      }), " Back"]
-    }) : "", contentComponents[content.type]({
-      reloadContent: reloadContent,
-      setContent: setContent,
-      content: content
+      }
+
+      tbs[0].active = true;
+      setTabs(tbs);
+    }, "GET");
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+      children: "\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043A\u043E\u043D\u0442\u0435\u043D\u0442\u043E\u043C"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_tabs_Tabs__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      tabs: tabs
     })]
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Content);
-
-/***/ }),
-
-/***/ "./resources/js/components/admin/UniverseInfo.js":
-/*!*******************************************************!*\
-  !*** ./resources/js/components/admin/UniverseInfo.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
-/* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Form */ "./resources/js/components/form/Form.js");
-/* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
-/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Block */ "./resources/js/components/Block.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["reloadContent", "setContent", "content"];
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-
-
-
-
-
-
-
-
-
-var UniverseInfo = function UniverseInfo(_ref) {
-  var reloadContent = _ref.reloadContent,
-      setContent = _ref.setContent,
-      content = _ref.content,
-      props = _objectWithoutProperties(_ref, _excluded);
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-      _useState2 = _slicedToArray(_useState, 2),
-      universeData = _useState2[0],
-      setUniverseData = _useState2[1];
-
-  var reload = function reload(r) {
-    (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/universe/".concat(content.props.universeId), {}, function (r) {
-      setUniverseData(r.content);
-    }, "GET");
-  };
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(reload, [content]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h1", {
-      children: ["Universe: ", universeData ? universeData.name : "..."]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Block__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: "/api/universe/".concat(universeData.id),
-        callback: reload,
-        method: "POST",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "row w-100",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-            className: "col-4",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              name: "name",
-              label: "Name:",
-              val: universeData.name
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-            className: "col-5",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
-              name: "description",
-              label: "Description:",
-              val: universeData.description
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-            className: "col-3",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              children: "Save universe"
-            })
-          })]
-        })
-      })
-    })]
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UniverseInfo);
-
-/***/ }),
-
-/***/ "./resources/js/components/admin/UniversePanel.js":
-/*!********************************************************!*\
-  !*** ./resources/js/components/admin/UniversePanel.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Block */ "./resources/js/components/Block.js");
-/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["universe", "onClick", "reload"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-
-
-
-
-
-
-
-var UniversePanel = function UniversePanel(_ref) {
-  var universe = _ref.universe,
-      _ref$onClick = _ref.onClick,
-      _onClick = _ref$onClick === void 0 ? function () {} : _ref$onClick,
-      _ref$reload = _ref.reload,
-      reload = _ref$reload === void 0 ? function () {} : _ref$reload,
-      children = _objectWithoutProperties(_ref, _excluded);
-
-  var remove = function remove() {
-    (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/universe/".concat(universe.id), {}, function (r) {
-      reload();
-    }, "DELETE");
-  };
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Block__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
-      children: universe.name
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-      className: "mt-2",
-      children: universe.description
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "d-flex gap-1",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        onClick: function onClick() {
-          _onClick(universe.id);
-        },
-        children: "Edit"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        cls: "danger",
-        onClick: remove,
-        children: "Remove"
-      })]
-    })]
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UniversePanel);
-
-/***/ }),
-
-/***/ "./resources/js/components/admin/UniversesList.js":
-/*!********************************************************!*\
-  !*** ./resources/js/components/admin/UniversesList.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
-/* harmony import */ var _Block__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Block */ "./resources/js/components/Block.js");
-/* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Form */ "./resources/js/components/form/Form.js");
-/* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
-/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var _UniversePanel__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UniversePanel */ "./resources/js/components/admin/UniversePanel.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["reloadContent", "setContent", "content"];
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-
-
-
-
-
-
-
-
-
-
-var UniversesList = function UniversesList(_ref) {
-  var reloadContent = _ref.reloadContent,
-      setContent = _ref.setContent,
-      content = _ref.content,
-      props = _objectWithoutProperties(_ref, _excluded);
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      universes = _useState2[0],
-      setUniverses = _useState2[1];
-
-  var reload = function reload() {
-    (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])('api/universe/get', {}, function (r) {
-      setUniverses(r.content);
-    }, "GET");
-  };
-
-  var editUniverse = function editUniverse(id) {
-    setContent({
-      type: 'universe',
-      props: {
-        universeId: id
-      }
-    });
-  };
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(reload, [content]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h1", {
-      children: "Universes"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_Block__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h3", {
-        children: "Creating new universe"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_Form__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        action: "/api/universe",
-        callback: reload,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "row w-100",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: "col-4",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              name: "name",
-              label: "Name:"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: "col-5",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              name: "description",
-              label: "Description:"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-            className: "col-3",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              children: "Create universe"
-            })
-          })]
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-      className: "row",
-      children: universes.length > 0 ? universes.map(function (universe) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          className: "col-4",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_UniversePanel__WEBPACK_IMPORTED_MODULE_6__["default"], {
-            reload: reload,
-            universe: universe,
-            onClick: editUniverse
-          }, universe.id)
-        });
-      }) : null
-    })]
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UniversesList);
 
 /***/ }),
 
@@ -7020,6 +6698,49 @@ var SpaceObjectCard = function SpaceObjectCard(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SpaceObjectCard);
+
+/***/ }),
+
+/***/ "./resources/js/components/tabs/Tabs.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/tabs/Tabs.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+var Tabs = function Tabs(_ref) {
+  var props = _extends({}, _ref);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
+    className: "nav nav-pills mt-4",
+    children: props.tabs.map(function (tab) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+        className: "nav-item",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          role: "button",
+          className: "nav-link ".concat(tab.active ? 'active' : '', " text-light"),
+          onClick: function onClick() {
+            return tab.action(tab);
+          },
+          children: tab.title
+        })
+      });
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tabs);
 
 /***/ }),
 
