@@ -63,6 +63,7 @@ class UniverseController extends Controller
     {
         $resp = ApiController::getResp();
         $resp->setContent([
+            'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
             'createForm' => [
                 'title' => "Создание вселенной",
                 'fields' => [
@@ -72,7 +73,6 @@ class UniverseController extends Controller
                 ]
             ]
         ]);
-        $resp->fail();
         $resp->echo();
     }
 }

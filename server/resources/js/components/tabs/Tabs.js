@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 const Tabs = ({ ...props}) => {
+    
     return (
         <ul className="nav nav-pills mt-4">
             {

@@ -13,9 +13,16 @@ class CRUDController extends Controller
         $resp->setContent([
             'Universe' => [
                 'title' => 'Вселенные',
-                'api' => 'universe',
-                'actions' => ['get', 'getOne', 'create', 'update', 'delete']
-            ]
+                'api' => 'universe'
+            ],
+            'SpaceObjectType' => [
+                'title' => 'Типы объектов',
+                'api' => 'space-object-type'
+            ],
+            'SpaceObjectProps' => [
+                'title' => 'Еще вкладка',
+                'api' => 'space-object-props'
+            ],
         ]);
         $resp->echo();
     }

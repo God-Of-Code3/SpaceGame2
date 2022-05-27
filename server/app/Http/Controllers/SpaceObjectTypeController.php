@@ -27,4 +27,20 @@ class SpaceObjectTypeController extends Controller
     public function getOne(Request $req, $universe)
     {
     }
+
+    public function getInfo(Request $req)
+    {
+        $resp = ApiController::getResp();
+        $resp->setContent([
+            'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
+            'createForm' => [
+                'title' => "Создание типа объектов",
+                'fields' => [
+                    'name' => ['Название:', 'text'],
+                    'description' => ['Описание:', 'text'],
+                ]
+            ]
+        ]);
+        $resp->echo();
+    }
 }

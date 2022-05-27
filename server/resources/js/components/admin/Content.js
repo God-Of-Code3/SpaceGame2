@@ -5,9 +5,35 @@ import request from '../../api/Request';
 
 const Content = () => {
 
-    // Getting tabs
+    // Tabs state
     const [tabs, setTabs] = useState([]);
 
+    // Current tab
+    const [currentTab, setCurrentTab] = useState({});
+
+
+    // Open tab function
+    useEffect(() => {
+        if (Object.keys(currentTab).length > 0) {
+            // Setting active tab
+            
+            setTabs(tbs => tbs.map(tb => {return {
+                title: tb.title,
+                props: tb.props,
+                active: tb.title == currentTab.title,
+                action: tb => setCurrentTab(tb)
+            }}));
+
+
+            // Getting api info
+            request(`/api/${currentTab.props.api}/getInfo`, {}, r => {
+                // setCurrentTab({...tab.props, info: r.content});
+                console.log(r);
+            }, "GET");
+        }
+    }, [currentTab]);
+
+    // Tabs control
     useEffect(() => {
         request('/api/crud-controls/get-tabs', {}, r => {
             const tbs = [];
@@ -16,23 +42,17 @@ const Content = () => {
                     title: r.content[key]['title'],
                     props: r.content[key],
                     action: tab => {
-                        // Getting api info
-                        request(`/api/${tab.props.api}/getInfo`, {}, r => {
-
-                            console.log({...tab.props, info: r.content});
-                            setCurrentTab({...tab.props, info: r.content});
-                        }, "GET")
+                        // console.log(tab);
+                        setCurrentTab(tab);
                     }
                 });
             }
             tbs[0].active = true;
-            setCurrentTab(tbs[0].props);
             setTabs(tbs);
+            setCurrentTab(tbs[0]);
         }, "GET");
     }, []);
 
-    // Current tab
-    const [currentTab, setCurrentTab] = useState({});
 
 
     return (
