@@ -58,4 +58,21 @@ class UniverseController extends Controller
         $resp = ApiController::getResp();
         $resp->echo();
     }
+
+    public function getInfo(Request $req)
+    {
+        $resp = ApiController::getResp();
+        $resp->setContent([
+            'createForm' => [
+                'title' => "Создание вселенной",
+                'fields' => [
+                    'name' => ['Название:', 'text'],
+                    'description' => ['Описание:', 'text'],
+
+                ]
+            ]
+        ]);
+        $resp->fail();
+        $resp->echo();
+    }
 }

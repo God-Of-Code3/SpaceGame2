@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->prefix('universe')->group(function () {
     Route::get('/', [UniverseController::class, 'get'])->middleware('isadmin');
     Route::post('/', [UniverseController::class, 'create'])->middleware('isadmin');
     Route::delete('/{universe}', [UniverseController::class, 'delete'])->middleware('isadmin');
+    Route::get('/getInfo', [UniverseController::class, 'getInfo'])->middleware('isadmin');
     Route::get('/{universe}', [UniverseController::class, 'getOne'])->middleware('isadmin');
     Route::post('/{universe}', [UniverseController::class, 'update'])->middleware('isadmin');
 });

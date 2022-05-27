@@ -6079,6 +6079,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tabs_Tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tabs/Tabs */ "./resources/js/components/tabs/Tabs.js");
 /* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -6099,6 +6105,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Content = function Content() {
+  // Getting tabs
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       tabs = _useState2[0],
@@ -6111,16 +6118,32 @@ var Content = function Content() {
       for (var key in r.content) {
         tbs.push({
           title: r.content[key]['title'],
-          action: function action() {
-            return console.log(909090);
+          props: r.content[key],
+          action: function action(tab) {
+            // Getting api info
+            (0,_api_Request__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/".concat(tab.props.api, "/getInfo"), {}, function (r) {
+              console.log(_objectSpread(_objectSpread({}, tab.props), {}, {
+                info: r.content
+              }));
+              setCurrentTab(_objectSpread(_objectSpread({}, tab.props), {}, {
+                info: r.content
+              }));
+            }, "GET");
           }
         });
       }
 
       tbs[0].active = true;
+      setCurrentTab(tbs[0].props);
       setTabs(tbs);
     }, "GET");
-  }, []);
+  }, []); // Current tab
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentTab = _useState4[0],
+      setCurrentTab = _useState4[1];
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       children: "\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043A\u043E\u043D\u0442\u0435\u043D\u0442\u043E\u043C"
