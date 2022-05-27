@@ -1,4 +1,5 @@
 import React from 'react';
+import Btn from './form/Btn';
 
 const Card = ({title, description="", btns=[], image="", ...props}) => {
     return (
@@ -10,6 +11,15 @@ const Card = ({title, description="", btns=[], image="", ...props}) => {
 
                 {
                     description ? <p className="card-text mt-3">{description}</p> : ""
+                }
+
+                {
+                    btns ? <div className="d-flex gap-1">
+                        {
+                           btns.map(btn => <Btn cls={btn.type} onClick={btn.onClick}>{btn.title}</Btn>) 
+                        }
+                    </div> : ""
+                    
                 }
             </div>
         </div>

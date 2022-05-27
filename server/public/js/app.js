@@ -5582,12 +5582,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./form/Btn */ "./resources/js/components/form/Btn.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["title", "description", "btns", "image"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 
 
 
@@ -5603,16 +5605,25 @@ var Card = function Card(_ref) {
       image = _ref$image === void 0 ? "" : _ref$image,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     className: "card text-white bg-dark ",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "card-body",
-      children: [title ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+      children: [title ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
         className: "card-title",
         children: title
-      }) : "", description ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      }) : "", description ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
         className: "card-text mt-3",
         children: description
+      }) : "", btns ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "d-flex gap-1",
+        children: btns.map(function (btn) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            cls: btn.type,
+            onClick: btn.onClick,
+            children: btn.title
+          });
+        })
       }) : ""]
     })
   });
@@ -6385,16 +6396,42 @@ var Item = function Item(_ref) {
       actions = _ref.actions,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  var _useState = useState(btns),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(btns),
       _useState2 = _slicedToArray(_useState, 2),
       btns = _useState2[0],
       setBtns = _useState2[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var bts = [];
+    actions.forEach(function (action) {
+      if (action == 'getOne') {
+        bts.push({
+          title: 'Подробнее',
+          type: 'primary',
+          onClick: function onClick() {
+            console.log('go', action);
+          }
+        });
+      }
+
+      if (action == 'delete') {
+        bts.push({
+          title: 'Удалить',
+          type: 'danger',
+          onClick: function onClick() {
+            console.log('del', action);
+          }
+        });
+      }
+    });
+    setBtns(bts);
+  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "col-4",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
       title: showInfo.title ? item[showInfo.title] : "",
-      description: showInfo.description ? item[showInfo.description] : ""
+      description: showInfo.description ? item[showInfo.description] : "",
+      btns: btns
     })
   });
 };
