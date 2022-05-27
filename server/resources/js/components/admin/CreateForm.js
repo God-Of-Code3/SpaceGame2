@@ -7,17 +7,20 @@ import Btn from '../form/Btn';
 
 const CreateForm = ({content, ...props}) => {
     return (
-        <Block>
+        <div className="">
             <h3 className='mb-4'>{content.createForm.title}</h3>
-            <Form action={`/api/${content.api}/`} method="POST">
-                {
-                    content.createForm.fields.map(field => 
-                        <Input name={field[0]} label={field[1]} type={field[2]}></Input>    
-                    )
-                }
-                <Btn>Сохранить</Btn>
-            </Form>
-        </Block>
+            <Block>
+                <Form action={`/api/${content.api}/`} method="POST">
+                    {
+                        content.createForm.fields.map(field => 
+                            <Input name={field[0]} label={field[1]} type={field[2]}></Input>    
+                        )
+                    }
+                    <Btn>Сохранить</Btn>
+                </Form>
+            </Block>
+        </div>
+        
     );
 };
 

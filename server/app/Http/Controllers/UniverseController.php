@@ -73,6 +73,13 @@ class UniverseController extends Controller
                     ['description', 'Описание:', 'text'],
 
                 ]
+            ],
+            'items' => [
+                'title' => "Вселенные",
+                'showInfo' => [
+                    'title' => 'name',
+                    'description' => 'description'
+                ]
             ]
         ]);
         $resp->echo();

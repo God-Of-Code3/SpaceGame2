@@ -11287,7 +11287,7 @@ textarea.form-control-lg {
   }
 }
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 canvas {
@@ -11299,8 +11299,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   font-weight: bold;
 }
 
-body {
-  min-height: 100vh;
+body, html {
   margin: 0;
   overflow: hidden;
 }
@@ -11312,6 +11311,7 @@ nav.navbar {
 
 .container {
   padding-top: 100px;
+  padding-bottom: 100px;
 }
 
 nav.navbar {
@@ -11347,11 +11347,21 @@ p, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   line-height: 1;
 }
 
-.row {
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .small-icon {
   height: 100%;
+}
+
+.wrapper {
+  overflow: auto;
+  max-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  overflow: overlay;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1px;
 }

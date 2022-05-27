@@ -1,5 +1,6 @@
 import React from 'react';
 import CreateForm from './CreateForm';
+import ItemsList from './ItemsList';
 
 const CRUDManager = ({children, content, ...props}) => {
 
@@ -11,8 +12,9 @@ const CRUDManager = ({children, content, ...props}) => {
                 : ""
             }
             {/* Rendering item list */}
-            {
-
+            {content.actions.includes('get') ? 
+                <ItemsList content={content}></ItemsList>
+                : ""
             }
         </div>    
     );
