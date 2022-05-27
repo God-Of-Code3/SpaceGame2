@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react';
 import Container from '../Container';
 import Tabs from '../tabs/Tabs';
 import request from '../../api/Request';
+import CRUDManager from './CRUDManager';
 
 const Content = () => {
 
@@ -10,6 +11,9 @@ const Content = () => {
 
     // Current tab
     const [currentTab, setCurrentTab] = useState({});
+
+    // Current content
+    const [content, setContent] = useState({});
 
 
     // Open tab function
@@ -28,7 +32,7 @@ const Content = () => {
             // Getting api info
             request(`/api/${currentTab.props.api}/getInfo`, {}, r => {
                 // setCurrentTab({...tab.props, info: r.content});
-                console.log(r);
+                setContent(r.content);
             }, "GET");
         }
     }, [currentTab]);
@@ -59,6 +63,11 @@ const Content = () => {
         <Container>
             <h1>Управление контентом</h1>
             <Tabs tabs={tabs}></Tabs>
+            {
+                Object.keys(content).length > 0 ?
+                    <CRUDManager content={content}></CRUDManager>
+                : ""
+            }
             
         </Container>
     );

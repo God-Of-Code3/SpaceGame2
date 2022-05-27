@@ -27,7 +27,7 @@ const Form = ({action, callback, children, method="POST", ...props}) => {
                             'primary': 'primary'
                         }[msg.type] || 'primary';
                         
-                        return <div key={msg.key} className={`mt-2 alert alert-${cls} alert-dismissible fade show `} role='alert'>
+                        return <div key={msg.key} className={`mt-2 alert alert-${cls} alert-dismissible fade show w-100`} role='alert'>
                             {msg.text}
                             <button type="button" className="btn-close" data-dismiss="alert" aria-label="Close" onClick={() => setMessages(messages.filter(mes => mes.key != msg.key))}>
                             </button>

@@ -28,6 +28,7 @@ class UniverseController extends Controller
         $universe->save();
 
         $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Вселенная успешно создана!');
         $resp->echo();
     }
 
@@ -63,12 +64,13 @@ class UniverseController extends Controller
     {
         $resp = ApiController::getResp();
         $resp->setContent([
+            'api' => 'universe',
             'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
             'createForm' => [
                 'title' => "Создание вселенной",
                 'fields' => [
-                    'name' => ['Название:', 'text'],
-                    'description' => ['Описание:', 'text'],
+                    ['name', 'Название:', 'text'],
+                    ['description', 'Описание:', 'text'],
 
                 ]
             ]

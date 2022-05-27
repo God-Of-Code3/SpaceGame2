@@ -19,10 +19,6 @@ class CRUDController extends Controller
                 'title' => 'Типы объектов',
                 'api' => 'space-object-type'
             ],
-            'SpaceObjectProps' => [
-                'title' => 'Еще вкладка',
-                'api' => 'space-object-props'
-            ],
         ]);
         $resp->echo();
     }

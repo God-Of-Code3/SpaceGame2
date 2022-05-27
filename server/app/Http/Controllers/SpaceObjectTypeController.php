@@ -32,12 +32,13 @@ class SpaceObjectTypeController extends Controller
     {
         $resp = ApiController::getResp();
         $resp->setContent([
+            'api' => 'space-object-type',
             'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
             'createForm' => [
                 'title' => "Создание типа объектов",
                 'fields' => [
-                    'name' => ['Название:', 'text'],
-                    'description' => ['Описание:', 'text'],
+                    ['name', 'Название:', 'text'],
+                    ['description', 'Описание:', 'text'],
                 ]
             ]
         ]);
