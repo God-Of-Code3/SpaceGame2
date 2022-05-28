@@ -6499,7 +6499,7 @@ var Item = function Item(_ref) {
       }
     });
     setBtns(bts);
-  }, []);
+  }, [item, actions]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "col-4",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Card__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -6642,11 +6642,8 @@ var ItemsList = function ItemsList(_ref) {
     (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/".concat(content.api, "/"), {}, function (r) {
       setItems(r.content);
     }, "GET");
-  };
+  }; // Selected items
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    reload();
-  }, [content, reloadEvent]); // Selected items
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -6657,7 +6654,11 @@ var ItemsList = function ItemsList(_ref) {
     if (Object.keys(selectedItem).length == 0) {
       reload();
     }
-  }, [selectedItem]); // Removing items
+  }, [selectedItem]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    reload();
+    setSelectedItem({});
+  }, [content, reloadEvent]); // Removing items
 
   var removeItem = function removeItem(item) {
     (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/".concat(content.api, "/").concat(item.id), {}, reload, "DELETE");

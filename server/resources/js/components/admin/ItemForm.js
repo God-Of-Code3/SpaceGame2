@@ -6,6 +6,7 @@ import Btn from '../form/Btn';
 import BackBtn from './BackBtn';
 
 const ItemForm = ({item, content, setSelectedItem, ...props}) => {
+    
     return (
         <div className="">
             <Block>

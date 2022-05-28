@@ -51,6 +51,10 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('space-object-t
     Route::get('/', [SpaceObjectTypeController::class, 'get']);
     Route::post('/', [SpaceObjectTypeController::class, 'create']);
     Route::get('/getInfo', [SpaceObjectTypeController::class, 'getInfo']);
+
+    Route::get('/{spaceObjectType}', [SpaceObjectTypeController::class, 'getOne']);
+    Route::post('/{spaceObjectType}', [SpaceObjectTypeController::class, 'update']);
+    Route::delete('/{spaceObjectType}', [SpaceObjectTypeController::class, 'delete']);
 });
 
 

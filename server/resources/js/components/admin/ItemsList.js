@@ -14,10 +14,6 @@ const ItemsList = ({content, reloadEvent, ...props}) => {
         }, "GET");
     }
 
-    useEffect(() => {
-        reload();
-    }, [content, reloadEvent]); 
-
     // Selected items
     const [selectedItem, setSelectedItem] = useState({});
 
@@ -27,10 +23,16 @@ const ItemsList = ({content, reloadEvent, ...props}) => {
         }
     }, [selectedItem]);
 
+    useEffect(() => {
+        reload();
+        setSelectedItem({});
+    }, [content, reloadEvent]); 
+
     // Removing items
     const removeItem = (item) => {
         request(`/api/${content.api}/${item.id}`, {}, reload, "DELETE");
     }
+    
 
     return (
         <div className="mt-5">

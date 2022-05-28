@@ -24,8 +24,32 @@ class SpaceObjectTypeController extends Controller
         $resp->echo();
     }
 
-    public function getOne(Request $req, $universe)
+    public function delete(Request $req, $spaceObjectType)
     {
+        $spaceObjectType = SpaceObjectType::find($spaceObjectType);
+        $spaceObjectType->delete();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
+    }
+
+    public function getOne(Request $req, $spaceObjectType)
+    {
+        $spaceObjectType = SpaceObjectType::find($spaceObjectType);
+
+        $resp = ApiController::getResp();
+        $resp->setContent($spaceObjectType);
+        $resp->echo();
+    }
+
+    public function update(Request $req, $spaceObjectType)
+    {
+        $spaceObjectType = SpaceObjectType::find($spaceObjectType);
+        $spaceObjectType->update($req->all());
+        $spaceObjectType->save();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     public function getInfo(Request $req)

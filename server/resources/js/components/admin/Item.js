@@ -26,7 +26,7 @@ const Item = ({showInfo, item, actions, ...props}) => {
             }
         });
         setBtns(bts);
-    }, []);
+    }, [item, actions]);
 
     return (
         <div className='col-4'>
