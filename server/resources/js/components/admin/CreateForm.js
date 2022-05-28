@@ -5,12 +5,12 @@ import Input from '../form/Input';
 import Btn from '../form/Btn';
 
 
-const CreateForm = ({content, ...props}) => {
+const CreateForm = ({content, setReload, ...props}) => {
     return (
         <div className="">
             <h3 className='mb-4'>{content.createForm.title}</h3>
             <Block>
-                <Form action={`/api/${content.api}/`} method="POST">
+                <Form action={`/api/${content.api}/`} method="POST" callback={() => {setReload(rel => !rel);}}>
                     {
                         content.createForm.fields.map(field => 
                             <Input name={field[0]} label={field[1]} type={field[2]}></Input>    

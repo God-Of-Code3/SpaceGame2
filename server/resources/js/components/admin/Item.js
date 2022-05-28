@@ -13,7 +13,7 @@ const Item = ({showInfo, item, actions, ...props}) => {
                 bts.push({
                     title: 'Подробнее',
                     type: 'primary',
-                    onClick: () => {console.log('go', action)}
+                    onClick: () => {props.setSelectedItem(item)}
                 });
             }
 
@@ -21,7 +21,7 @@ const Item = ({showInfo, item, actions, ...props}) => {
                 bts.push({
                     title: 'Удалить',
                     type: 'danger',
-                    onClick: () => {console.log('del', action)}
+                    onClick: () => {props.removeItem(item)}
                 });
             }
         });
@@ -32,6 +32,7 @@ const Item = ({showInfo, item, actions, ...props}) => {
         <div className='col-4'>
             <Card
                 title={showInfo.title ? item[showInfo.title] : ""}
+                subtitle={showInfo.subtitle ? item[showInfo.subtitle] : ""}
                 description={showInfo.description ? item[showInfo.description] : ""}
                 btns={btns}
             ></Card>

@@ -37,8 +37,17 @@ class SpaceObjectTypeController extends Controller
             'createForm' => [
                 'title' => "Создание типа объектов",
                 'fields' => [
-                    ['name', 'Название:', 'text'],
+                    ['name', 'Имя:', 'text'],
+                    ['runame', 'Название на русском:', 'text'],
                     ['description', 'Описание:', 'text'],
+                ]
+            ],
+            'items' => [
+                'title' => "Типы объектов",
+                'showInfo' => [
+                    'title' => 'runame',
+                    'subtitle' => 'name',
+                    'description' => 'description'
                 ]
             ]
         ]);
