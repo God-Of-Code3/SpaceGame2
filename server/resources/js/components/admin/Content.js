@@ -3,8 +3,15 @@ import Container from '../Container';
 import Tabs from '../tabs/Tabs';
 import request from '../../api/Request';
 import CRUDManager from './CRUDManager';
+import { useParams } from 'react-router-dom';
 
-const Content = () => {
+const Content = ({...props}) => {
+
+    // Title
+    const [title, setTitle] = useState("Управление контентом");
+
+    // URL options
+    const [subj, setSubj] = useState(useParams());
 
     // Tabs state
     const [tabs, setTabs] = useState([]);
@@ -14,7 +21,6 @@ const Content = () => {
 
     // Current content
     const [content, setContent] = useState({});
-
 
     // Open tab function
     useEffect(() => {
@@ -39,14 +45,13 @@ const Content = () => {
 
     // Tabs control
     useEffect(() => {
-        request('/api/crud-controls/get-tabs', {}, r => {
+        const loadTabs = (array) => {
             const tbs = [];
-            for (let key in r.content) {
+            for (let key in array) {
                 tbs.push({
-                    title: r.content[key]['title'],
-                    props: r.content[key],
+                    title: array[key]['title'],
+                    props: array[key],
                     action: tab => {
-                        // console.log(tab);
                         setCurrentTab(tab);
                     }
                 });
@@ -54,18 +59,24 @@ const Content = () => {
             tbs[0].active = true;
             setTabs(tbs);
             setCurrentTab(tbs[0]);
+        }
+
+        const getTabsUrl = subj.subjType ? `/api/${subj.subjType}/getInfo` : '/api/crud-controls/get-tabs';
+
+        request(getTabsUrl, {}, r => {
+            loadTabs(subj.subjType ? r.content.page.tabs : r.content);
+            setTitle(subj.subjType ? r.content.page.title : title);
         }, "GET");
     }, []);
 
 
-
     return (
         <Container>
-            <h1>Управление контентом</h1>
+            <h1>{title}</h1>
             <Tabs tabs={tabs}></Tabs>
             {
                 Object.keys(content).length > 0 ?
-                    <CRUDManager content={content}></CRUDManager>
+                    <CRUDManager setContent={setContent} content={content}></CRUDManager>
                 : ""
             }
             

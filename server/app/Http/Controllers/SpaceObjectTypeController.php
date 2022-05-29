@@ -52,12 +52,23 @@ class SpaceObjectTypeController extends Controller
         $resp->echo();
     }
 
+    public function getAttrsLabels()
+    {
+        return [
+            'id' => 'ID',
+            'name' => 'Название',
+            'description' => 'Описание',
+            'runame' => 'Название на русском'
+        ];
+    }
+
     public function getInfo(Request $req)
     {
         $resp = ApiController::getResp();
         $resp->setContent([
             'api' => 'space-object-type',
             'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
+            'labels' => $this->getAttrsLabels(),
             'createForm' => [
                 'title' => "Создание типа объектов",
                 'fields' => [

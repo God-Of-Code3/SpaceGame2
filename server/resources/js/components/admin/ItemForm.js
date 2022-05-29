@@ -14,8 +14,8 @@ const ItemForm = ({item, content, setSelectedItem, ...props}) => {
                 <h4 className='mt-3 mb-3'>Редактирование</h4>
                 <Form action={`/api/${content.api}/${item.id}`} method="POST">
                     {
-                        content.createForm.fields.map(field => 
-                            <Input name={field[0]} label={field[1]} type={field[2]} val={item[field[0]]}></Input>    
+                        content.createForm.fields.map(field =>
+                            <Input name={field[0]} label={content.labels[field[0]]} type={field[1]} val={item[field[0]]}></Input>  
                         )
                     }
                     <Btn>Сохранить</Btn>
