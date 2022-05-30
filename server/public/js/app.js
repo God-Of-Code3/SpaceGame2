@@ -6426,6 +6426,7 @@ var CreateForm = function CreateForm(_ref) {
       subj = _ref.subj,
       props = _objectWithoutProperties(_ref, _excluded);
 
+  var to = subj.subjType ? "/api/".concat(content.api, "/").concat(subj.subjType, "/").concat(subj.subjId) : "/api/".concat(content.api);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
@@ -6433,7 +6434,7 @@ var CreateForm = function CreateForm(_ref) {
       children: content.createForm.title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Block__WEBPACK_IMPORTED_MODULE_1__["default"], {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: "/api/".concat(content.api, "/").concat(subj.subjType, "/").concat(subj.subjId),
+        action: to,
         method: "POST",
         callback: function callback() {
           setReload(function (rel) {
@@ -6444,7 +6445,8 @@ var CreateForm = function CreateForm(_ref) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
             name: field[0],
             label: content.labels[field[0]],
-            type: field[1]
+            type: field[1],
+            options: field[1] == 'select' ? field[2] : []
           });
         }), subj.subjId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "".concat(subj.subjType, "_id"),
@@ -6623,7 +6625,8 @@ var ItemForm = function ItemForm(_ref) {
             name: field[0],
             label: content.labels[field[0]],
             type: field[1],
-            val: item[field[0]]
+            val: item[field[0]],
+            options: field[1] == 'select' ? field[2] : []
           });
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
           children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
@@ -6691,7 +6694,6 @@ var ItemsList = function ItemsList(_ref) {
 
   var reload = function reload() {
     (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/".concat(content.api, "/"), {}, function (r) {
-      console.log(r.content);
       setItems(r.content);
     }, "GET");
   }; // Selected items
@@ -7094,19 +7096,36 @@ var Input = function Input(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setValue(val);
   }, [val]);
+  console.log(props.options);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "d-block w-100",
     children: [type != 'hidden' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       htmlFor: name,
       children: label
-    }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+    }) : "", type != "select" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
       type: type ? type : "text",
+      id: name,
       name: name,
       value: value,
       onChange: function onChange(e) {
         return setValue(e.target.value);
       },
       className: "form-control text-light"
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("select", {
+      id: name,
+      name: name,
+      value: value,
+      onChange: function onChange(e) {
+        return setValue(e.target.value);
+      },
+      className: "form-control text-light",
+      children: props.options.map(function (option) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
+          value: option.value,
+          selected: option.value == value,
+          children: option.label
+        });
+      })
     }), fieldErrors[name] ? fieldErrors[name].map(function (err) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "text-danger",

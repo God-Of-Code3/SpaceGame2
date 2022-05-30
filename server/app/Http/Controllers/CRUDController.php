@@ -18,7 +18,11 @@ class CRUDController extends Controller
             'SpaceObjectType' => [
                 'title' => 'Типы объектов',
                 'api' => 'space-object-type'
-            ]
+            ],
+            'SpaceObjectPropType' => [
+                'title' => 'Характеристики объектов',
+                'api' => 'space-object-prop-type'
+            ],
         ]);
         $resp->echo();
     }

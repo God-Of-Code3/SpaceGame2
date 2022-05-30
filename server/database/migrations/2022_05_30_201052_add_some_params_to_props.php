@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRoleToUsersTable extends Migration
+class AddSomeParamsToProps extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +13,9 @@ class AddRoleToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignIdFor(Role::class)->default(1);
+        Schema::table('space_object_prop_types', function (Blueprint $table) {
+            $table->string("type");
+            $table->foreignId("space_object_type_id")->nullable()->default(null);
         });
     }
 
@@ -26,7 +26,7 @@ class AddRoleToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('space_object_prop_types', function (Blueprint $table) {
             //
         });
     }

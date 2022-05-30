@@ -3,6 +3,7 @@
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\SpaceObjectController;
 use App\Http\Controllers\SpaceObjectTypeController;
+use App\Http\Controllers\SpaceObjectPropTypeController;
 use App\Http\Controllers\UniverseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,7 +72,16 @@ foreach (SpaceObjectType::get() as $objectType) {
     });
 }
 
+// Space object prop type
+Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('space-object-prop-type')->group(function () {
+    Route::get('/', [SpaceObjectPropTypeController::class, 'get']);
+    Route::post('/', [SpaceObjectPropTypeController::class, 'create']);
+    Route::get('/getInfo', [SpaceObjectPropTypeController::class, 'getInfo']);
 
+    Route::get('/{spaceObjectPropType}', [SpaceObjectPropTypeController::class, 'getOne']);
+    Route::post('/{spaceObjectPropType}', [SpaceObjectPropTypeController::class, 'update']);
+    Route::delete('/{spaceObjectPropType}', [SpaceObjectPropTypeController::class, 'delete']);
+});
 
 // CRUD controls
 Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('crud-controls')->group(function () {
