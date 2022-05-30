@@ -5,17 +5,22 @@ import Input from '../form/Input';
 import Btn from '../form/Btn';
 
 
-const CreateForm = ({content, setReload, ...props}) => {
+const CreateForm = ({content, setReload, subj, ...props}) => {
 
     return (
         <div className="">
             <h3 className='mb-4'>{content.createForm.title}</h3>
             <Block>
-                <Form action={`/api/${content.api}/`} method="POST" callback={() => {setReload(rel => !rel);}}>
+                <Form action={`/api/${content.api}/${subj.subjType}/${subj.subjId}`} method="POST" callback={() => {setReload(rel => !rel);}}>
                     {
                         content.createForm.fields.map(field => 
                             <Input name={field[0]} label={content.labels[field[0]]} type={field[1]}></Input>    
                         )
+                    }
+                    {
+                        subj.subjId ? 
+                        <Input name={`${subj.subjType}_id`} type="hidden" val={subj.subjId}></Input>
+                        : ""
                     }
                     <Btn>Сохранить</Btn>
                 </Form>

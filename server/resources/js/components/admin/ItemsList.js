@@ -10,6 +10,7 @@ const ItemsList = ({content, reloadEvent, ...props}) => {
 
     const reload = () => {
         request(`/api/${content.api}/`, {}, r => {
+            console.log(r.content);
             setItems(r.content);
         }, "GET");
     }

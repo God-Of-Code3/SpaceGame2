@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\SpaceObject;
+use App\Models\SpaceObjectType;
 use Illuminate\Http\Request;
 
 class SpaceObjectController extends Controller
 {
 
-    public function getAttrsLabels()
+    protected function getUrlObjectType($req, $right = "")
+    {
+        $path = $req->path();
+        $path = str_replace("api/", "", $path);
+        $type = str_replace("/getInfo", "", $path);
+        $type = str_replace($right, "", $type);
+        return $type;
+    }
+
+    protected function getAttrsLabels()
     {
         return [
             'id' => 'ID',
@@ -21,9 +31,7 @@ class SpaceObjectController extends Controller
 
     public function getInfo(Request $req)
     {
-        $path = $req->path();
-        $path = str_replace("api/", "", $path);
-        $type = str_replace("/getInfo", "", $path);
+        $type = $this->getUrlObjectType($req);
 
         $resp = ApiController::getResp();
         $resp->setContent([
@@ -37,18 +45,16 @@ class SpaceObjectController extends Controller
                     ['x', 'number'],
                     ['y', 'number'],
                     ['rad', 'number'],
-
                 ]
             ],
             'items' => [
                 'title' => "Объекты",
                 'showInfo' => [
                     'title' => 'name',
-                    'description' => 'description'
                 ],
                 'filter' => ['id', 'name']
             ],
-            'req' => $path,
+            'req' => "$type"
         ]);
         $resp->echo();
     }
@@ -59,6 +65,36 @@ class SpaceObjectController extends Controller
 
         $resp = ApiController::getResp();
         $resp->setContent($objects);
+        $resp->echo();
+    }
+
+    public function create(Request $req)
+    {
+        $data = $req->all();
+        $data['space_object_type_id'] = SpaceObjectType::where('name', '=', $this->getUrlObjectType($req, "/universe/$data[universe_id]"))->first()->id;
+        SpaceObject::create($data);
+
+        $resp = ApiController::getResp();
+        // $resp->setContent($data);
+        $resp->echo();
+    }
+
+    public function update(Request $req, $spaceObject)
+    {
+        $spaceObject = SpaceObject::find($spaceObject);
+        $spaceObject->update($req->all());
+        $spaceObject->save();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
+    }
+
+    public function delete(Request $req, $spaceObject)
+    {
+        $spaceObject = SpaceObject::find($spaceObject);
+        $spaceObject->delete();
+
+        $resp = ApiController::getResp();
         $resp->echo();
     }
 }

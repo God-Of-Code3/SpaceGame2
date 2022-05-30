@@ -6192,7 +6192,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CreateForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateForm */ "./resources/js/components/admin/CreateForm.js");
 /* harmony import */ var _ItemsList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ItemsList */ "./resources/js/components/admin/ItemsList.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["children", "content", "setContent"];
+var _excluded = ["children", "content", "setContent", "subj"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -6221,6 +6221,7 @@ var CRUDManager = function CRUDManager(_ref) {
   var children = _ref.children,
       content = _ref.content,
       setContent = _ref.setContent,
+      subj = _ref.subj,
       props = _objectWithoutProperties(_ref, _excluded);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
@@ -6233,11 +6234,13 @@ var CRUDManager = function CRUDManager(_ref) {
     children: [content.actions.includes('create') ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
       setContent: setContent,
       content: content,
-      setReload: setReload
+      setReload: setReload,
+      subj: subj
     }) : "", content.actions.includes('get') ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_ItemsList__WEBPACK_IMPORTED_MODULE_2__["default"], {
       setContent: setContent,
       content: content,
-      reloadEvent: reload
+      reloadEvent: reload,
+      subj: subj
     }) : ""]
   });
 };
@@ -6376,7 +6379,8 @@ var Content = function Content(_ref) {
       tabs: tabs
     }), Object.keys(content).length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_CRUDManager__WEBPACK_IMPORTED_MODULE_4__["default"], {
       setContent: setContent,
-      content: content
+      content: content,
+      subj: subj
     }) : ""]
   });
 };
@@ -6402,7 +6406,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["content", "setReload"];
+var _excluded = ["content", "setReload", "subj"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -6419,6 +6423,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 var CreateForm = function CreateForm(_ref) {
   var content = _ref.content,
       setReload = _ref.setReload,
+      subj = _ref.subj,
       props = _objectWithoutProperties(_ref, _excluded);
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -6428,7 +6433,7 @@ var CreateForm = function CreateForm(_ref) {
       children: content.createForm.title
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Block__WEBPACK_IMPORTED_MODULE_1__["default"], {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        action: "/api/".concat(content.api, "/"),
+        action: "/api/".concat(content.api, "/").concat(subj.subjType, "/").concat(subj.subjId),
         method: "POST",
         callback: function callback() {
           setReload(function (rel) {
@@ -6441,7 +6446,11 @@ var CreateForm = function CreateForm(_ref) {
             label: content.labels[field[0]],
             type: field[1]
           });
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }), subj.subjId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          name: "".concat(subj.subjType, "_id"),
+          type: "hidden",
+          val: subj.subjId
+        }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
           children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
         })]
       })
@@ -6682,6 +6691,7 @@ var ItemsList = function ItemsList(_ref) {
 
   var reload = function reload() {
     (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/".concat(content.api, "/"), {}, function (r) {
+      console.log(r.content);
       setItems(r.content);
     }, "GET");
   }; // Selected items
@@ -7086,10 +7096,10 @@ var Input = function Input(_ref) {
   }, [val]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "d-block w-100",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+    children: [type != 'hidden' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       htmlFor: name,
       children: label
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+    }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
       type: type ? type : "text",
       name: name,
       value: value,

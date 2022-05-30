@@ -16,8 +16,10 @@ const Input = ({name, label, type, val, ...props}) => {
 
     return (
         <div className='d-block w-100'>
-            <label htmlFor={name}>{label}</label>
-            <input type={type ? type : "text"} name={name} value={value} onChange={e => setValue(e.target.value)} className="form-control text-light"/>
+            
+            {type != 'hidden' ? <label htmlFor={name}>{label}</label>: ""}
+            <input type={type ? type : "text"} name={name} value={value} onChange={e => setValue(e.target.value)} className="form-control text-light"/> 
+            
             {fieldErrors[name] ? fieldErrors[name].map(err => 
                 <div className="text-danger">
                     {err}

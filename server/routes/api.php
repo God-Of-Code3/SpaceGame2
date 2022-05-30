@@ -63,6 +63,11 @@ foreach (SpaceObjectType::get() as $objectType) {
     Route::middleware('auth:sanctum')->middleware('isadmin')->middleware('spaceobjecttype')->prefix("$objectType->name")->group(function () {
         Route::get('/getInfo', [SpaceObjectController::class, 'getInfo']);
         Route::get('/', [SpaceObjectController::class, 'get']);
+
+        Route::post('/universe/{universeId}', [SpaceObjectController::class, 'create']);
+        Route::get('/{spaceObject}', [SpaceObjectController::class, 'getOne']);
+        Route::post('/{spaceObject}', [SpaceObjectController::class, 'update']);
+        Route::delete('/{spaceObject}', [SpaceObjectController::class, 'delete']);
     });
 }
 

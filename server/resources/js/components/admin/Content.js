@@ -76,7 +76,7 @@ const Content = ({...props}) => {
             <Tabs tabs={tabs}></Tabs>
             {
                 Object.keys(content).length > 0 ?
-                    <CRUDManager setContent={setContent} content={content}></CRUDManager>
+                    <CRUDManager setContent={setContent} content={content} subj={subj}></CRUDManager>
                 : ""
             }
             
