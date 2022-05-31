@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\SpaceObject;
+use App\Models\SpaceObjectPropType;
+use App\Models\SpaceObjectPropValue;
 use App\Models\SpaceObjectType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SpaceObjectController extends Controller
 {
@@ -18,15 +21,62 @@ class SpaceObjectController extends Controller
         return $type;
     }
 
-    protected function getAttrsLabels()
+    protected function getAttrsLabels($req)
     {
-        return [
+
+        $labels = [
             'id' => 'ID',
             'name' => 'Название',
             'x' => 'X-координата',
             'y' => 'Y-координата',
             'rad' => 'Радиус объекта',
         ];
+
+        $typeId = $this->getSpaceObjectTypeId($req);
+        $propTypes = SpaceObjectPropType::where("space_object_type_id", "=", $typeId)->orWhere("space_object_type_id", "=", null)->get();
+
+        foreach ($propTypes as $propType) {
+            $labels[$propType->name] = $propType->description;
+        }
+
+        return $labels;
+    }
+
+    protected function getFields($req)
+    {
+        $fields = [
+            ['name', 'text'],
+            ['x', 'number'],
+            ['y', 'number'],
+            ['rad', 'number'],
+        ];
+
+        foreach ($this->getAdditionalFields($req) as $field) {
+            $fields[] = $field;
+        }
+
+        return $fields;
+    }
+
+    protected function getAdditionalFields($req)
+    {
+        $fields = [];
+
+        $typeId = $this->getSpaceObjectTypeId($req);
+        $propTypes = SpaceObjectPropType::where("space_object_type_id", "=", $typeId)->orWhere("space_object_type_id", "=", null)->get();
+
+        foreach ($propTypes as $propType) {
+            $options = [];
+            foreach (explode(":", $propType->default) as $valueType) {
+                $options[] = [
+                    'value' => $valueType,
+                    'label' => $valueType
+                ];
+            }
+            $fields[] = [$propType->name, $propType->type, $options];
+        }
+
+        return $fields;
     }
 
     public function getInfo(Request $req)
@@ -37,15 +87,10 @@ class SpaceObjectController extends Controller
         $resp->setContent([
             'api' => $type,
             'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
-            'labels' => $this->getAttrsLabels(),
+            'labels' => $this->getAttrsLabels($req),
             'createForm' => [
                 'title' => "Создание объекта",
-                'fields' => [
-                    ['name', 'text'],
-                    ['x', 'number'],
-                    ['y', 'number'],
-                    ['rad', 'number'],
-                ]
+                'fields' => $this->getFields($req)
             ],
             'items' => [
                 'title' => "Объекты",
@@ -61,9 +106,17 @@ class SpaceObjectController extends Controller
 
     public function get(Request $req)
     {
-        $type = $this->getUrlObjectType($req);
-        $typeId = SpaceObjectType::where('name', '=', $type)->first()->id;
-        $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->get();
+        $objects = SpaceObject::where("space_object_type_id", '=', $this->getSpaceObjectTypeId($req))->get();
+
+        $props = DB::select(DB::raw("SELECT so.id, so.name, sopt.name, sopv.value, sopt.space_object_type_id FROM `space_objects` AS so, space_object_prop_types AS sopt, space_object_prop_values AS sopv WHERE so.id = sopv.space_object_id AND sopv.space_object_prop_type_id = sopt.id AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL)"));
+
+        $i = 0;
+        foreach ($props as $prop) {
+            if ($objects[$i]->id != $prop->id) {
+                $i += 1;
+            }
+            $objects[$i][$prop->name] = $prop->value;
+        }
 
         $resp = ApiController::getResp();
         $resp->setContent($objects);
@@ -73,8 +126,13 @@ class SpaceObjectController extends Controller
     public function create(Request $req)
     {
         $data = $req->all();
-        $data['space_object_type_id'] = SpaceObjectType::where('name', '=', $this->getUrlObjectType($req, "/universe/$data[universe_id]"))->first()->id;
-        SpaceObject::create($data);
+        $data['space_object_type_id'] = $this->getSpaceObjectTypeId($req);
+
+        $obj = SpaceObject::create($data);
+
+        foreach ($this->getAdditionalFields($req) as $field) {
+            $this->setProperty($obj, $field[0], $data[$field[0]]);
+        }
 
         $resp = ApiController::getResp();
         // $resp->setContent($data);
@@ -85,6 +143,12 @@ class SpaceObjectController extends Controller
     {
         $spaceObject = SpaceObject::find($spaceObject);
         $spaceObject->update($req->all());
+
+        $data = $req->all();
+        foreach ($this->getAdditionalFields($req) as $field) {
+            $this->setProperty($spaceObject, $field[0], $data[$field[0]]);
+        }
+
         $spaceObject->save();
 
         $resp = ApiController::getResp();
@@ -98,5 +162,27 @@ class SpaceObjectController extends Controller
 
         $resp = ApiController::getResp();
         $resp->echo();
+    }
+
+    protected function getSpaceObjectTypeId($req)
+    {
+        $type = explode("/", $req->path())[1];
+        return SpaceObjectType::where('name', '=', $type)->first()->id;
+    }
+
+    protected function setProperty($obj, $name, $value)
+    {
+        $propTypeId = SpaceObjectPropType::where('name', '=', $name)->first()->id;
+        $propValue = SpaceObjectPropValue::where('space_object_id', '=', $obj->id)->where('space_object_prop_type_id', '=', $propTypeId)->first();
+        if ($propValue) {
+            $propValue->value = $value;
+            $propValue->save();
+        } else {
+            SpaceObjectPropValue::create([
+                'space_object_id' => $obj->id,
+                'space_object_prop_type_id' => $propTypeId,
+                'value' => $value,
+            ]);
+        }
     }
 }
