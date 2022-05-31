@@ -61,7 +61,9 @@ class SpaceObjectController extends Controller
 
     public function get(Request $req)
     {
-        $objects = SpaceObject::get();
+        $type = $this->getUrlObjectType($req);
+        $typeId = SpaceObjectType::where('name', '=', $type)->first()->id;
+        $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->get();
 
         $resp = ApiController::getResp();
         $resp->setContent($objects);

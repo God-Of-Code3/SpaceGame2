@@ -6446,7 +6446,8 @@ var CreateForm = function CreateForm(_ref) {
             name: field[0],
             label: content.labels[field[0]],
             type: field[1],
-            options: field[1] == 'select' ? field[2] : []
+            options: field[1] == 'select' ? field[2] : [],
+            val: ""
           });
         }), subj.subjId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "".concat(subj.subjType, "_id"),
