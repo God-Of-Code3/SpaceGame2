@@ -16,19 +16,18 @@ const CreateForm = ({content, setReload, subj, ...props}) => {
                 <Form action={to} method="POST" callback={() => {setReload(rel => !rel);}}>
                     {
                         content.createForm.fields.map(field => 
-                            <Input name={field[0]} label={content.labels[field[0]]} type={field[1]} options={field[1] == 'select' ? field[2] : []} val={"clear" + Math.random()}></Input>    
+                            <Input key={field[0]} name={field[0]} label={content.labels[field[0]]} type={field[1]} options={field[1] == 'select' ? field[2] : []} val={"clear" + Math.random()}></Input>    
                         )
                     }
                     {
                         subj.subjId ? 
-                        <Input name={`${subj.subjType}_id`} type="hidden" val={subj.subjId}></Input>
+                        <Input key={`${subj.subjType}_id`} name={`${subj.subjType}_id`} type="hidden" val={subj.subjId}></Input>
                         : ""
                     }
                     <Btn>Сохранить</Btn>
                 </Form>
             </Block>
         </div>
-        
     );
 };
 

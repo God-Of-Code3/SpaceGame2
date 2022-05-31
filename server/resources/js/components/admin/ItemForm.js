@@ -15,7 +15,7 @@ const ItemForm = ({item, content, setSelectedItem, ...props}) => {
                 <Form action={`/api/${content.api}/${item.id}`} method="POST">
                     {
                         content.createForm.fields.map(field =>
-                            <Input name={field[0]} label={content.labels[field[0]]} type={field[1]} val={item[field[0]]} options={field[1] == 'select' ? field[2] : []}></Input>  
+                            <Input key={field[0]} name={field[0]} label={content.labels[field[0]]} type={field[1]} val={item[field[0]]} options={field[1] == 'select' ? field[2] : []}></Input>  
                         )
                     }
                     <Btn>Сохранить</Btn>

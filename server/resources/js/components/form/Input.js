@@ -29,7 +29,7 @@ const Input = ({name, label, type, val, ...props}) => {
                 <select id={name} name={name} value={value} onChange={e => setValue(e.target.value)} className="form-control text-light">
                     {
                         props.options.map(option => 
-                            <option value={option.value} selected={option.value == value}>{option.label}</option>
+                            <option key={`option_${option.value}`} value={option.value} selected={option.value == value}>{option.label}</option>
                         )
                     }
                 </select>

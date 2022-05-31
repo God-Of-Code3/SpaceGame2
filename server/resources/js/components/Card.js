@@ -18,7 +18,7 @@ const Card = ({title, subtitle="", description="", btns=[], image="", ...props})
                 {
                     btns ? <div className="d-flex gap-1">
                         {
-                           btns.map(btn => <Btn cls={btn.type} onClick={btn.onClick}>{btn.title}</Btn>) 
+                           btns.map((btn, i) => <Btn key={`btn_${i}`} cls={btn.type} onClick={btn.onClick}>{btn.title}</Btn>) 
                         }
                     </div> : ""
                     

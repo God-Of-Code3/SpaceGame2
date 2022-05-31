@@ -5622,12 +5622,12 @@ var Card = function Card(_ref) {
         children: description
       }) : "", btns ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "d-flex gap-1",
-        children: btns.map(function (btn) {
+        children: btns.map(function (btn, i) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_1__["default"], {
             cls: btn.type,
             onClick: btn.onClick,
             children: btn.title
-          });
+          }, "btn_".concat(i));
         })
       }) : ""]
     })
@@ -5928,7 +5928,7 @@ var NavBar = function NavBar(_ref) {
                 to: route.path,
                 children: route.label
               }, i)
-            });
+            }, "navbar_item_".concat(i));
           })
         })
       })]
@@ -6448,12 +6448,12 @@ var CreateForm = function CreateForm(_ref) {
             type: field[1],
             options: field[1] == 'select' ? field[2] : [],
             val: "clear" + Math.random()
-          });
+          }, field[0]);
         }), subj.subjId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "".concat(subj.subjType, "_id"),
           type: "hidden",
           val: subj.subjId
-        }) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }, "".concat(subj.subjType, "_id")) : "", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
           children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
         })]
       })
@@ -6628,7 +6628,7 @@ var ItemForm = function ItemForm(_ref) {
             type: field[1],
             val: item[field[0]],
             options: field[1] == 'select' ? field[2] : []
-          });
+          }, field[0]);
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_4__["default"], {
           children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
         })]
@@ -6734,7 +6734,7 @@ var ItemsList = function ItemsList(_ref) {
           actions: content.actions,
           setSelectedItem: setSelectedItem,
           removeItem: removeItem
-        });
+        }, "item_".concat(item.id));
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ItemForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
         item: selectedItem,
         content: content,
@@ -7128,7 +7128,7 @@ var Input = function Input(_ref) {
           value: option.value,
           selected: option.value == value,
           children: option.label
-        });
+        }, "option_".concat(option.value));
       })
     }), fieldErrors[name] ? fieldErrors[name].map(function (err) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -7421,7 +7421,7 @@ var Tabs = function Tabs(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
     className: "nav nav-pills mt-4",
-    children: props.tabs.map(function (tab) {
+    children: props.tabs.map(function (tab, i) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         className: "nav-item",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -7432,7 +7432,7 @@ var Tabs = function Tabs(_ref) {
           },
           children: tab.title
         })
-      });
+      }, "tab_".concat(i));
     })
   });
 };

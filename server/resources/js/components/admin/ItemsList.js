@@ -41,7 +41,7 @@ const ItemsList = ({content, reloadEvent, ...props}) => {
                 {
                     Object.keys(selectedItem).length == 0 ?
                     items.map(item => 
-                        <Item items={content.items} item={item} api={content.api} actions={content.actions} setSelectedItem={setSelectedItem} removeItem={removeItem}></Item>
+                        <Item key={`item_${item.id}`} items={content.items} item={item} api={content.api} actions={content.actions} setSelectedItem={setSelectedItem} removeItem={removeItem}></Item>
                     ) :
                     <ItemForm item={selectedItem} content={content} setSelectedItem={setSelectedItem} reload={reload}></ItemForm>
                 }

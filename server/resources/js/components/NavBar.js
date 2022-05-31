@@ -15,7 +15,7 @@ const NavBar = ({auth, ...props}) => {
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     {
                         routes[auth].map((route, i) => 
-                            <li className="nav-item">
+                            <li key={`navbar_item_${i}`} className="nav-item">
                                 <Link key={i} className="nav-link" to={route.path}>{route.label}</Link>
                             </li>
                         )
