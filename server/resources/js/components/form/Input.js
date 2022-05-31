@@ -11,10 +11,13 @@ const Input = ({name, label, type, val, ...props}) => {
     }, [fieldErrors])
 
     useEffect(() => {
-        setValue(val);
+        
+        if (String(val).startsWith('clear0.')) {
+            setValue("");
+        } else {
+            setValue(val);
+        }
     }, [val]);
-
-    console.log(props.options);
 
     return (
         <div className='d-block w-100'>

@@ -16,7 +16,7 @@ const CreateForm = ({content, setReload, subj, ...props}) => {
                 <Form action={to} method="POST" callback={() => {setReload(rel => !rel);}}>
                     {
                         content.createForm.fields.map(field => 
-                            <Input name={field[0]} label={content.labels[field[0]]} type={field[1]} options={field[1] == 'select' ? field[2] : []} val={""}></Input>    
+                            <Input name={field[0]} label={content.labels[field[0]]} type={field[1]} options={field[1] == 'select' ? field[2] : []} val={"clear" + Math.random()}></Input>    
                         )
                     }
                     {

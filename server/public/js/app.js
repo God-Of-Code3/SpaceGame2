@@ -6447,7 +6447,7 @@ var CreateForm = function CreateForm(_ref) {
             label: content.labels[field[0]],
             type: field[1],
             options: field[1] == 'select' ? field[2] : [],
-            val: ""
+            val: "clear" + Math.random()
           });
         }), subj.subjId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_3__["default"], {
           name: "".concat(subj.subjType, "_id"),
@@ -7095,9 +7095,12 @@ var Input = function Input(_ref) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {}, [fieldErrors]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setValue(val);
+    if (String(val).startsWith('clear0.')) {
+      setValue("");
+    } else {
+      setValue(val);
+    }
   }, [val]);
-  console.log(props.options);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "d-block w-100",
     children: [type != 'hidden' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
