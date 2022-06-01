@@ -15,9 +15,7 @@ class SpaceObjectController extends Controller
     protected function getUrlObjectType($req, $right = "")
     {
         $path = $req->path();
-        $path = str_replace("api/", "", $path);
-        $type = str_replace("/getInfo", "", $path);
-        $type = str_replace($right, "", $type);
+        $type = explode('/', $path)[1];
         return $type;
     }
 
@@ -30,6 +28,9 @@ class SpaceObjectController extends Controller
             'x' => 'X-координата',
             'y' => 'Y-координата',
             'rad' => 'Радиус объекта',
+            'dist' => 'Радиус орбиты',
+            'angle' => 'Начальный угол',
+            'period' => 'Период'
         ];
 
         $typeId = $this->getSpaceObjectTypeId($req);
@@ -49,6 +50,9 @@ class SpaceObjectController extends Controller
             ['x', 'number'],
             ['y', 'number'],
             ['rad', 'number'],
+            ['dist', 'number'],
+            ['angle', 'number'],
+            ['period', 'number'],
         ];
 
         foreach ($this->getAdditionalFields($req) as $field) {
@@ -79,13 +83,27 @@ class SpaceObjectController extends Controller
         return $fields;
     }
 
-    public function getInfo(Request $req)
+    public function getSelfTabs()
+    {
+        $tabs = [];
+        $spaceObjectTypes = SpaceObjectType::get();
+        foreach ($spaceObjectTypes as $objectType) {
+            $tabs["$objectType->name"] = [
+                'title' => "$objectType->runame",
+                'api' => "/$objectType->name",
+            ];
+        }
+
+        return $tabs;
+    }
+
+    public function getInfo(Request $req, $universe = null, $spaceObject = null)
     {
         $type = $this->getUrlObjectType($req);
 
         $resp = ApiController::getResp();
         $resp->setContent([
-            'api' => $type,
+            'api' => $type . ($universe ? "/universe/$universe" : ""),
             'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
             'labels' => $this->getAttrsLabels($req),
             'createForm' => [
@@ -99,18 +117,23 @@ class SpaceObjectController extends Controller
                 ],
                 'filter' => ['id', 'name']
             ],
-            'req' => "$type"
         ]);
         $resp->echo();
     }
 
-    public function get(Request $req)
+    public function get(Request $req, $universe = null)
     {
-        $objects = SpaceObject::where("space_object_type_id", '=', $this->getSpaceObjectTypeId($req))->get();
+        $typeId = $this->getSpaceObjectTypeId($req);
+        if (!$universe) {
+            $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->get();
+        } else {
+            $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->where("universe_id", "=", $universe)->get();
+        }
 
-        $props = DB::select(DB::raw("SELECT so.id, so.name, sopt.name, sopv.value, sopt.space_object_type_id FROM `space_objects` AS so, space_object_prop_types AS sopt, space_object_prop_values AS sopv WHERE so.id = sopv.space_object_id AND sopv.space_object_prop_type_id = sopt.id AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL)"));
+        $props = DB::select(DB::raw("SELECT so.id, so.name, sopt.name, sopv.value, sopt.space_object_type_id FROM `space_objects` AS so, space_object_prop_types AS sopt, space_object_prop_values AS sopv WHERE so.id = sopv.space_object_id AND sopv.space_object_prop_type_id = sopt.id AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL) AND so.space_object_type_id = '$typeId'" . ($universe ? " AND so.universe_id = '$universe'" : "")));
 
         $i = 0;
+
         foreach ($props as $prop) {
             if ($objects[$i]->id != $prop->id) {
                 $i += 1;
@@ -158,6 +181,8 @@ class SpaceObjectController extends Controller
     public function delete(Request $req, $spaceObject)
     {
         $spaceObject = SpaceObject::find($spaceObject);
+
+        DB::table('space_object_prop_values')->where('space_object_id', '=', $spaceObject->id)->delete();
         $spaceObject->delete();
 
         $resp = ApiController::getResp();

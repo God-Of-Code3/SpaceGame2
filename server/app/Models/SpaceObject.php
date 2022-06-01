@@ -15,6 +15,10 @@ class SpaceObject extends Model
         'y',
         'rad',
         'universe_id',
-        'space_object_type_id'
+        'dist',
+        'angle',
+        'period',
+        'space_object_type_id',
+        'space_object_id',
     ];
 }

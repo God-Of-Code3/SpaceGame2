@@ -70,22 +70,28 @@ class UniverseController extends Controller
         ];
     }
 
-    public function getSelfTabs()
+    public function getSelfTabs($universe)
     {
         $tabs = [];
         $spaceObjectTypes = SpaceObjectType::get();
         foreach ($spaceObjectTypes as $objectType) {
             $tabs["$objectType->name"] = [
                 'title' => "$objectType->runame",
-                'api' => "$objectType->name",
+                'api' => "$objectType->name/universe/$universe",
             ];
         }
+
+        $tabs["systems"] = [
+            'title' => 'Системы',
+            'api' => "system/universe/$universe"
+        ];
 
         return $tabs;
     }
 
-    public function getInfo(Request $req)
+    public function getInfo(Request $req, $universe = null)
     {
+        $universe = Universe::find($universe);
         $resp = ApiController::getResp();
         $resp->setContent([
             'api' => 'universe',
@@ -107,8 +113,8 @@ class UniverseController extends Controller
                 ],
             ],
             'page' => [
-                'title' => "Управление вселенной",
-                'tabs' => $this->getSelfTabs()
+                'title' => "Управление вселенной " . ($universe ? $universe->name : ""),
+                'tabs' => $this->getSelfTabs($universe ? $universe->id : "")
             ]
         ]);
         $resp->echo();

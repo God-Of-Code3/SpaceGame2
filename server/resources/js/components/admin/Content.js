@@ -61,7 +61,7 @@ const Content = ({...props}) => {
             setCurrentTab(tbs[0]);
         }
 
-        const getTabsUrl = subj.subjType ? `/api/${subj.subjType}/getInfo` : '/api/crud-controls/get-tabs';
+        const getTabsUrl = subj.subjType ? `/api/${subj.subjType}/${subj.subjId}/getInfo` : '/api/crud-controls/get-tabs';
 
         request(getTabsUrl, {}, r => {
             loadTabs(subj.subjType ? r.content.page.tabs : r.content);

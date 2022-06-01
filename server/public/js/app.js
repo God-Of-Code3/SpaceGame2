@@ -6134,6 +6134,201 @@ var Welcome = function Welcome() {
 
 /***/ }),
 
+/***/ "./resources/js/components/admin/AccordionTree.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/admin/AccordionTree.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["tree"];
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+
+var AccordionTree = function AccordionTree(_ref) {
+  var tree = _ref.tree,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  var id = Math.random();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      opened = _useState2[0],
+      setOpened = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setOpened(tree.map(function (el) {
+      return 0;
+    }));
+  }, [tree]);
+
+  var toggleItem = function toggleItem(i) {
+    setOpened(function (opened) {
+      return opened.map(function (child, j) {
+        return i == j ? !child : child;
+      });
+    });
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "accordion accordion-flush",
+    id: "accordion-".concat(id),
+    children: tree.map(function (child, i) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "accordion-item",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+          className: "accordion-header border-bottom border-primary",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            className: "accordion-button text-light ".concat(!opened[i] ? 'collapsed' : '', "  ").concat(opened[i] ? 'bg-primary' : 'bg-dark'),
+            type: "button",
+            onClick: function onClick() {
+              return toggleItem(i);
+            },
+            children: child.title
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "accordion-collapse collapse ".concat(opened[i] ? 'show' : ''),
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "accordion-body border border-secondary text-light",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                className: "mb-3",
+                children: [child.contentTitle, ":"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                className: "",
+                children: child.content.map(function (ch) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("b", {
+                      children: ch.param
+                    }), ": ", ch.value]
+                  });
+                })
+              })]
+            }), child.children ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              className: "mt-5",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h4", {
+                className: "mb-3",
+                children: [child.childrenTitle, ":"]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(AccordionTree, {
+                tree: child.children
+              })]
+            }) : ""]
+          })
+        })]
+      });
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AccordionTree);
+
+/***/ }),
+
+/***/ "./resources/js/components/admin/AccordionTreeRoot.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/admin/AccordionTreeRoot.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _AccordionTree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AccordionTree */ "./resources/js/components/admin/AccordionTree.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["content", "reloadEvent", "subj"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+var AccordionTreeRoot = function AccordionTreeRoot(_ref) {
+  var content = _ref.content,
+      reloadEvent = _ref.reloadEvent,
+      subj = _ref.subj,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_AccordionTree__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    tree: [{
+      title: 'Солнце',
+      contentTitle: 'Совновная информация',
+      childrenTitle: 'Информация об объектах системы',
+      content: [{
+        'param': 'Температура',
+        'value': 3400
+      }],
+      children: [{
+        title: 'Земля',
+        contentTitle: 'Совновная информация',
+        childrenTitle: 'Информация об объектах системы',
+        content: [{
+          'param': 'Температура',
+          'value': 5000
+        }]
+      }, {
+        title: 'Марс',
+        contentTitle: 'Совновная информация',
+        childrenTitle: 'Информация об объектах системы',
+        content: [{
+          'param': 'Температура',
+          'value': 5000
+        }]
+      }]
+    }, {
+      title: 'Невар',
+      contentTitle: 'Совновная информация',
+      childrenTitle: 'Информация об объектах системы',
+      content: [{
+        'param': 'Температура',
+        'value': 5000
+      }],
+      children: [{
+        title: 'Желанная',
+        content: [{
+          'param': 'Температура',
+          'value': 5000
+        }]
+      }]
+    }]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AccordionTreeRoot);
+
+/***/ }),
+
 /***/ "./resources/js/components/admin/BackBtn.js":
 /*!**************************************************!*\
   !*** ./resources/js/components/admin/BackBtn.js ***!
@@ -6191,7 +6386,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _CreateForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CreateForm */ "./resources/js/components/admin/CreateForm.js");
 /* harmony import */ var _ItemsList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ItemsList */ "./resources/js/components/admin/ItemsList.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _AccordionTreeRoot__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AccordionTreeRoot */ "./resources/js/components/admin/AccordionTreeRoot.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["children", "content", "setContent", "subj"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -6217,6 +6413,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
 var CRUDManager = function CRUDManager(_ref) {
   var children = _ref.children,
       content = _ref.content,
@@ -6229,17 +6426,21 @@ var CRUDManager = function CRUDManager(_ref) {
       reload = _useState2[0],
       setReload = _useState2[1];
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "mt-5",
-    children: [content.actions.includes('create') ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: [content.createForm ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
       setContent: setContent,
       content: content,
       setReload: setReload,
       subj: subj
-    }) : "", content.actions.includes('get') ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_ItemsList__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }) : "", content.items ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ItemsList__WEBPACK_IMPORTED_MODULE_2__["default"], {
       setContent: setContent,
       content: content,
       reloadEvent: reload,
+      subj: subj
+    }) : "", content.tree ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_AccordionTreeRoot__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      content: content,
+      reloadevent: reload,
       subj: subj
     }) : ""]
   });
@@ -6366,7 +6567,7 @@ var Content = function Content(_ref) {
       setCurrentTab(tbs[0]);
     };
 
-    var getTabsUrl = subj.subjType ? "/api/".concat(subj.subjType, "/getInfo") : '/api/crud-controls/get-tabs';
+    var getTabsUrl = subj.subjType ? "/api/".concat(subj.subjType, "/").concat(subj.subjId, "/getInfo") : '/api/crud-controls/get-tabs';
     (0,_api_Request__WEBPACK_IMPORTED_MODULE_3__["default"])(getTabsUrl, {}, function (r) {
       loadTabs(subj.subjType ? r.content.page.tabs : r.content);
       setTitle(subj.subjType ? r.content.page.title : title);
@@ -6657,7 +6858,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Item */ "./resources/js/components/admin/Item.js");
 /* harmony import */ var _ItemForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ItemForm */ "./resources/js/components/admin/ItemForm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["content", "reloadEvent"];
+var _excluded = ["subj", "content", "reloadEvent"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -6683,7 +6884,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 var ItemsList = function ItemsList(_ref) {
-  var content = _ref.content,
+  var subj = _ref.subj,
+      content = _ref.content,
       reloadEvent = _ref.reloadEvent,
       props = _objectWithoutProperties(_ref, _excluded);
 
@@ -6716,7 +6918,7 @@ var ItemsList = function ItemsList(_ref) {
   }, [content, reloadEvent]); // Removing items
 
   var removeItem = function removeItem(item) {
-    (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/".concat(content.api, "/").concat(item.id), {}, reload, "DELETE");
+    (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])("/api/".concat(content.api.replaceAll("/".concat(subj.subjType, "/").concat(subj.subjId), ''), "/").concat(item.id), {}, reload, "DELETE");
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -6730,7 +6932,7 @@ var ItemsList = function ItemsList(_ref) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Item__WEBPACK_IMPORTED_MODULE_2__["default"], {
           items: content.items,
           item: item,
-          api: content.api,
+          api: content.api.replaceAll("/".concat(subj.subjType, "/").concat(subj.subjId), ''),
           actions: content.actions,
           setSelectedItem: setSelectedItem,
           removeItem: removeItem

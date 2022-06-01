@@ -4,6 +4,7 @@ use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\SpaceObjectController;
 use App\Http\Controllers\SpaceObjectTypeController;
 use App\Http\Controllers\SpaceObjectPropTypeController;
+use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UniverseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,8 @@ Route::middleware('auth:sanctum')->prefix('universe')->group(function () {
     Route::post('/', [UniverseController::class, 'create'])->middleware('isadmin');
     Route::get('/getInfo', [UniverseController::class, 'getInfo'])->middleware('isadmin');
 
+    Route::get('/{universe}/getInfo', [UniverseController::class, 'getInfo'])->middleware('isadmin');
+
     Route::get('/{universe}', [UniverseController::class, 'getOne'])->middleware('isadmin');
     Route::post('/{universe}', [UniverseController::class, 'update'])->middleware('isadmin');
     Route::delete('/{universe}', [UniverseController::class, 'delete'])->middleware('isadmin');
@@ -65,12 +68,22 @@ foreach (SpaceObjectType::get() as $objectType) {
         Route::get('/getInfo', [SpaceObjectController::class, 'getInfo']);
         Route::get('/', [SpaceObjectController::class, 'get']);
 
+        // Sub actions
+        Route::get('/universe/{universe}/getInfo', [SpaceObjectController::class, 'getInfo']);
+        Route::get('/universe/{universe}/', [SpaceObjectController::class, 'get']);
         Route::post('/universe/{universeId}', [SpaceObjectController::class, 'create']);
+
         Route::get('/{spaceObject}', [SpaceObjectController::class, 'getOne']);
         Route::post('/{spaceObject}', [SpaceObjectController::class, 'update']);
         Route::delete('/{spaceObject}', [SpaceObjectController::class, 'delete']);
     });
 }
+
+// Systems
+Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('system')->group(function () {
+    Route::get('/universe/{universe}/getInfo', [SystemController::class, 'getUniverseInfo']);
+    Route::get('/space-object/{spaceObject}/getInfo', [SystemController::class, 'getSystemInfo']);
+});
 
 // Space object prop type
 Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('space-object-prop-type')->group(function () {

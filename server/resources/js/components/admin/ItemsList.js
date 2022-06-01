@@ -3,7 +3,7 @@ import request from '../../api/Request';
 import Item from './Item';
 import ItemForm from './ItemForm';
 
-const ItemsList = ({content, reloadEvent, ...props}) => {
+const ItemsList = ({subj, content, reloadEvent, ...props}) => {
     
     // all items
     const [items, setItems] = useState([]);
@@ -30,7 +30,7 @@ const ItemsList = ({content, reloadEvent, ...props}) => {
 
     // Removing items
     const removeItem = (item) => {
-        request(`/api/${content.api}/${item.id}`, {}, reload, "DELETE");
+        request(`/api/${content.api.replaceAll(`/${subj.subjType}/${subj.subjId}`, '')}/${item.id}`, {}, reload, "DELETE");
     }
     
 
@@ -41,7 +41,7 @@ const ItemsList = ({content, reloadEvent, ...props}) => {
                 {
                     Object.keys(selectedItem).length == 0 ?
                     items.map(item => 
-                        <Item key={`item_${item.id}`} items={content.items} item={item} api={content.api} actions={content.actions} setSelectedItem={setSelectedItem} removeItem={removeItem}></Item>
+                        <Item key={`item_${item.id}`} items={content.items} item={item} api={content.api.replaceAll(`/${subj.subjType}/${subj.subjId}`, '')} actions={content.actions} setSelectedItem={setSelectedItem} removeItem={removeItem}></Item>
                     ) :
                     <ItemForm item={selectedItem} content={content} setSelectedItem={setSelectedItem} reload={reload}></ItemForm>
                 }
