@@ -19,11 +19,9 @@ class SpaceObjectController extends Controller
         return $type;
     }
 
-    protected function getAttrsLabels($req)
+    public static function getSelfLabels()
     {
-
-        $labels = [
-            'id' => 'ID',
+        return [
             'name' => 'Название',
             'x' => 'X-координата',
             'y' => 'Y-координата',
@@ -32,6 +30,12 @@ class SpaceObjectController extends Controller
             'angle' => 'Начальный угол',
             'period' => 'Период'
         ];
+    }
+
+    protected function getAttrsLabels($req)
+    {
+
+        $labels = $this->getSelfLabels();
 
         $typeId = $this->getSpaceObjectTypeId($req);
         $propTypes = SpaceObjectPropType::where("space_object_type_id", "=", $typeId)->orWhere("space_object_type_id", "=", null)->get();
@@ -130,7 +134,7 @@ class SpaceObjectController extends Controller
             $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->where("universe_id", "=", $universe)->get();
         }
 
-        $props = DB::select(DB::raw("SELECT so.id, so.name, sopt.name, sopv.value, sopt.space_object_type_id FROM `space_objects` AS so, space_object_prop_types AS sopt, space_object_prop_values AS sopv WHERE so.id = sopv.space_object_id AND sopv.space_object_prop_type_id = sopt.id AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL) AND so.space_object_type_id = '$typeId'" . ($universe ? " AND so.universe_id = '$universe'" : "")));
+        $props = DB::select(DB::raw("SELECT so.id, so.name,  sopt.name, sopv.value, sopt.space_object_type_id FROM `space_objects` AS so, space_object_prop_types AS sopt, space_object_prop_values AS sopv WHERE so.id = sopv.space_object_id AND sopv.space_object_prop_type_id = sopt.id AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL) AND so.space_object_type_id = '$typeId'" . ($universe ? " AND so.universe_id = '$universe'" : "")));
 
         $i = 0;
 

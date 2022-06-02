@@ -1,67 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AccordionTree from './AccordionTree';
+import request from '../../api/Request';
 
 const AccordionTreeRoot = ({content, reloadEvent, subj, ...props}) => {
+
+    const [tree, setTree] = useState([]);
+
+    useEffect(() => {
+        console.log();
+        request(`/api/${content.api}/`, {}, r => {
+            setTree(r.content);
+        }, "GET");
+    }, [content]);
+
     return (
-        <AccordionTree tree={[
-            {
-                title: 'Солнце',
-                contentTitle: 'Совновная информация',
-                childrenTitle: 'Информация об объектах системы',
-                content: [
-                    {
-                        'param': 'Температура',
-                        'value': 3400,
-                    }
-                ],
-                children: [
-                    {
-                        title: 'Земля',
-                        contentTitle: 'Совновная информация',
-                        childrenTitle: 'Информация об объектах системы',
-                        content: [
-                            {
-                                'param': 'Температура',
-                                'value': 5000,
-                            }
-                        ]
-                    },
-                    {
-                        title: 'Марс',
-                        contentTitle: 'Совновная информация',
-                        childrenTitle: 'Информация об объектах системы',
-                        content: [
-                            {
-                                'param': 'Температура',
-                                'value': 5000,
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: 'Невар',
-                contentTitle: 'Совновная информация',
-                childrenTitle: 'Информация об объектах системы',
-                content: [
-                    {
-                        'param': 'Температура',
-                        'value': 5000,
-                    }
-                ],
-                children: [
-                    {
-                        title: 'Желанная',
-                        content: [
-                            {
-                                'param': 'Температура',
-                                'value': 5000,
-                            }
-                        ]
-                    },
-                ]
-            },
-        ]}></AccordionTree>
+        <AccordionTree tree={tree}></AccordionTree>
     );
 };
 

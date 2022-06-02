@@ -83,6 +83,9 @@ foreach (SpaceObjectType::get() as $objectType) {
 Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('system')->group(function () {
     Route::get('/universe/{universe}/getInfo', [SystemController::class, 'getUniverseInfo']);
     Route::get('/space-object/{spaceObject}/getInfo', [SystemController::class, 'getSystemInfo']);
+
+    Route::get('/universe/{universe}/', [SystemController::class, 'getUniverseSystem']);
+    Route::get('/space-object/{spaceObject}/', [SystemController::class, 'getSpaceObjectSystem']);
 });
 
 // Space object prop type

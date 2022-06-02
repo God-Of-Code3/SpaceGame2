@@ -27,8 +27,18 @@ const AccordionTree = ({tree, ...props}) => {
                                     <div className="">
                                         <h4 className="mb-3">{child.contentTitle}:</h4>
                                         <div className="">
+                                            <table className="table table-dark">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Характеристика</th>
+                                                        <th>Значение</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {child.content.map(ch => <tr><td>{ch.param}</td><td>{ch.value}</td></tr>)}
+                                                </tbody>
+                                            </table>
                                             
-                                            {child.content.map(ch => <p><b>{ch.param}</b>: {ch.value}</p>)}
                                         </div>
                                     </div>
                                     {child.children ? 
