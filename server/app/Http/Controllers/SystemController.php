@@ -23,7 +23,7 @@ class SystemController extends Controller
     {
         $objects = SpaceObject::where("universe_id", '=', $universe)->get();
         $props = DB::select(DB::raw("
-            SELECT so.id, so.name,  sopt.runame AS typeName, sopv.value, sopt.space_object_type_id, sot.runame AS objType FROM 
+            SELECT so.id, so.name,  sopt.runame AS typeName, sopt.name AS propName, sopv.value, sopt.space_object_type_id, sot.runame AS objType, sot.name AS objTypeName FROM 
                 space_objects AS so, 
                 space_object_prop_types AS sopt, 
                 space_object_prop_values AS sopv,
@@ -39,8 +39,9 @@ class SystemController extends Controller
             if ($objects[$i]->id != $prop->id) {
                 $i += 1;
             }
-            $objects[$i]["PROP|" . $prop->typeName] = $prop->value;
+            $objects[$i]["PROP|" . $prop->typeName . "|" . $prop->propName] = $prop->value;
             $objects[$i]['objType'] = $prop->objType;
+            $objects[$i]['objTypeName'] = $prop->objTypeName;
         }
 
         $labels = SpaceObjectController::getSelfLabels();
@@ -50,15 +51,19 @@ class SystemController extends Controller
             $content = [];
             foreach ($obj->toArray() as $key => $value) {
                 if (isset($labels[$key]) or str_starts_with($key, "PROP|")) {
-                    $label = isset($labels[$key]) ? $labels[$key] : str_replace("PROP|", "", $key);
+                    $label = isset($labels[$key]) ? $labels[$key] : explode("|", $key)[1];
+                    $name = isset($labels[$key]) ? $key : explode("|", $key)[2];
                     $content[] = [
                         'param' => $label,
-                        'value' => $value
+                        'value' => $value,
+                        'name' => $name
                     ];
                 }
             }
             $objTree[] = [
                 'title' => $obj['objType'] . " \"" . $obj['name'] . "\"",
+                'type' => $obj['objTypeName'],
+                'id' => $obj['id'],
                 'content' => $content,
                 'contentTitle' => "Основная информация"
             ];
