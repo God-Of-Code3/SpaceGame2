@@ -8,114 +8,18 @@ use Illuminate\Http\Request;
 
 class UniverseController extends Controller
 {
-    public function get(Request $req)
+    public function index(Request $req)
     {
-        $universes = Universe::get();
+        $records = Universe::paginate(20);
+        $tableData = CRUDController::getTableData();
 
-        $resp = ApiController::getResp();
-        $resp->setContent($universes);
-        $resp->echo();
-    }
+        $tableData['tableName'] = "Вселенные";
+        $tableData['columns'] = Universe::getColumns();
 
-    public function create(Request $req)
-    {
-        $data = $req->all();
-        $user = $req->user();
-        $universe = Universe::create([
-            "name" => $data["name"],
-            "description" => $data["description"],
-            "user_id" => $user["id"],
-        ]);
-        $universe->save();
-
-        $resp = ApiController::getResp();
-        $resp->addFormAlert('success', 'Вселенная успешно создана!');
-        $resp->echo();
-    }
-
-    public function delete(Request $req, $universe)
-    {
-        $universe = Universe::find($universe);
-        $universe->delete();
-
-        $resp = ApiController::getResp();
-        $resp->echo();
-    }
-
-    public function getOne(Request $req, $universe)
-    {
-        $universe = Universe::find($universe);
-
-        $resp = ApiController::getResp();
-        $resp->setContent($universe);
-        $resp->echo();
-    }
-
-    public function update(Request $req, $universe)
-    {
-        $universe = Universe::find($universe);
-        $universe->update($req->all());
-        $universe->save();
-
-        $resp = ApiController::getResp();
-        $resp->echo();
-    }
-
-    public function getAttrsLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Название',
-            'description' => 'Описание'
-        ];
-    }
-
-    public function getSelfTabs($universe)
-    {
-        $tabs = [];
-        $spaceObjectTypes = SpaceObjectType::get();
-        foreach ($spaceObjectTypes as $objectType) {
-            $tabs["$objectType->name"] = [
-                'title' => "$objectType->runame",
-                'api' => "$objectType->name/universe/$universe",
-            ];
-        }
-
-        $tabs["systems"] = [
-            'title' => 'Системы',
-            'api' => "system/universe/$universe"
-        ];
-
-        return $tabs;
-    }
-
-    public function getInfo(Request $req, $universe = null)
-    {
-        $universe = Universe::find($universe);
         $resp = ApiController::getResp();
         $resp->setContent([
-            'api' => 'universe',
-            'actions' => ['page', 'get', 'getOne', 'create', 'update', 'delete'],
-            'labels' => $this->getAttrsLabels(),
-            'createForm' => [
-                'title' => "Создание вселенной",
-                'fields' => [
-                    ['name', 'text'],
-                    ['description', 'text'],
-
-                ]
-            ],
-            'items' => [
-                'title' => "Вселенные",
-                'showInfo' => [
-                    'title' => 'name',
-                    'description' => 'description'
-                ],
-            ],
-            'page' => [
-                'title' => "Управление вселенной " . ($universe ? $universe->name : ""),
-                'tabs' => $this->getSelfTabs($universe ? $universe->id : "")
-            ]
+            'records' => $records,
+            'tableData' => $tableData,
         ]);
         $resp->echo();
     }
