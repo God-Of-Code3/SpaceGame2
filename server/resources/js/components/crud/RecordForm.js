@@ -17,10 +17,6 @@ const RecordForm = ({table, tableData, edit=false, reload, setShowForm, ...props
 
     }, [tableData, table]);
 
-    useEffect(() => {
-        console.log(props.data)
-    }, [props.data]);
-
     return (
         <div className="">
             <div role="button" className="text-danger text-bold" onClick={() => {setShowForm(false)}}>Закрыть</div>

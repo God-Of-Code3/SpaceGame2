@@ -10,7 +10,7 @@ class UniverseController extends Controller
 {
     public function index(Request $req)
     {
-        $records = Universe::paginate(20);
+        $records = Universe::paginate(1);
         $tableData = CRUDController::getTableData();
 
         $tableData['tableName'] = "Вселенные";

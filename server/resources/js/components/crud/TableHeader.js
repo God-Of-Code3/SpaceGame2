@@ -8,7 +8,7 @@ const TableHeader = ({table, tableData, reload}) => {
     const {showForm, setShowForm, formData, setFormData} = useContext(recordFormContext);
 
     let btnProps = {
-        'create': ['success', 'Создать', () => { setFormData({});console.log(formData);setShowForm(true) }],
+        'create': ['success', 'Создать', () => { setFormData({});setShowForm(true) }],
     }
     
 
