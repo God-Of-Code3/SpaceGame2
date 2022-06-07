@@ -8,14 +8,9 @@ const TableHeader = ({table, tableData, reload}) => {
     const {showForm, setShowForm, formData, setFormData} = useContext(recordFormContext);
 
     let btnProps = {
-        'create': ['success', 'Создать', () => { setShowForm(true) }],
+        'create': ['success', 'Создать', () => { setFormData({});console.log(formData);setShowForm(true) }],
     }
-
-    useEffect(() => {
-        btnProps = {
-            'create': ['success', 'Создать', () => { setShowForm(true) }],
-        }
-    }, [table, tableData, setShowForm]);
+    
 
 
     return (

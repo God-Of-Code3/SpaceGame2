@@ -19,7 +19,10 @@ const CRUD = ({...props}) => {
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({});
 
-    const reload = () => readAll({table, setRecords, setTableData, page});
+    const reload = () => {
+        setFormData({});
+        readAll({table, setRecords, setTableData, page})
+    };
     useEffect(() => {
         reload();
     }, [table]);

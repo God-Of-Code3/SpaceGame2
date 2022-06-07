@@ -6313,7 +6313,8 @@ var CRUD = function CRUD(_ref) {
       setFormData = _useState10[1];
 
   var reload = function reload() {
-    return (0,_api_crud_read__WEBPACK_IMPORTED_MODULE_1__.readAll)({
+    setFormData({});
+    (0,_api_crud_read__WEBPACK_IMPORTED_MODULE_1__.readAll)({
       table: table,
       setRecords: setRecords,
       setTableData: setTableData,
@@ -6368,6 +6369,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["table", "tableData", "edit", "reload", "setShowForm"];
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -6379,6 +6382,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 
 
@@ -6392,10 +6399,9 @@ var RecordForm = function RecordForm(_ref) {
       tableData = _ref.tableData,
       _ref$edit = _ref.edit,
       edit = _ref$edit === void 0 ? false : _ref$edit,
-      _ref$data = _ref.data,
-      data = _ref$data === void 0 ? {} : _ref$data,
       reload = _ref.reload,
-      setShowForm = _ref.setShowForm;
+      setShowForm = _ref.setShowForm,
+      props = _objectWithoutProperties(_ref, _excluded);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -6411,6 +6417,9 @@ var RecordForm = function RecordForm(_ref) {
 
     setHeaders(hdrs);
   }, [tableData, table]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(props.data);
+  }, [props.data]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -6421,7 +6430,7 @@ var RecordForm = function RecordForm(_ref) {
       },
       children: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      action: "/api/".concat(table, "/").concat(edit ? data['id'] : ''),
+      action: "/api/".concat(table, "/").concat(edit ? props.data['id'] : ''),
       method: edit ? "PATCH" : "POST",
       callback: reload,
       children: [headers.map(function (header) {
@@ -6430,7 +6439,7 @@ var RecordForm = function RecordForm(_ref) {
           label: header[0],
           options: tableData.columns[header[1]][2] ? tableData.columns[header[1]][2] : [],
           name: header[1],
-          val: data[header[1]]
+          val: props.data[header[1]]
         });
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
         children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
@@ -6589,16 +6598,11 @@ var TableHeader = function TableHeader(_ref) {
 
   var btnProps = {
     'create': ['success', 'Создать', function () {
+      setFormData({});
+      console.log(formData);
       setShowForm(true);
     }]
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    btnProps = {
-      'create': ['success', 'Создать', function () {
-        setShowForm(true);
-      }]
-    };
-  }, [table, tableData, setShowForm]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {

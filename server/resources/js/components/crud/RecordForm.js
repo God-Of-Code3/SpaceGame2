@@ -3,7 +3,7 @@ import Form from '../form/Form';
 import Input from '../form/Input';
 import Btn from '../form/Btn';
 
-const RecordForm = ({table, tableData, edit=false, data={}, reload, setShowForm}) => {
+const RecordForm = ({table, tableData, edit=false, reload, setShowForm, ...props}) => {
 
     let [headers, setHeaders] = useState([]);
 
@@ -17,10 +17,14 @@ const RecordForm = ({table, tableData, edit=false, data={}, reload, setShowForm}
 
     }, [tableData, table]);
 
+    useEffect(() => {
+        console.log(props.data)
+    }, [props.data]);
+
     return (
         <div className="">
             <div role="button" className="text-danger text-bold" onClick={() => {setShowForm(false)}}>Закрыть</div>
-            <Form action={`/api/${table}/${edit ? data['id'] : ''}`} method={edit ? "PATCH" : "POST"} callback={reload}>
+            <Form action={`/api/${table}/${edit ? props.data['id'] : ''}`} method={edit ? "PATCH" : "POST"} callback={reload}>
                 {
                     headers.map(header =>
                         <Input 
@@ -28,7 +32,7 @@ const RecordForm = ({table, tableData, edit=false, data={}, reload, setShowForm}
                             label={header[0]}
                             options={tableData.columns[header[1]][2] ? tableData.columns[header[1]][2] : []} 
                             name={header[1]} 
-                            val={data[header[1]]}>
+                            val={props.data[header[1]]}>
                         </Input>
                     )
                 }
