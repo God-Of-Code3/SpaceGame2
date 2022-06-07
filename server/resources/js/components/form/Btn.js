@@ -1,8 +1,12 @@
 import React from 'react';
 
-const Btn = ({children, ...props}) => {
+const Btn = ({children, conf=false, ...props}) => {
     return (
-        <button className={`mt-4 btn btn-${props.cls ? props.cls : "primary"}`} onClick={props.onClick}>{children}</button>
+        <button className={`btn btn-${props.cls ? props.cls : "primary"}`} onClick={!conf ? props.onClick : () => {
+            if (confirm("Вы уверены?")) {
+                props.onClick();
+            }
+        }}>{children}</button>
     );
 };
 

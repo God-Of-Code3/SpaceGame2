@@ -23,4 +23,32 @@ class UniverseController extends Controller
         ]);
         $resp->echo();
     }
+
+    public function store(Request $req)
+    {
+        $data = $req->all();
+        $data['user_id'] = $req->user()->id;
+        Universe::create($data);
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Вселенная успешно создана');
+        $resp->echo();
+    }
+
+    public function update(Request $req, Universe $universe)
+    {
+        $universe->update($req->all());
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Вселенная успешно обновлена');
+        $resp->echo();
+    }
+
+    public function destroy(Request $req, Universe $universe)
+    {
+        $universe->delete();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
+    }
 }

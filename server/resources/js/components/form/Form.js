@@ -7,6 +7,7 @@ const Form = ({action, callback, children, method="POST", ...props}) => {
 
     const [messages, setMessages] = useState([]);
     const [fieldErrors, setFieldErrors] = useState({});
+    
     return (
         <form action="#" className="d-flex flex-column gap-3 align-items-start" onSubmit={e => {
                 e.preventDefault();

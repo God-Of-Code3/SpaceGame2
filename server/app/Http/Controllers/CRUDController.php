@@ -28,9 +28,10 @@ class CRUDController extends Controller
         return [
             'tableName' => "Таблица",
             'columns' => [
-                'id' => 'ID',
-                'name' => 'Название'
+                'id' => ['ID', 'number'],
+                'name' => ['Название', 'text'],
             ],
+
             'actions' => [
                 'create',
                 'update',
