@@ -32,7 +32,7 @@ const RecordForm = ({table, tableData, edit=false, reload, setShowForm, ...props
                             label={header[0]}
                             options={tableData.columns[header[1]][2] ? tableData.columns[header[1]][2] : []} 
                             name={header[1]} 
-                            val={props.data[header[1]]}>
+                            val={props.data[header[1]] ? props.data[header[1]] : "clear" + Math.random()}>
                         </Input>
                     )
                 }

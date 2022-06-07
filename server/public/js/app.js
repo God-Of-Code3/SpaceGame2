@@ -6439,7 +6439,7 @@ var RecordForm = function RecordForm(_ref) {
           label: header[0],
           options: tableData.columns[header[1]][2] ? tableData.columns[header[1]][2] : [],
           name: header[1],
-          val: props.data[header[1]]
+          val: props.data[header[1]] ? props.data[header[1]] : "clear" + Math.random()
         });
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
         children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
