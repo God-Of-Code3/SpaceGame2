@@ -6657,7 +6657,12 @@ var Table = function Table(_ref) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("tr", {
             children: [headers.map(function (header) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-                children: record[header[1]]
+                children: tableData.columns[header[1]][1] != 'select' ? record[header[1]] : tableData.columns[header[1]][2].filter(function (option) {
+                  console.log("--------------");
+                  console.log(option);
+                  console.log(option.value, record[header[1]], option.value == record[header[1]]);
+                  return option.value == record[header[1]];
+                })[0]['label']
               });
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {

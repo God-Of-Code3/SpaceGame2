@@ -26,7 +26,6 @@ class SpaceObjectTypeController extends Controller
     public function store(Request $req)
     {
         $data = $req->all();
-        $data['user_id'] = $req->user()->id;
         SpaceObjectType::create($data);
 
         $resp = ApiController::getResp();

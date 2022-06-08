@@ -19,6 +19,10 @@ class CRUDController extends Controller
                 'table' => 'space_object_type',
                 'title' => 'Типы объектов'
             ],
+            [
+                'table' => 'space_object_prop_type',
+                'title' => 'Типы значений'
+            ],
         ]);
         $resp->echo();
     }

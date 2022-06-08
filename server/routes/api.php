@@ -43,3 +43,4 @@ Route::middleware('auth:sactum')->middleware('isadmin')->get('/getTables', [CRUD
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('universe', UniverseController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_type', SpaceObjectTypeController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_prop_type', SpaceObjectPropTypeController::class);
