@@ -7,85 +7,47 @@ use Illuminate\Http\Request;
 
 class SpaceObjectTypeController extends Controller
 {
-    public function get()
+    public function index(Request $req)
     {
-        $spaceObjectTypes = SpaceObjectType::get();
+        $records = SpaceObjectType::paginate(20);
+        $tableData = CRUDController::getTableData();
 
-        $resp = ApiController::getResp();
-        $resp->setContent($spaceObjectTypes);
-        $resp->echo();
-    }
+        $tableData['tableName'] = "Типы объектов";
+        $tableData['columns'] = SpaceObjectType::getColumns();
 
-    public function create(Request $req)
-    {
-        SpaceObjectType::create($req->all());
-
-        $resp = ApiController::getResp();
-        $resp->echo();
-    }
-
-    public function delete(Request $req, $spaceObjectType)
-    {
-        $spaceObjectType = SpaceObjectType::find($spaceObjectType);
-        $spaceObjectType->delete();
-
-        $resp = ApiController::getResp();
-        $resp->echo();
-    }
-
-    public function getOne(Request $req, $spaceObjectType)
-    {
-        $spaceObjectType = SpaceObjectType::find($spaceObjectType);
-
-        $resp = ApiController::getResp();
-        $resp->setContent($spaceObjectType);
-        $resp->echo();
-    }
-
-    public function update(Request $req, $spaceObjectType)
-    {
-        $spaceObjectType = SpaceObjectType::find($spaceObjectType);
-        $spaceObjectType->update($req->all());
-        $spaceObjectType->save();
-
-        $resp = ApiController::getResp();
-        $resp->echo();
-    }
-
-    public function getAttrsLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Название',
-            'description' => 'Описание',
-            'runame' => 'Название на русском'
-        ];
-    }
-
-    public function getInfo(Request $req)
-    {
         $resp = ApiController::getResp();
         $resp->setContent([
-            'api' => 'space-object-type',
-            'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
-            'labels' => $this->getAttrsLabels(),
-            'createForm' => [
-                'title' => "Создание типа объектов",
-                'fields' => [
-                    ['name', 'text'],
-                    ['runame', 'text'],
-                    ['description', 'text'],
-                ]
-            ],
-            'items' => [
-                'title' => "Типы объектов",
-                'showInfo' => [
-                    'title' => 'runame',
-                    'subtitle' => 'name',
-                    'description' => 'description'
-                ]
-            ]
+            'records' => $records,
+            'tableData' => $tableData,
         ]);
+        $resp->echo();
+    }
+
+    public function store(Request $req)
+    {
+        $data = $req->all();
+        $data['user_id'] = $req->user()->id;
+        SpaceObjectType::create($data);
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Тип объекта успешно создан');
+        $resp->echo();
+    }
+
+    public function update(Request $req, SpaceObjectType $SpaceObjectType)
+    {
+        $SpaceObjectType->update($req->all());
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Тип объекта успешно обновлен');
+        $resp->echo();
+    }
+
+    public function destroy(Request $req, SpaceObjectType $SpaceObjectType)
+    {
+        $SpaceObjectType->delete();
+
+        $resp = ApiController::getResp();
         $resp->echo();
     }
 }

@@ -42,3 +42,4 @@ Route::get('/logout', [UserController::class, 'logout']);
 Route::middleware('auth:sactum')->middleware('isadmin')->get('/getTables', [CRUDController::class, 'getTables'])->name('getTables');
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('universe', UniverseController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_type', SpaceObjectTypeController::class);
