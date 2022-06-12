@@ -2,9 +2,11 @@ import React, {useContext} from 'react';
 import { recordFormContext } from './CRUD';
 import Btn from '../form/Btn';
 import request from '../../api/Request';
+import { useNavigate } from 'react-router-dom';
 
 const Table = ({records, table, reload, tableData, ...props}) => {
 
+    const nav = useNavigate();
     const {showForm, setShowForm, formData, setFormData} = useContext(recordFormContext);
 
     const headers = [];
@@ -25,7 +27,15 @@ const Table = ({records, table, reload, tableData, ...props}) => {
                 setShowForm(true);
                 setFormData(record);
             }, false
-        ]
+        ],
+        'page': ['bi bi-box-arrow-up-right', 'success', record => 
+            {
+                let page = tableData.page;
+                page = page.replace(':recordId', record.id);
+                nav(page);
+                window.location.reload();
+            }, false
+        ],
     };
 
     return (

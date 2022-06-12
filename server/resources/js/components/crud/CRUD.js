@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { readAll } from '../../api/crud/read';
 import Container from '../Container';
 import Pagination from './Pagination';
@@ -11,6 +11,10 @@ const recordFormContext = React.createContext();
 const CRUD = ({...props}) => {
 
     const {table} = useParams();
+    
+    const [searchParams, setSearchParams] = useSearchParams();
+    const parentRecordId = searchParams.get('parentRecordId');
+    const parentTable = searchParams.get('parentTable');
 
     // Getting all records
     const [page, setPage] = useState(0);
@@ -23,7 +27,7 @@ const CRUD = ({...props}) => {
 
     const reload = () => {
         setFormData({});
-        readAll({table, setRecords, setTableData, page, setPagination})
+        readAll({table, setRecords, setTableData, page, setPagination, parentTable, parentRecordId});
     };
     useEffect(() => {
         reload();
@@ -35,7 +39,7 @@ const CRUD = ({...props}) => {
             <recordFormContext.Provider value={{showForm, setShowForm, formData, setFormData}}>
                 {
                     tableData ? 
-                    <TableHeader formData={formData} reload={reload} table={table} tableData={tableData}></TableHeader>
+                    <TableHeader parentTable={parentTable} parentRecordId={parentRecordId} formData={formData} reload={reload} table={table} tableData={tableData}></TableHeader>
                     : ""
                 }
                 {

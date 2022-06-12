@@ -4,6 +4,7 @@ import { routes } from '../router';
 
 const NavBar = ({auth, ...props}) => {
 
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -15,9 +16,14 @@ const NavBar = ({auth, ...props}) => {
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     {
                         routes[auth].map((route, i) => 
-                            <li key={`navbar_item_${i}`} className="nav-item">
-                                <Link key={i} className="nav-link" to={route.path}>{route.label}</Link>
-                            </li>
+                            {
+                                return route.show ? 
+                                    <li key={`navbar_item_${i}`} className="nav-item">
+                                        <Link key={i} className="nav-link" to={route.path}>{route.label}</Link>
+                                    </li>
+                                : ""
+                            }
+                            
                         )
                     }
                 </ul>

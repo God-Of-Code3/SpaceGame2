@@ -3,7 +3,7 @@ import Btn from '../form/Btn';
 import { recordFormContext } from './CRUD';
 import RecordForm from './RecordForm';
 
-const TableHeader = ({table, tableData, reload}) => {
+const TableHeader = ({table, tableData, reload, parentTable, parentRecordId}) => {
 
     const {showForm, setShowForm, formData, setFormData} = useContext(recordFormContext);
 
@@ -26,7 +26,7 @@ const TableHeader = ({table, tableData, reload}) => {
             
             {
                 showForm ? 
-                    <div className="mt-3 p-3 bg-dark rounded"><RecordForm setShowForm={setShowForm} table={table} tableData={tableData} edit={Object.keys(formData).length > 0} reload={reload} data={formData}></RecordForm></div>
+                    <div className="mt-3 p-3 bg-dark rounded"><RecordForm parentTable={parentTable} parentRecordId={parentRecordId} setShowForm={setShowForm} table={table} tableData={tableData} edit={Object.keys(formData).length > 0} reload={reload} data={formData}></RecordForm></div>
                 : ""
             }   
             

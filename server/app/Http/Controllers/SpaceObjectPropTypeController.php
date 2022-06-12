@@ -13,7 +13,7 @@ class SpaceObjectPropTypeController extends Controller
         $records = SpaceObjectPropType::paginate(20);
         $tableData = CRUDController::getTableData();
 
-        $tableData['tableName'] = "Вселенные";
+        $tableData['tableName'] = "Типы значений";
         $tableData['columns'] = SpaceObjectPropType::getColumns();
 
         $resp = ApiController::getResp();

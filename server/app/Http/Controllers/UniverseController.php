@@ -15,6 +15,8 @@ class UniverseController extends Controller
 
         $tableData['tableName'] = "Вселенные";
         $tableData['columns'] = Universe::getColumns();
+        $tableData['actions'][] = 'page';
+        $tableData['page'] = '/content/crud/space_object?parentRecordId=:recordId&parentTable=universe';
 
         $resp = ApiController::getResp();
         $resp->setContent([

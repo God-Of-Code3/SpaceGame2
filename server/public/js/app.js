@@ -5385,8 +5385,12 @@ var readAll = function readAll(_ref) {
       page = _ref.page,
       setRecords = _ref.setRecords,
       setTableData = _ref.setTableData,
-      setPagination = _ref.setPagination;
-  (0,_Request__WEBPACK_IMPORTED_MODULE_0__["default"])("/api/".concat(table, "/?page=").concat(page + 1), {}, function (r) {
+      setPagination = _ref.setPagination,
+      parentTable = _ref.parentTable,
+      parentRecordId = _ref.parentRecordId;
+  console.log();
+  var additionalGetPatams = parentTable ? "&".concat(parentTable, "=").concat(parentRecordId) : '';
+  (0,_Request__WEBPACK_IMPORTED_MODULE_0__["default"])("/api/".concat(table, "/?page=").concat(page + 1).concat(additionalGetPatams), {}, function (r) {
     setRecords(r.content.records.data);
     setTableData(r.content.tableData);
     setPagination(Math.ceil(r.content.records.total / r.content.records.per_page));
@@ -5896,14 +5900,14 @@ var NavBar = function NavBar(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
           className: "navbar-nav me-auto mb-2 mb-lg-0",
           children: _router__WEBPACK_IMPORTED_MODULE_1__.routes[auth].map(function (route, i) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+            return route.show ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
               className: "nav-item",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
                 className: "nav-link",
                 to: route.path,
                 children: route.label
               }, i)
-            }, "navbar_item_".concat(i));
+            }, "navbar_item_".concat(i)) : "";
           })
         })
       })]
@@ -6253,6 +6257,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _api_crud_read__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/crud/read */ "./resources/js/api/crud/read.js");
 /* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Container */ "./resources/js/components/Container.js");
 /* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Pagination */ "./resources/js/components/crud/Pagination.js");
@@ -6288,8 +6293,15 @@ var CRUD = function CRUD(_ref) {
   var props = _extends({}, _ref);
 
   var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useParams)(),
-      table = _useParams.table; // Getting all records
+      table = _useParams.table;
 
+  var _useSearchParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useSearchParams)(),
+      _useSearchParams2 = _slicedToArray(_useSearchParams, 2),
+      searchParams = _useSearchParams2[0],
+      setSearchParams = _useSearchParams2[1];
+
+  var parentRecordId = searchParams.get('parentRecordId');
+  var parentTable = searchParams.get('parentTable'); // Getting all records
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
@@ -6328,7 +6340,9 @@ var CRUD = function CRUD(_ref) {
       setRecords: setRecords,
       setTableData: setTableData,
       page: page,
-      setPagination: setPagination
+      setPagination: setPagination,
+      parentTable: parentTable,
+      parentRecordId: parentRecordId
     });
   };
 
@@ -6344,6 +6358,8 @@ var CRUD = function CRUD(_ref) {
         setFormData: setFormData
       },
       children: [tableData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_TableHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        parentTable: parentTable,
+        parentRecordId: parentRecordId,
         formData: formData,
         reload: reload,
         table: table,
@@ -6499,7 +6515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["table", "tableData", "edit", "reload", "setShowForm"];
+var _excluded = ["table", "tableData", "edit", "reload", "setShowForm", "parentTable", "parentRecordId"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -6531,12 +6547,19 @@ var RecordForm = function RecordForm(_ref) {
       edit = _ref$edit === void 0 ? false : _ref$edit,
       reload = _ref.reload,
       setShowForm = _ref.setShowForm,
+      parentTable = _ref.parentTable,
+      parentRecordId = _ref.parentRecordId,
       props = _objectWithoutProperties(_ref, _excluded);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       headers = _useState2[0],
       setHeaders = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      additionalGetPatams = _useState4[0],
+      setAdditionalGetParams = _useState4[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var hdrs = [];
@@ -6545,8 +6568,9 @@ var RecordForm = function RecordForm(_ref) {
       hdrs.push([tableData.columns[key][0], key]);
     }
 
+    setAdditionalGetParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
     setHeaders(hdrs);
-  }, [tableData, table]);
+  }, [tableData, table, edit]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -6557,7 +6581,7 @@ var RecordForm = function RecordForm(_ref) {
       },
       children: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      action: "/api/".concat(table, "/").concat(edit ? props.data['id'] : ''),
+      action: "/api/".concat(table, "/").concat(edit ? props.data['id'] : '').concat(additionalGetPatams),
       method: edit ? "PATCH" : "POST",
       callback: reload,
       children: [headers.map(function (header) {
@@ -6566,7 +6590,7 @@ var RecordForm = function RecordForm(_ref) {
           label: header[0],
           options: tableData.columns[header[1]][2] ? tableData.columns[header[1]][2] : [],
           name: header[1],
-          val: props.data[header[1]] ? props.data[header[1]] : "clear" + Math.random()
+          val: props.data[header[1]] || props.data[header[1]] === 0 ? props.data[header[1]] : "clear" + Math.random()
         });
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
         children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
@@ -6594,6 +6618,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CRUD__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CRUD */ "./resources/js/components/crud/CRUD.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
 /* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["records", "table", "reload", "tableData"];
 
@@ -6608,12 +6633,15 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
 var Table = function Table(_ref) {
   var records = _ref.records,
       table = _ref.table,
       reload = _ref.reload,
       tableData = _ref.tableData,
       props = _objectWithoutProperties(_ref, _excluded);
+
+  var nav = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_CRUD__WEBPACK_IMPORTED_MODULE_1__.recordFormContext),
       showForm = _useContext.showForm,
@@ -6636,6 +6664,12 @@ var Table = function Table(_ref) {
     'update': ['bi bi-pencil', 'primary', function (record) {
       setShowForm(true);
       setFormData(record);
+    }, false],
+    'page': ['bi bi-box-arrow-up-right', 'success', function (record) {
+      var page = tableData.page;
+      page = page.replace(':recordId', record.id);
+      nav(page);
+      window.location.reload();
     }, false]
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -6720,7 +6754,9 @@ __webpack_require__.r(__webpack_exports__);
 var TableHeader = function TableHeader(_ref) {
   var table = _ref.table,
       tableData = _ref.tableData,
-      reload = _ref.reload;
+      reload = _ref.reload,
+      parentTable = _ref.parentTable,
+      parentRecordId = _ref.parentRecordId;
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_CRUD__WEBPACK_IMPORTED_MODULE_2__.recordFormContext),
       showForm = _useContext.showForm,
@@ -6752,6 +6788,8 @@ var TableHeader = function TableHeader(_ref) {
     }), showForm ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "mt-3 p-3 bg-dark rounded",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_RecordForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        parentTable: parentTable,
+        parentRecordId: parentRecordId,
         setShowForm: setShowForm,
         table: table,
         tableData: tableData,
