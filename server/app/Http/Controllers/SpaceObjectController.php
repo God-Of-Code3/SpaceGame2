@@ -42,6 +42,23 @@ class SpaceObjectController extends Controller
         foreach ($req->all() as $name => $value) {
             if (array_key_exists($name, $columns)) {
                 $data[$name] = $value;
+            } elseif (count(explode('__', $name)) > 1) {
+
+                $typeId = explode("__", $name)[1];
+                $propValue = SpaceObjectPropValue::where('space_object_prop_type_id', '=', $typeId)
+                    ->where('space_object_id', '=', $spaceObject->id)
+                    ->first();
+
+                if ($propValue) {
+                    $propValue->value = $value;
+                    $propValue->save();
+                } else {
+                    SpaceObjectPropValue::create([
+                        'space_object_id' => $spaceObject->id,
+                        'space_object_prop_type_id' => $typeId,
+                        'value' => $value
+                    ]);
+                }
             }
         }
         $spaceObject->update($data);
@@ -96,7 +113,11 @@ class SpaceObjectController extends Controller
                     ];
                 }
             }
-            $columns[$prop->name] = [$prop->runame, $prop->type, $options];
+            $columns[$prop->name . "__" . $prop->id] = [$prop->runame, $prop->type, $options];
+            $value = SpaceObjectPropValue::where('space_object_id', '=', $spaceObject->id)
+                ->where('space_object_prop_type_id', '=', $prop->id)
+                ->first();
+            $values[$prop->name . "__" . $prop->id] = $value ? $value->value : "";
         }
 
         $resp = ApiController::getResp();
