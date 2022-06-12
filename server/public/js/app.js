@@ -6581,50 +6581,45 @@ var RecordForm = function RecordForm(_ref) {
       parentRecordId = _ref.parentRecordId,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  // Main fields
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    columns: tableData.columns,
+    data: props.data
+  }),
       _useState2 = _slicedToArray(_useState, 2),
-      headers = _useState2[0],
-      setHeaders = _useState2[1];
+      fields = _useState2[0],
+      setFields = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      additionalGetPatams = _useState4[0],
-      setAdditionalGetParams = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tableData.columns),
-      _useState6 = _slicedToArray(_useState5, 2),
-      columns = _useState6[0],
-      setColumns = _useState6[1];
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-      _useState8 = _slicedToArray(_useState7, 2),
-      values = _useState8[0],
-      setValues = _useState8[1];
+  var reloadData = function reloadData() {
+    if (edit && tableData.getColumns) {
+      (0,_api_Request__WEBPACK_IMPORTED_MODULE_4__["default"])("".concat(tableData.getColumns).concat(props.data.id), {}, function (r) {
+        setFields({
+          columns: r.content.columns,
+          data: r.content.values
+        });
+      }, "GET");
+    } else {
+      setFields(function (lastFields) {
+        return {
+          columns: lastFields.columns,
+          data: props.data
+        };
+      });
+    }
+  };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var hdrs = [];
+    reloadData();
+  }, [props.data, edit]); // Additional get params
 
-    if (!edit || !tableData.getColumns) {
-      for (var key in tableData.columns) {
-        hdrs.push([tableData.columns[key][0], key]);
-      }
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      additionalGetParams = _useState4[0],
+      setAdditionalParams = _useState4[1];
 
-      setAdditionalGetParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
-      setHeaders(hdrs);
-    } else {
-      // getting special params
-      (0,_api_Request__WEBPACK_IMPORTED_MODULE_4__["default"])(tableData.getColumns + props.data['id'], {}, function (r) {
-        for (var _key in r.content.labels) {
-          hdrs.push([r.content.labels[_key][0], _key]);
-        }
-
-        setAdditionalGetParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
-        setColumns(r.content.labels);
-        setValues(r.content.values);
-        setHeaders(hdrs);
-      }, "GET");
-    }
-  }, [tableData, table, edit, props.data]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setAdditionalParams(parentTable ? "&".concat(parentTable, "=").concat(parentRecordId) : '');
+  }, [parentTable, parentRecordId]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -6635,16 +6630,16 @@ var RecordForm = function RecordForm(_ref) {
       },
       children: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      action: "/api/".concat(table, "/").concat(edit ? props.data['id'] : '').concat(additionalGetPatams),
+      action: "/api/".concat(table, "/").concat(edit ? props.data.id : '').concat(additionalGetParams),
       method: edit ? "PATCH" : "POST",
       callback: reload,
-      children: [headers.map(function (header) {
+      children: [Object.keys(fields.columns).map(function (name) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          type: columns[header[1]][1],
-          label: header[0],
-          options: columns[header[1]][2] ? columns[header[1]][2] : [],
-          name: header[1],
-          val: tableData.getColumns ? values[header[1]] : props.data[header[1]] || props.data[header[1]] === 0 ? props.data[header[1]] : "clear" + Math.random()
+          name: name,
+          type: fields.columns[name][1],
+          label: fields.columns[name][0],
+          val: fields.data[name] || fields.data[name] === 0 ? fields.data[name] : "clear" + Math.random(),
+          options: fields.columns[name][2]
         });
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
         children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"

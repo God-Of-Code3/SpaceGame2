@@ -37,7 +37,14 @@ class SpaceObjectController extends Controller
 
     public function update(Request $req, SpaceObject $spaceObject)
     {
-        $spaceObject->update($req->all());
+        $data = [];
+        $columns = SpaceObject::getColumns();
+        foreach ($req->all() as $name => $value) {
+            if (array_key_exists($name, $columns)) {
+                $data[$name] = $value;
+            }
+        }
+        $spaceObject->update($data);
 
         $resp = ApiController::getResp();
         $resp->addFormAlert('success', 'Объект успешно обновлен');
@@ -95,7 +102,7 @@ class SpaceObjectController extends Controller
         $resp = ApiController::getResp();
         $resp->setContent(
             [
-                'labels' => $columns,
+                'columns' => $columns,
                 'values' => $values
             ]
         );

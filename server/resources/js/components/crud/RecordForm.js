@@ -6,49 +6,55 @@ import request from '../../api/Request';
 
 const RecordForm = ({table, tableData, edit=false, reload, setShowForm, parentTable, parentRecordId, ...props}) => {
 
-    let [headers, setHeaders] = useState([]);
-    const [additionalGetPatams, setAdditionalGetParams] = useState('');
-    const [columns, setColumns] = useState(tableData.columns);
-    const [values, setValues] = useState({});
+    // Main fields
+    const [fields, setFields] = useState({
+        columns: tableData.columns,
+        data: props.data
+    });
+
+    const reloadData = () => {
+
+        if (edit && tableData.getColumns) {
+            request(`${tableData.getColumns}${props.data.id}`, {}, r => {
+                setFields({
+                    columns: r.content.columns,
+                    data: r.content.values
+                });
+            }, "GET");
+            
+        } else {
+            setFields(lastFields => {return{
+                columns: lastFields.columns,
+                data: props.data
+            }});
+        }
+    }
 
     useEffect(() => {
-        const hdrs = [];
-        if (!edit || !tableData.getColumns) {
-            for (let key in tableData.columns) {
-                hdrs.push([tableData.columns[key][0], key]);
-            }
-            setAdditionalGetParams(parentTable ? `?${parentTable}=${parentRecordId}` : '');
-            setHeaders(hdrs);
-        } else {
-            // getting special params
-            request(tableData.getColumns + props.data['id'], {}, r => {
-                for (let key in r.content.labels) {
-                    hdrs.push([r.content.labels[key][0], key]);
-                }
-                setAdditionalGetParams(parentTable ? `?${parentTable}=${parentRecordId}` : '');
-                setColumns(r.content.labels);
-                setValues(r.content.values);
-                setHeaders(hdrs);
-            }, "GET");
-        }
-    }, [tableData, table, edit, props.data]);
+        reloadData();
+    }, [props.data, edit]);
+
+    // Additional get params
+    const [additionalGetParams, setAdditionalParams] = useState("");
+    useEffect(() => {
+        setAdditionalParams(parentTable ? `&${parentTable}=${parentRecordId}` : '');
+    }, [parentTable, parentRecordId]);
 
     return (
         <div className="">
             <div role="button" className="text-danger text-bold" onClick={() => {setShowForm(false)}}>Закрыть</div>
-            <Form action={`/api/${table}/${edit ? props.data['id'] : ''}${additionalGetPatams}`} method={edit ? "PATCH" : "POST"} callback={reload}>
+            <Form action={`/api/${table}/${edit ? props.data.id : ''}${additionalGetParams}`} method={edit ? "PATCH" : "POST"} callback={reload}>
                 {
-                    headers.map(header =>
+                    Object.keys(fields.columns).map(name => 
                         <Input 
-                            type={columns[header[1]][1]}
-                            label={header[0]}
-                            options={columns[header[1]][2] ? columns[header[1]][2] : []} 
-                            name={header[1]} 
-                            val={tableData.getColumns ? 
-                                values[header[1]]
-                                : ((props.data[header[1]] || props.data[header[1]] === 0) ? props.data[header[1]] : "clear" + Math.random())
-                            }>
-                        </Input>
+                            name={name}
+                            type={fields.columns[name][1]}
+                            label={fields.columns[name][0]}
+                            val={(fields.data[name] || fields.data[name] === 0) 
+                                ? fields.data[name]
+                                : "clear" + Math.random()}
+                            options={fields.columns[name][2]}
+                        ></Input>
                     )
                 }
                 <Btn>Сохранить</Btn>
