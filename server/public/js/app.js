@@ -6618,7 +6618,7 @@ var RecordForm = function RecordForm(_ref) {
       setAdditionalParams = _useState4[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setAdditionalParams(parentTable ? "&".concat(parentTable, "=").concat(parentRecordId) : '');
+    setAdditionalParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
   }, [parentTable, parentRecordId]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "",

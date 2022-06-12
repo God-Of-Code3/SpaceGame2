@@ -37,7 +37,7 @@ const RecordForm = ({table, tableData, edit=false, reload, setShowForm, parentTa
     // Additional get params
     const [additionalGetParams, setAdditionalParams] = useState("");
     useEffect(() => {
-        setAdditionalParams(parentTable ? `&${parentTable}=${parentRecordId}` : '');
+        setAdditionalParams(parentTable ? `?${parentTable}=${parentRecordId}` : '');
     }, [parentTable, parentRecordId]);
 
     return (

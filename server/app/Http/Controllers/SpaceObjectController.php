@@ -14,17 +14,21 @@ class SpaceObjectController extends Controller
     public function index(Request $req)
     {
         $universe = $req->get('universe', 0);
+        $spaceObject = $req->get('space_object', 0);
 
         $records = $universe ?
-            SpaceObject::where('universe_id', '=', $universe)->paginate(20)
-            :
-            SpaceObject::paginate(20);
+            SpaceObject::where('universe_id', '=', $universe)->where('space_object_id', '=', null)->paginate(20)
+            : ($spaceObject
+                ? SpaceObject::where('space_object_id', '=', $spaceObject)->paginate(20)
+                : SpaceObject::paginate(20));
         // $additionalConditions = $universe ? "AND so.universe_id = '$universe'" : "";
 
         $tableData = CRUDController::getTableData();
 
         $tableData['tableName'] = "Объекты";
         $tableData['columns'] = SpaceObject::getColumns();
+        $tableData['actions'][] = 'page';
+        $tableData['page'] = '/content/crud/space_object?parentRecordId=:recordId&parentTable=space_object';
         $tableData['getColumns'] = "/api/getRecordColumns/space_object/";
 
         $resp = ApiController::getResp();
@@ -73,9 +77,17 @@ class SpaceObjectController extends Controller
 
         $data = $req->all();
         $universe = $req->get('universe', 0);
+        $spaceObject = $req->get('space_object', 0);
+
         if ($universe) {
             $data['universe_id'] = $universe;
         }
+
+        if ($spaceObject) {
+            $data['space_object_id'] = $spaceObject;
+            $data['universe_id'] = SpaceObject::find($spaceObject)->universe_id;
+        }
+
         SpaceObject::create($data);
 
         $resp = ApiController::getResp();
