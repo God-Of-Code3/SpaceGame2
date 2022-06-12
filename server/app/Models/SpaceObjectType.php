@@ -14,4 +14,13 @@ class SpaceObjectType extends Model
         'description',
         'runame'
     ];
+
+    static public function getColumns()
+    {
+        return [
+            'runame' => ['Название', 'text'],
+            'name' => ['Системное имя', 'text'],
+            'description' => ['Описание', 'text']
+        ];
+    }
 }

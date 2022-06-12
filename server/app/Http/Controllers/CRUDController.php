@@ -6,24 +6,42 @@ use Illuminate\Http\Request;
 
 class CRUDController extends Controller
 {
-    public function getTabs()
+    public function getTables()
     {
         $resp = ApiController::getResp();
 
         $resp->setContent([
-            'Universe' => [
-                'title' => 'Вселенные',
-                'api' => 'universe'
+            [
+                'table' => 'universe',
+                'title' => 'Вселенные'
             ],
-            'SpaceObjectType' => [
-                'title' => 'Типы объектов',
-                'api' => 'space-object-type'
+            [
+                'table' => 'space_object_type',
+                'title' => 'Типы объектов'
             ],
-            'SpaceObjectPropType' => [
-                'title' => 'Характеристики объектов',
-                'api' => 'space-object-prop-type'
+            [
+                'table' => 'space_object_prop_type',
+                'title' => 'Типы значений'
             ],
         ]);
         $resp->echo();
+    }
+
+    static public function getTableData()
+    {
+        return [
+            'tableName' => "Таблица",
+            'columns' => [
+                'id' => ['ID', 'number'],
+                'name' => ['Название', 'text'],
+            ],
+
+            'actions' => [
+                'create',
+                'update',
+                'delete',
+                'read'
+            ]
+        ];
     }
 }

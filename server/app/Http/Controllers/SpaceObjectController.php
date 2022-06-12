@@ -11,231 +11,134 @@ use Illuminate\Support\Facades\DB;
 
 class SpaceObjectController extends Controller
 {
-
-    protected function getUrlObjectType($req, $right = "")
+    public function index(Request $req)
     {
-        $path = $req->path();
-        $type = explode('/', $path)[1];
-        return $type;
-    }
+        $universe = $req->get('universe', 0);
+        $spaceObject = $req->get('space_object', 0);
 
-    public static function getSelfLabels()
-    {
-        return [
-            'name' => 'Название',
-            'x' => 'X-координата',
-            'y' => 'Y-координата',
-            'rad' => 'Радиус объекта',
-            'dist' => 'Радиус орбиты',
-            'angle' => 'Начальный угол',
-            'period' => 'Период'
-        ];
-    }
+        $records = $universe ?
+            SpaceObject::where('universe_id', '=', $universe)->where('space_object_id', '=', null)->paginate(20)
+            : ($spaceObject
+                ? SpaceObject::where('space_object_id', '=', $spaceObject)->paginate(20)
+                : SpaceObject::paginate(20));
+        // $additionalConditions = $universe ? "AND so.universe_id = '$universe'" : "";
 
-    protected function getAttrsLabels($req)
-    {
+        $tableData = CRUDController::getTableData();
 
-        $labels = $this->getSelfLabels();
-
-        $typeId = $this->getSpaceObjectTypeId($req);
-        $propTypes = SpaceObjectPropType::where("space_object_type_id", "=", $typeId)->orWhere("space_object_type_id", "=", null)->get();
-
-        foreach ($propTypes as $propType) {
-            $labels[$propType->name] = $propType->description;
-        }
-
-        return $labels;
-    }
-
-    protected function getFields($req)
-    {
-        $fields = [
-            ['name', 'text'],
-            ['x', 'number'],
-            ['y', 'number'],
-            ['rad', 'number'],
-            ['dist', 'number'],
-            ['angle', 'number'],
-            ['period', 'number'],
-        ];
-
-        foreach ($this->getAdditionalFields($req) as $field) {
-            $fields[] = $field;
-        }
-
-        return $fields;
-    }
-
-    protected function getAdditionalFields($req)
-    {
-        $fields = [];
-
-        $typeId = $this->getSpaceObjectTypeId($req);
-        $propTypes = SpaceObjectPropType::where("space_object_type_id", "=", $typeId)->orWhere("space_object_type_id", "=", null)->get();
-
-        foreach ($propTypes as $propType) {
-            $options = [];
-            foreach (explode(":", $propType->default) as $valueType) {
-                $options[] = [
-                    'value' => $valueType,
-                    'label' => $valueType
-                ];
-            }
-            $fields[] = [$propType->name, $propType->type, $options];
-        }
-
-        return $fields;
-    }
-
-    public function getSelfTabs()
-    {
-        $tabs = [];
-        $spaceObjectTypes = SpaceObjectType::get();
-        foreach ($spaceObjectTypes as $objectType) {
-            $tabs["$objectType->name"] = [
-                'title' => "$objectType->runame",
-                'api' => "/$objectType->name",
-            ];
-        }
-
-        return $tabs;
-    }
-
-    public function getInfo(Request $req, $universe = null, $spaceObject = null)
-    {
-        $type = $this->getUrlObjectType($req);
+        $tableData['tableName'] = "Объекты";
+        $tableData['columns'] = SpaceObject::getColumns();
+        $tableData['actions'][] = 'page';
+        $tableData['page'] = '/content/crud/space_object?parentRecordId=:recordId&parentTable=space_object';
+        $tableData['getColumns'] = "/api/getRecordColumns/space_object/";
 
         $resp = ApiController::getResp();
         $resp->setContent([
-            'api' => $type . ($universe ? "/universe/$universe" : ""),
-            'actions' => ['get', 'getOne', 'create', 'update', 'delete'],
-            'labels' => $this->getAttrsLabels($req),
-            'createForm' => [
-                'title' => "Создание объекта",
-                'fields' => $this->getFields($req)
-            ],
-            'items' => [
-                'title' => "Объекты",
-                'showInfo' => [
-                    'title' => 'name',
-                ],
-                'filter' => ['id', 'name']
-            ],
+            'records' => $records,
+            'tableData' => $tableData,
         ]);
         $resp->echo();
     }
 
-    public function get(Request $req, $universe = null)
+    public function update(Request $req, SpaceObject $spaceObject)
     {
-        $typeId = $this->getSpaceObjectTypeId($req);
-        if (!$universe) {
-            $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->get();
-        } else {
-            $objects = SpaceObject::where("space_object_type_id", '=', $typeId)->where("universe_id", "=", $universe)->get();
-        }
+        $data = [];
+        $columns = SpaceObject::getColumns();
+        foreach ($req->all() as $name => $value) {
+            if (array_key_exists($name, $columns)) {
+                $data[$name] = $value;
+            } elseif (count(explode('__', $name)) > 1) {
 
-        $props = DB::select(DB::raw("SELECT so.id, so.name,  sopt.name, sopv.value, sopt.space_object_type_id FROM `space_objects` AS so, space_object_prop_types AS sopt, space_object_prop_values AS sopv WHERE so.id = sopv.space_object_id AND sopv.space_object_prop_type_id = sopt.id AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL) AND so.space_object_type_id = '$typeId'" . ($universe ? " AND so.universe_id = '$universe'" : "")));
+                $typeId = explode("__", $name)[1];
+                $propValue = SpaceObjectPropValue::where('space_object_prop_type_id', '=', $typeId)
+                    ->where('space_object_id', '=', $spaceObject->id)
+                    ->first();
 
-        $i = 0;
-
-        foreach ($props as $prop) {
-            if ($objects[$i]->id != $prop->id) {
-                $i += 1;
+                if ($propValue) {
+                    $propValue->value = $value;
+                    $propValue->save();
+                } else {
+                    SpaceObjectPropValue::create([
+                        'space_object_id' => $spaceObject->id,
+                        'space_object_prop_type_id' => $typeId,
+                        'value' => $value
+                    ]);
+                }
             }
-            $objects[$i][$prop->name] = $prop->value;
         }
+        $spaceObject->update($data);
 
         $resp = ApiController::getResp();
-        $resp->setContent($objects);
+        $resp->addFormAlert('success', 'Объект успешно обновлен');
         $resp->echo();
     }
 
-    public function getOne(Request $req, $objectId)
+    public function store(Request $req)
     {
-        $object = SpaceObject::find($objectId);
-        $props = DB::select(DB::raw("
-            SELECT so.id, so.name,  sopt.runame AS typeName, sopt.name AS propName, sopv.value, sopt.space_object_type_id, sot.runame AS objType, sot.name AS objTypeName FROM 
-                space_objects AS so, 
-                space_object_prop_types AS sopt, 
-                space_object_prop_values AS sopv,
-                space_object_types AS sot
-            WHERE so.id = sopv.space_object_id
-            AND sot.id = so.space_object_type_id
-            AND sopv.space_object_prop_type_id = sopt.id 
-            AND (sopt.space_object_type_id = so.space_object_type_id OR sopt.space_object_type_id IS NULL) 
-            AND so.id = '$objectId'"));
-
-        foreach ($props as $prop) {
-            $object[$prop->name] = $prop->value;
-        }
-
-        $resp = ApiController::getResp();
-        $resp->setContent($object);
-        $resp->echo();
-    }
-
-    public function create(Request $req)
-    {
-        $data = $req->all();
-        $data['space_object_type_id'] = $this->getSpaceObjectTypeId($req);
-
-        $obj = SpaceObject::create($data);
-
-        foreach ($this->getAdditionalFields($req) as $field) {
-            $this->setProperty($obj, $field[0], $data[$field[0]]);
-        }
-
-        $resp = ApiController::getResp();
-        // $resp->setContent($data);
-        $resp->echo();
-    }
-
-    public function update(Request $req, $spaceObject)
-    {
-        $spaceObject = SpaceObject::find($spaceObject);
-        $spaceObject->update($req->all());
 
         $data = $req->all();
-        foreach ($this->getAdditionalFields($req) as $field) {
-            $this->setProperty($spaceObject, $field[0], $data[$field[0]]);
+        $universe = $req->get('universe', 0);
+        $spaceObject = $req->get('space_object', 0);
+
+        if ($universe) {
+            $data['universe_id'] = $universe;
         }
 
-        $spaceObject->save();
+        if ($spaceObject) {
+            $data['space_object_id'] = $spaceObject;
+            $data['universe_id'] = SpaceObject::find($spaceObject)->universe_id;
+        }
+
+        SpaceObject::create($data);
 
         $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Объект успешно создан');
         $resp->echo();
     }
 
-    public function delete(Request $req, $spaceObject)
+    public function destroy(Request $req, SpaceObject $spaceObject)
     {
-        $spaceObject = SpaceObject::find($spaceObject);
-
-        DB::table('space_object_prop_values')->where('space_object_id', '=', $spaceObject->id)->delete();
         $spaceObject->delete();
 
         $resp = ApiController::getResp();
         $resp->echo();
     }
 
-    protected function getSpaceObjectTypeId($req)
+    public function getRecordColumns(Request $req, SpaceObject $spaceObject)
     {
-        $type = explode("/", $req->path())[1];
-        return SpaceObjectType::where('name', '=', $type)->first()->id;
-    }
+        $columns = SpaceObject::getColumns();
+        $values = $spaceObject->toArray();
 
-    protected function setProperty($obj, $name, $value)
-    {
-        $propTypeId = SpaceObjectPropType::where('name', '=', $name)->first()->id;
-        $propValue = SpaceObjectPropValue::where('space_object_id', '=', $obj->id)->where('space_object_prop_type_id', '=', $propTypeId)->first();
-        if ($propValue) {
-            $propValue->value = $value;
-            $propValue->save();
-        } else {
-            SpaceObjectPropValue::create([
-                'space_object_id' => $obj->id,
-                'space_object_prop_type_id' => $propTypeId,
-                'value' => $value,
-            ]);
+        unset($columns['space_object_type_id']);
+        unset($columns['universe_id']);
+
+        $props = SpaceObjectPropType::where('space_object_type_id', '=', $spaceObject->space_object_type_id)
+            ->orWhere('space_object_type_id', '=', 0)
+            ->get();
+
+        foreach ($props as $prop) {
+            $options = [];
+            if ($prop->type == 'select') {
+                foreach (explode(";", $prop->default) as $item) {
+                    $options[] = [
+                        'value' => explode(':', $item)[0],
+                        'label' => explode(':', $item)[1],
+                    ];
+                }
+            }
+            $columns[$prop->name . "__" . $prop->id] = [$prop->runame, $prop->type, $options];
+            $value = SpaceObjectPropValue::where('space_object_id', '=', $spaceObject->id)
+                ->where('space_object_prop_type_id', '=', $prop->id)
+                ->first();
+            $values[$prop->name . "__" . $prop->id] = $value ? $value->value : "";
         }
+
+        $resp = ApiController::getResp();
+        $resp->setContent(
+            [
+                'columns' => $columns,
+                'values' => $values
+            ]
+        );
+        $resp->echo();
     }
 }

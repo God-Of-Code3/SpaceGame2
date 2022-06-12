@@ -14,4 +14,12 @@ class Universe extends Model
         'description',
         'user_id'
     ];
+
+    static public function getColumns()
+    {
+        return [
+            'name' => ['Название', 'text'],
+            'description' => ['Описание', 'text']
+        ];
+    }
 }

@@ -38,68 +38,12 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::get('/logout', [UserController::class, 'logout']);
 
-// Universe
-Route::middleware('auth:sanctum')->prefix('universe')->group(function () {
-    Route::get('/', [UniverseController::class, 'get'])->middleware('isadmin');
-    Route::post('/', [UniverseController::class, 'create'])->middleware('isadmin');
-    Route::get('/getInfo', [UniverseController::class, 'getInfo'])->middleware('isadmin');
 
-    Route::get('/{universe}/getInfo', [UniverseController::class, 'getInfo'])->middleware('isadmin');
+Route::middleware('auth:sactum')->middleware('isadmin')->get('/getTables', [CRUDController::class, 'getTables'])->name('getTables');
 
-    Route::get('/{universe}', [UniverseController::class, 'getOne'])->middleware('isadmin');
-    Route::post('/{universe}', [UniverseController::class, 'update'])->middleware('isadmin');
-    Route::delete('/{universe}', [UniverseController::class, 'delete'])->middleware('isadmin');
-});
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('universe', UniverseController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_type', SpaceObjectTypeController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_prop_type', SpaceObjectPropTypeController::class);
 
-// Space object type
-Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('space-object-type')->group(function () {
-    Route::get('/', [SpaceObjectTypeController::class, 'get']);
-    Route::post('/', [SpaceObjectTypeController::class, 'create']);
-    Route::get('/getInfo', [SpaceObjectTypeController::class, 'getInfo']);
-
-    Route::get('/{spaceObjectType}', [SpaceObjectTypeController::class, 'getOne']);
-    Route::post('/{spaceObjectType}', [SpaceObjectTypeController::class, 'update']);
-    Route::delete('/{spaceObjectType}', [SpaceObjectTypeController::class, 'delete']);
-});
-
-// Space object
-foreach (SpaceObjectType::get() as $objectType) {
-    Route::middleware('auth:sanctum')->middleware('isadmin')->middleware('spaceobjecttype')->prefix("$objectType->name")->group(function () {
-        Route::get('/getInfo', [SpaceObjectController::class, 'getInfo']);
-        Route::get('/', [SpaceObjectController::class, 'get']);
-
-        // Sub actions
-        Route::get('/universe/{universe}/getInfo', [SpaceObjectController::class, 'getInfo']);
-        Route::get('/universe/{universe}/', [SpaceObjectController::class, 'get']);
-        Route::post('/universe/{universeId}', [SpaceObjectController::class, 'create']);
-
-        Route::get('/{spaceObject}', [SpaceObjectController::class, 'getOne']);
-        Route::post('/{spaceObject}', [SpaceObjectController::class, 'update']);
-        Route::delete('/{spaceObject}', [SpaceObjectController::class, 'delete']);
-    });
-}
-
-// Systems
-Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('system')->group(function () {
-    Route::get('/universe/{universe}/getInfo', [SystemController::class, 'getUniverseInfo']);
-    Route::get('/space-object/{spaceObject}/getInfo', [SystemController::class, 'getSystemInfo']);
-
-    Route::get('/universe/{universe}/', [SystemController::class, 'getUniverseSystem']);
-    Route::get('/space-object/{spaceObject}/', [SystemController::class, 'getSpaceObjectSystem']);
-});
-
-// Space object prop type
-Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('space-object-prop-type')->group(function () {
-    Route::get('/', [SpaceObjectPropTypeController::class, 'get']);
-    Route::post('/', [SpaceObjectPropTypeController::class, 'create']);
-    Route::get('/getInfo', [SpaceObjectPropTypeController::class, 'getInfo']);
-
-    Route::get('/{spaceObjectPropType}', [SpaceObjectPropTypeController::class, 'getOne']);
-    Route::post('/{spaceObjectPropType}', [SpaceObjectPropTypeController::class, 'update']);
-    Route::delete('/{spaceObjectPropType}', [SpaceObjectPropTypeController::class, 'delete']);
-});
-
-// CRUD controls
-Route::middleware('auth:sanctum')->middleware('isadmin')->prefix('crud-controls')->group(function () {
-    Route::get('/get-tabs', [CRUDController::class, 'getTabs']);
-});
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object', SpaceObjectController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->get('getRecordColumns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);

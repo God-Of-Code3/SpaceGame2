@@ -16,7 +16,6 @@ const LoginForm = () => {
     const handle = r => {
         if (r.status == "OK") {
             
-            console.log(r);
             setAuth(r.content.user.role.level);
             nav("/");
         }
