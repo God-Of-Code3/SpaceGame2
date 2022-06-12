@@ -35,25 +35,23 @@ const CRUD = ({...props}) => {
 
 
     return (
-        <Container>
-            <recordFormContext.Provider value={{showForm, setShowForm, formData, setFormData}}>
-                {
-                    tableData ? 
-                    <TableHeader parentTable={parentTable} parentRecordId={parentRecordId} formData={formData} reload={reload} table={table} tableData={tableData}></TableHeader>
-                    : ""
-                }
-                {
-                    (records && tableData) ? 
-                    <Table tableData={tableData} reload={reload} table={table} records={records}></Table>
-                    : ""
-                }
-                {
-                    (records && pagination) ?
-                    <Pagination page={page} pagination={pagination} setPage={setPage}></Pagination>
-                    : ""
-                }
-            </recordFormContext.Provider>
-        </Container>
+        <recordFormContext.Provider value={{showForm, setShowForm, formData, setFormData}}>
+            {
+                tableData ? 
+                <TableHeader parentTable={parentTable} parentRecordId={parentRecordId} formData={formData} reload={reload} table={table} tableData={tableData}></TableHeader>
+                : ""
+            }
+            {
+                (records && tableData) ? 
+                <Table tableData={tableData} reload={reload} table={table} records={records}></Table>
+                : ""
+            }
+            {
+                (records && pagination) ?
+                <Pagination page={page} pagination={pagination} setPage={setPage}></Pagination>
+                : ""
+            }
+        </recordFormContext.Provider>
     );
 };
 

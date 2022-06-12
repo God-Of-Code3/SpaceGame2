@@ -61,9 +61,6 @@ const Table = ({records, table, reload, tableData, ...props}) => {
                                             tableData.columns[header[1]][1] != 'select' ? 
                                                 record[header[1]] : 
                                                 tableData.columns[header[1]][2].filter(option => {
-                                                    console.log("--------------");
-                                                    console.log(option)
-                                                    console.log(option.value, record[header[1]], option.value == record[header[1]]);
                                                     return option.value == record[header[1]]
                                                 })[0]['label']
                                         }</td>

@@ -46,3 +46,4 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_prop_type', SpaceObjectPropTypeController::class);
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object', SpaceObjectController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->get('getRecordColumns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);

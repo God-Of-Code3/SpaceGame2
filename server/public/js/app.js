@@ -5618,6 +5618,36 @@ var Block = function Block(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/CRUDPage.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/CRUDPage.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Container */ "./resources/js/components/Container.js");
+/* harmony import */ var _crud_CRUD__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./crud/CRUD */ "./resources/js/components/crud/CRUD.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var CRUDPage = function CRUDPage() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_crud_CRUD__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CRUDPage);
+
+/***/ }),
+
 /***/ "./resources/js/components/Contacts.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/Contacts.js ***!
@@ -6349,32 +6379,30 @@ var CRUD = function CRUD(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     reload();
   }, [table, page]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(recordFormContext.Provider, {
-      value: {
-        showForm: showForm,
-        setShowForm: setShowForm,
-        formData: formData,
-        setFormData: setFormData
-      },
-      children: [tableData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_TableHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        parentTable: parentTable,
-        parentRecordId: parentRecordId,
-        formData: formData,
-        reload: reload,
-        table: table,
-        tableData: tableData
-      }) : "", records && tableData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Table__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        tableData: tableData,
-        reload: reload,
-        table: table,
-        records: records
-      }) : "", records && pagination ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Pagination__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        page: page,
-        pagination: pagination,
-        setPage: setPage
-      }) : ""]
-    })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(recordFormContext.Provider, {
+    value: {
+      showForm: showForm,
+      setShowForm: setShowForm,
+      formData: formData,
+      setFormData: setFormData
+    },
+    children: [tableData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_TableHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      parentTable: parentTable,
+      parentRecordId: parentRecordId,
+      formData: formData,
+      reload: reload,
+      table: table,
+      tableData: tableData
+    }) : "", records && tableData ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Table__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      tableData: tableData,
+      reload: reload,
+      table: table,
+      records: records
+    }) : "", records && pagination ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Pagination__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      page: page,
+      pagination: pagination,
+      setPage: setPage
+    }) : ""]
   });
 };
 
@@ -6514,7 +6542,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/Form */ "./resources/js/components/form/Form.js");
 /* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
 /* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["table", "tableData", "edit", "reload", "setShowForm", "parentTable", "parentRecordId"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -6532,6 +6561,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 
 
 
@@ -6561,38 +6591,62 @@ var RecordForm = function RecordForm(_ref) {
       additionalGetPatams = _useState4[0],
       setAdditionalGetParams = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(tableData.columns),
+      _useState6 = _slicedToArray(_useState5, 2),
+      columns = _useState6[0],
+      setColumns = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState8 = _slicedToArray(_useState7, 2),
+      values = _useState8[0],
+      setValues = _useState8[1];
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var hdrs = [];
 
-    for (var key in tableData.columns) {
-      hdrs.push([tableData.columns[key][0], key]);
-    }
+    if (!edit || !tableData.getColumns) {
+      for (var key in tableData.columns) {
+        hdrs.push([tableData.columns[key][0], key]);
+      }
 
-    setAdditionalGetParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
-    setHeaders(hdrs);
-  }, [tableData, table, edit]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      setAdditionalGetParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
+      setHeaders(hdrs);
+    } else {
+      // getting special params
+      (0,_api_Request__WEBPACK_IMPORTED_MODULE_4__["default"])(tableData.getColumns + props.data['id'], {}, function (r) {
+        for (var _key in r.content.labels) {
+          hdrs.push([r.content.labels[_key][0], _key]);
+        }
+
+        setAdditionalGetParams(parentTable ? "?".concat(parentTable, "=").concat(parentRecordId) : '');
+        setColumns(r.content.labels);
+        setValues(r.content.values);
+        setHeaders(hdrs);
+      }, "GET");
+    }
+  }, [tableData, table, edit, props.data]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       role: "button",
       className: "text-danger text-bold",
       onClick: function onClick() {
         setShowForm(false);
       },
       children: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
       action: "/api/".concat(table, "/").concat(edit ? props.data['id'] : '').concat(additionalGetPatams),
       method: edit ? "PATCH" : "POST",
       callback: reload,
       children: [headers.map(function (header) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          type: tableData.columns[header[1]][1],
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          type: columns[header[1]][1],
           label: header[0],
-          options: tableData.columns[header[1]][2] ? tableData.columns[header[1]][2] : [],
+          options: columns[header[1]][2] ? columns[header[1]][2] : [],
           name: header[1],
-          val: props.data[header[1]] || props.data[header[1]] === 0 ? props.data[header[1]] : "clear" + Math.random()
+          val: tableData.getColumns ? values[header[1]] : props.data[header[1]] || props.data[header[1]] === 0 ? props.data[header[1]] : "clear" + Math.random()
         });
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
         children: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"
       })]
     })]
@@ -6692,9 +6746,6 @@ var Table = function Table(_ref) {
             children: [headers.map(function (header) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
                 children: tableData.columns[header[1]][1] != 'select' ? record[header[1]] : tableData.columns[header[1]][2].filter(function (option) {
-                  console.log("--------------");
-                  console.log(option);
-                  console.log(option.value, record[header[1]], option.value == record[header[1]]);
                   return option.value == record[header[1]];
                 })[0]['label']
               });
@@ -8622,7 +8673,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Profile__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/Profile */ "./resources/js/components/Profile.js");
 /* harmony import */ var _components_Logout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Logout */ "./resources/js/components/Logout.js");
 /* harmony import */ var _components_admin_Content__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/admin/Content */ "./resources/js/components/admin/Content.js");
-/* harmony import */ var _components_crud_CRUD__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/crud/CRUD */ "./resources/js/components/crud/CRUD.js");
+/* harmony import */ var _components_CRUDPage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/CRUDPage */ "./resources/js/components/CRUDPage.js");
 
 
 
@@ -8705,7 +8756,7 @@ var routes = {
     show: true
   }, {
     path: '/content/crud/:table',
-    element: _components_crud_CRUD__WEBPACK_IMPORTED_MODULE_8__["default"]
+    element: _components_CRUDPage__WEBPACK_IMPORTED_MODULE_8__["default"]
   }, {
     path: '/profile',
     element: _components_Profile__WEBPACK_IMPORTED_MODULE_5__["default"],
