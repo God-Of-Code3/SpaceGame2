@@ -9,6 +9,7 @@ use App\Http\Controllers\UniverseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserUniverseCameraController;
 use App\Models\Role;
 use App\Models\SpaceObject;
 use App\Models\SpaceObjectType;
@@ -25,7 +26,7 @@ use App\Models\User;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user_info', function (Request $request) {
     $userData = $request->user();
     $user = User::find($userData['id']);
     $role = Role::find($user['role_id']);
@@ -44,6 +45,8 @@ Route::middleware('auth:sactum')->middleware('isadmin')->get('/getTables', [CRUD
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('universe', UniverseController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_type', SpaceObjectTypeController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_prop_type', SpaceObjectPropTypeController::class);
-
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object', SpaceObjectController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user', UserController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user_universe_camera', UserUniverseCameraController::class);
+
 Route::middleware('auth:sanctum')->middleware('isadmin')->get('getRecordColumns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);

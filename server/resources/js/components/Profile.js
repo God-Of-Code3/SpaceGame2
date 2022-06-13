@@ -7,7 +7,7 @@ const Profile = () => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        request("/api/user", {}, r => {
+        request("/api/user_info", {}, r => {
             if (r.message) {
                 setUser({
                     name: "Unauthorized",

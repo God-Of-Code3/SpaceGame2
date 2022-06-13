@@ -46,7 +46,7 @@ class UserController extends Controller
         //     'user' => $user,
         //     'message' => 'registration successful'
         // ], 200);
-        $resp->addFormAlert("success", "registration successful");
+        $resp->addFormAlert("success", "Вы успешно зарегистрировались");
         $resp->echo();
     }
     /**
@@ -98,11 +98,11 @@ class UserController extends Controller
             $resp->setContent([
                 "user" => $authuser
             ]);
-            $resp->addFormAlert('success', 'Login successful');
+            $resp->addFormAlert('success', 'Успешный вход');
         } else {
 
             $resp->fail();
-            $resp->addFormAlert('error', 'Invalid email or password');
+            $resp->addFormAlert('error', 'Неверный логин или пароль');
         }
 
         $resp->echo();
@@ -112,6 +112,34 @@ class UserController extends Controller
     {
         Auth::logout();
         return response()->json(['message' => 'Logged Out'], 200);
+    }
+
+    public function index(Request $req)
+    {
+        $records = User::paginate(20);
+        $tableData = CRUDController::getTableData();
+
+        $tableData['tableName'] = "Пользователи";
+        $tableData['columns'] = User::getColumns();
+        $tableData['actions'][] = 'page';
+        $tableData['page'] = '/content/crud/user_universe_camera?parentRecordId=:recordId&parentTable=user';
+
+        $resp = ApiController::getResp();
+        $resp->setContent([
+            'records' => $records,
+            'tableData' => $tableData,
+        ]);
+        $resp->echo();
+    }
+
+    public function store(Request $req)
+    {
+        $data = $req->all();
+        User::create($data);
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Пользователь успешно создан');
+        $resp->echo();
     }
 }
 // function create(Request $req)

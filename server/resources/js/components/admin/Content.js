@@ -28,7 +28,7 @@ const Content = () => {
                         <div className="row mt-4">
                             {
                                 tables.map(table => 
-                                    <div className="col-4">
+                                    <div className="col-4 mt-4">
                                         <div className="bg-dark rounded p-3">
                                             <h4 className='mb-3'>{table.title}</h4>
                                             <Btn onClick={() => openTable(table.table)}>Перейти</Btn>

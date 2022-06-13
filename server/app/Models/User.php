@@ -57,4 +57,22 @@ class User extends Authenticatable
     {
         return Role::find($this->role_id);
     }
+
+    static public function getColumns()
+    {
+        $roles = [];
+        foreach (Role::get() as $role) {
+            $roles[] = [
+                'value' => $role->id,
+                'label' => $role->name
+            ];
+        }
+
+        return [
+            'name' => ['Имя пользователя', 'text'],
+            'email' => ['Email', 'email'],
+            'password' => ['Пароль', 'password'],
+            'role_id' => ['Статус', 'select', $roles],
+        ];
+    }
 }

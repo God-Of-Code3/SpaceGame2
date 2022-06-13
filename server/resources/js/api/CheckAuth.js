@@ -1,7 +1,7 @@
 import request from "./Request";
 
 const checkAuth = (setAuth) => {
-    request("/api/user", {}, r => {
+    request("/api/user_info", {}, r => {
         if (r.message) {
             setAuth(0);
         } else {
