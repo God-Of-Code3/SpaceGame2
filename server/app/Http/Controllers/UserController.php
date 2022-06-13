@@ -141,6 +141,27 @@ class UserController extends Controller
         $resp->addFormAlert('success', 'Пользователь успешно создан');
         $resp->echo();
     }
+
+    public function update(Request $req, User $user)
+    {
+        $data = $req->all();
+        if ($data['password'] == '') {
+            unset($data['password']);
+        }
+        $user->update($data);
+
+        $resp = ApiController::getResp();
+        $resp->addFormAlert('success', 'Пользователь успешно обновлен');
+        $resp->echo();
+    }
+
+    public function destroy(Request $req, User $user)
+    {
+        $user->delete();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
+    }
 }
 // function create(Request $req)
 // {
