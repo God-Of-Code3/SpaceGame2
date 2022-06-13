@@ -46,7 +46,7 @@ class SpaceObject extends Model
             'y' => ['Y', 'number'],
             'rad' => ['Радиус', 'number'],
             'dist' => ['Орбита', 'number'],
-            'angle' => ['Нач. угл', 'number'],
+            'angle' => ['Нач. угол', 'number'],
             'period' => ['Период', 'number'],
             'space_object_type_id' => ['Тип объекта', 'select', $spaceObjectTypes],
         ];
