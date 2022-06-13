@@ -9,7 +9,7 @@ use App\Http\Controllers\UniverseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserUniverseCameraController;
+use App\Http\Controllers\UserUniverseMemberController;
 use App\Models\Role;
 use App\Models\SpaceObject;
 use App\Models\SpaceObjectType;
@@ -47,6 +47,6 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_prop_type', SpaceObjectPropTypeController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object', SpaceObjectController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user', UserController::class);
-Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user_universe_camera', UserUniverseCameraController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user_universe_member', UserUniverseMemberController::class);
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->get('getRecordColumns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);

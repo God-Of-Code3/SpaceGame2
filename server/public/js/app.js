@@ -5270,7 +5270,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var checkAuth = function checkAuth(setAuth) {
-  (0,_Request__WEBPACK_IMPORTED_MODULE_0__["default"])("/api/user", {}, function (r) {
+  (0,_Request__WEBPACK_IMPORTED_MODULE_0__["default"])("/api/user_info", {}, function (r) {
     if (r.message) {
       setAuth(0);
     } else {
@@ -5991,7 +5991,7 @@ var Profile = function Profile() {
       setUser = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    (0,_api_Request__WEBPACK_IMPORTED_MODULE_2__["default"])("/api/user", {}, function (r) {
+    (0,_api_Request__WEBPACK_IMPORTED_MODULE_2__["default"])("/api/user_info", {}, function (r) {
       if (r.message) {
         setUser({
           name: "Unauthorized",
@@ -6160,7 +6160,7 @@ var Content = function Content() {
         className: "row mt-4",
         children: tables.map(function (table) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "col-4",
+            className: "col-4 mt-4",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
               className: "bg-dark rounded p-3",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {

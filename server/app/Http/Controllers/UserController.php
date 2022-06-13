@@ -122,7 +122,7 @@ class UserController extends Controller
         $tableData['tableName'] = "Пользователи";
         $tableData['columns'] = User::getColumns();
         $tableData['actions'][] = 'page';
-        $tableData['page'] = '/content/crud/user_universe_camera?parentRecordId=:recordId&parentTable=user';
+        $tableData['page'] = '/content/crud/user_universe_member?parentRecordId=:recordId&parentTable=user';
 
         $resp = ApiController::getResp();
         $resp->setContent([
