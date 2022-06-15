@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CRUDController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\SpaceObjectController;
 use App\Http\Controllers\SpaceObjectTypeController;
 use App\Http\Controllers\SpaceObjectPropTypeController;
@@ -50,3 +51,9 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user', UserC
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user_universe_member', UserUniverseMemberController::class);
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->get('getRecordColumns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);
+
+// Game functions
+Route::middleware('auth:sanctum')->prefix('game')->group(function () {
+    Route::get('/get_dashboard', [GameController::class, 'getDashboard']);
+    Route::get('/join_universe/{universe}', [GameController::class, 'joinUniverse']);
+});
