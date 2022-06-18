@@ -27,34 +27,52 @@ class GameController extends Controller
 
         if (!$userUniverseMember) { // If member isset
 
-            $universes = [];
-
-            foreach (Universe::get() as $universe) {
-                $universes[] = $ui->block3(
-                    $universe->name,
-                    [
-                        $ui->btn('primary', 'Присоединиться', "/api/game/join_universe/$universe->id")
-                    ]
-                );
-            }
-
-            $ui->setTitle("Присоединитесь ко вселенной");
-            $row = $ui->row($universes);
-            $ui->addChild($row);
+            $this->getUniversesUi($ui);
 
             $resp = ApiController::getResp();
             $resp->setContent($ui->getUI());
             $resp->echo();
         } else {
+
+            $this->getSystemsUi($ui, $userUniverseMember);
+
             $resp = ApiController::getResp();
-            // $systems = [];
-            // foreach($this->getSystems($req) as $system) {
-            //     $systems = $ui->block3();
-            // }
-            $resp->setContent($this->getSystems($req));
-            // $resp->setContent($ui->getUI());
+            $resp->setContent($ui->getUI());
             $resp->echo();
         }
+    }
+
+    public function getSystemsUi($ui, $userUniverseMember)
+    {
+        $systems = [];
+        foreach (SpaceObjectController::getSystems($userUniverseMember->universe_id) as $system) {
+            $systems[] = $ui->block3(
+                $system['name'],
+                []
+            );
+        }
+
+        $ui->setTitle("Системы текущей вселенной");
+        $row = $ui->row($systems);
+        $ui->addChild($row);
+    }
+
+    public function getUniversesUi($ui)
+    {
+        $universes = [];
+
+        foreach (Universe::get() as $universe) {
+            $universes[] = $ui->block3(
+                $universe->name,
+                [
+                    $ui->btn('primary', 'Присоединиться', "/api/game/join_universe/$universe->id")
+                ]
+            );
+        }
+
+        $ui->setTitle("Присоединитесь ко вселенной");
+        $row = $ui->row($universes);
+        $ui->addChild($row);
     }
 
     public function joinUniverse(Request $req, Universe $universe)
