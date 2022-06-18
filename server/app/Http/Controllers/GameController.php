@@ -27,14 +27,14 @@ class GameController extends Controller
 
         if (!$userUniverseMember) { // If member isset
 
-            $this->getUniversesUi($ui);
+            $this->getUniversesUI($ui);
 
             $resp = ApiController::getResp();
             $resp->setContent($ui->getUI());
             $resp->echo();
         } else {
 
-            $this->getSystemsUi($ui, $userUniverseMember);
+            $this->getSystemsUI($ui, $userUniverseMember);
 
             $resp = ApiController::getResp();
             $resp->setContent($ui->getUI());
@@ -42,7 +42,7 @@ class GameController extends Controller
         }
     }
 
-    public function getSystemsUi($ui, $userUniverseMember)
+    public function getSystemsUI($ui, $userUniverseMember)
     {
         $systems = [];
         foreach (SpaceObjectController::getSystems($userUniverseMember->universe_id) as $system) {
@@ -57,7 +57,7 @@ class GameController extends Controller
         $ui->addChild($row);
     }
 
-    public function getUniversesUi($ui)
+    public function getUniversesUI($ui)
     {
         $universes = [];
 
