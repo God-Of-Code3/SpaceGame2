@@ -50,10 +50,11 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user', UserController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user_universe_member', UserUniverseMemberController::class);
 
-Route::middleware('auth:sanctum')->middleware('isadmin')->get('getRecordColumns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);
+Route::middleware('auth:sanctum')->middleware('isadmin')->get('get_record_columns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);
 
 // Game functions
 Route::middleware('auth:sanctum')->prefix('game')->group(function () {
     Route::get('/get_dashboard', [GameController::class, 'getDashboard']);
     Route::get('/join_universe/{universe}', [GameController::class, 'joinUniverse']);
+    Route::get('/get_systems', [GameController::class, 'getSystems']);
 });

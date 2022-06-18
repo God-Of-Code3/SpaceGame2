@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SpaceObject;
 use App\Models\Universe;
 use App\Models\UserUniverseMember;
 use Illuminate\Http\Request;
@@ -46,7 +47,12 @@ class GameController extends Controller
             $resp->echo();
         } else {
             $resp = ApiController::getResp();
-            $resp->setContent($ui->getUI());
+            // $systems = [];
+            // foreach($this->getSystems($req) as $system) {
+            //     $systems = $ui->block3();
+            // }
+            $resp->setContent($this->getSystems($req));
+            // $resp->setContent($ui->getUI());
             $resp->echo();
         }
     }
@@ -76,9 +82,14 @@ class GameController extends Controller
     public function getSystems(Request $req)
     {
         $userUniverseMember = $this->getUserUniverseMember($req);
+        $resp = ApiController::getResp();
 
+        $objects = [];
         if ($userUniverseMember) {
-        } else {
+            $objects = SpaceObjectController::getSystems($userUniverseMember->universe_id);
         }
+
+        $resp->setContent($objects);
+        $resp->echo();
     }
 }
