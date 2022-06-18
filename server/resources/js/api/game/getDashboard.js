@@ -1,10 +1,5 @@
-import request from "../Request";
+import baseGameRequest from "./baseGetRequest";
 
-
-const getDashboard = ({setDashboard}) => {
-    request('/api/game/get_dashboard', {}, r => {
-        setDashboard(r.content);
-    }, "GET");
-};
+const getDashboard = ({setDashboard}) => baseGameRequest('get_dashboard', setDashboard);
 
 export default getDashboard;
