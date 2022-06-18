@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SpaceObject;
+use App\Models\SpaceObjectType;
 use App\Models\Universe;
 use App\Models\UserUniverseMember;
 use Illuminate\Http\Request;
@@ -107,7 +108,15 @@ class GameController extends Controller
             $objects = SpaceObjectController::getSystems($userUniverseMember->universe_id);
         }
 
-        $resp->setContent($objects);
+        $types = [];
+        foreach (SpaceObjectType::get() as $type) {
+            $types[$type->id] = $type->name;
+        }
+
+        $resp->setContent([
+            'objects' => $objects,
+            'types' => $types
+        ]);
         $resp->echo();
     }
 }

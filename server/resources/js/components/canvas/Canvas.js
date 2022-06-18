@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import getSystems from '../../api/game/getSystems';
 import startGame from '../../game';
 import GameUi from '../game/GameUi';
 import './Canvas.css';
@@ -25,9 +26,14 @@ const Canvas = () => {
     // Starting game
     useEffect(() => {
 
-        setDataManager(startGame(cnv.current, ctx, {
-            setSidebarData: setSidebarData
-        }));
+        getSystems({setSystems: systems => {
+            setDataManager(startGame(cnv.current, ctx, {
+                setSidebarData: setSidebarData
+            },
+            systems
+            ));
+        }});
+        
         
     }, [cnv, ctx]);
 

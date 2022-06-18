@@ -126,8 +126,6 @@ class CanvasCamera {
             this.target.scale *= delta > 0 ? 1 / c.SCROLL_SPEED : c.SCROLL_SPEED;
             
             this.target.scale = Math.max(this.target.scale, c.MIN_SCALE);
-
-            console.log(this.target.scale);
         });
 
         this.cnv.addEventListener("contextmenu", ev => {

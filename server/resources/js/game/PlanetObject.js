@@ -21,6 +21,8 @@ class PlanetObject extends SpaceObject {
         this.setDrawingObject();
 
         this.objectType = 2;
+
+        this.createChildren(clss);
     }
 
     // Main information
@@ -52,6 +54,8 @@ class PlanetObject extends SpaceObject {
     }
 }
 
-
+const clss = {
+    3: PlanetObject
+}
 
 export default PlanetObject;

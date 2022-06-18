@@ -40,6 +40,20 @@ class SpaceObject {
         this.systemRadius = this.props.rad;
     }
 
+    // Creating children
+    createChildren(clss) {
+        const children = this.props.children ? this.props.children : [];
+
+        children.forEach(child => {
+            const cls = clss[child.space_object_type_id];
+            this.addChild(child, {
+                    dist: child.dist,
+                    angle:  child.angle
+            }, cls);
+
+        });
+    }
+
     // Getting sidebar information
     getSidebar() {
         let mainSection = this.getSidebarMainSection();

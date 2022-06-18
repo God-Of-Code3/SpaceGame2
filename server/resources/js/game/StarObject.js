@@ -2,7 +2,7 @@ import { classToColor, temperatureToClass } from "./math/stars";
 import SpaceObject from "./SpaceObject";
 import DrawingObject from "./DrawingObject";
 import c from "./constants";
-
+import PlanetObject from "./PlanetObject";
 
 
 class StarObject extends SpaceObject {
@@ -21,7 +21,10 @@ class StarObject extends SpaceObject {
         this.setDrawingObject();
         
         this.objectType = 1;
+
+        this.createChildren(clss);
     }
+
 
     // Main information
     getMainInformation() {
@@ -41,6 +44,9 @@ class StarObject extends SpaceObject {
     }
 }
 
-
+const clss = {
+    2: StarObject,
+    3: PlanetObject
+}
 
 export default StarObject;

@@ -5401,6 +5401,53 @@ var readAll = function readAll(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/api/game/baseGetRequest.js":
+/*!*************************************************!*\
+  !*** ./resources/js/api/game/baseGetRequest.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Request */ "./resources/js/api/Request.js");
+
+
+var baseGameRequest = function baseGameRequest(api, setFunc) {
+  (0,_Request__WEBPACK_IMPORTED_MODULE_0__["default"])("/api/game/".concat(api), {}, function (r) {
+    setFunc(r.content);
+  }, "GET");
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (baseGameRequest);
+
+/***/ }),
+
+/***/ "./resources/js/api/game/getSystems.js":
+/*!*********************************************!*\
+  !*** ./resources/js/api/game/getSystems.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _baseGetRequest__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./baseGetRequest */ "./resources/js/api/game/baseGetRequest.js");
+
+
+var getSystems = function getSystems(_ref) {
+  var setSystems = _ref.setSystems;
+  return (0,_baseGetRequest__WEBPACK_IMPORTED_MODULE_0__["default"])('get_systems', setSystems);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getSystems);
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -6271,10 +6318,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../game */ "./resources/js/game/index.js");
-/* harmony import */ var _game_GameUi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../game/GameUi */ "./resources/js/components/game/GameUi.js");
-/* harmony import */ var _Canvas_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Canvas.css */ "./resources/js/components/canvas/Canvas.css");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_game_getSystems__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/game/getSystems */ "./resources/js/api/game/getSystems.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../game */ "./resources/js/game/index.js");
+/* harmony import */ var _game_GameUi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../game/GameUi */ "./resources/js/components/game/GameUi.js");
+/* harmony import */ var _Canvas_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Canvas.css */ "./resources/js/components/canvas/Canvas.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -6286,6 +6334,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -6327,16 +6376,20 @@ var Canvas = function Canvas() {
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    setDataManager((0,_game__WEBPACK_IMPORTED_MODULE_1__["default"])(cnv.current, ctx, {
-      setSidebarData: setSidebarData
-    }));
+    (0,_api_game_getSystems__WEBPACK_IMPORTED_MODULE_1__["default"])({
+      setSystems: function setSystems(systems) {
+        setDataManager((0,_game__WEBPACK_IMPORTED_MODULE_2__["default"])(cnv.current, ctx, {
+          setSidebarData: setSidebarData
+        }, systems));
+      }
+    });
   }, [cnv, ctx]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "area",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_game_GameUi__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_game_GameUi__WEBPACK_IMPORTED_MODULE_3__["default"], {
       dataManager: dataManager,
       sidebarData: sidebarData
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("canvas", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("canvas", {
       ref: cnv,
       width: width,
       height: height
@@ -7851,7 +7904,6 @@ var CanvasCamera = /*#__PURE__*/function () {
         var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
         _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED;
         _this.target.scale = Math.max(_this.target.scale, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE);
-        console.log(_this.target.scale);
       });
       this.cnv.addEventListener("contextmenu", function (ev) {
         ev.preventDefault();
@@ -8093,6 +8145,29 @@ var CanvasCamera = /*#__PURE__*/function () {
 }();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasCamera);
+
+/***/ }),
+
+/***/ "./resources/js/game/ClassesList.js":
+/*!******************************************!*\
+  !*** ./resources/js/game/ClassesList.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PlanetObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PlanetObject */ "./resources/js/game/PlanetObject.js");
+/* harmony import */ var _StarObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StarObject */ "./resources/js/game/StarObject.js");
+
+
+var clss = {
+  2: _StarObject__WEBPACK_IMPORTED_MODULE_1__["default"],
+  3: _PlanetObject__WEBPACK_IMPORTED_MODULE_0__["default"]
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (clss);
 
 /***/ }),
 
@@ -8341,6 +8416,9 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
     _this.setDrawingObject();
 
     _this.objectType = 2;
+
+    _this.createChildren(clss);
+
     return _this;
   } // Main information
 
@@ -8382,6 +8460,9 @@ var PlanetObject = /*#__PURE__*/function (_SpaceObject) {
   return PlanetObject;
 }(_SpaceObject__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
+var clss = {
+  3: PlanetObject
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PlanetObject);
 
 /***/ }),
@@ -8454,10 +8535,26 @@ var SpaceObject = /*#__PURE__*/function () {
     this.render = true; // Maximum orbit radius
 
     this.systemRadius = this.props.rad;
-  } // Getting sidebar information
+  } // Creating children
 
 
   _createClass(SpaceObject, [{
+    key: "createChildren",
+    value: function createChildren(clss) {
+      var _this = this;
+
+      var children = this.props.children ? this.props.children : [];
+      children.forEach(function (child) {
+        var cls = clss[child.space_object_type_id];
+
+        _this.addChild(child, {
+          dist: child.dist,
+          angle: child.angle
+        }, cls);
+      });
+    } // Getting sidebar information
+
+  }, {
     key: "getSidebar",
     value: function getSidebar() {
       var mainSection = this.getSidebarMainSection();
@@ -8573,7 +8670,7 @@ var SpaceObject = /*#__PURE__*/function () {
   }, {
     key: "draw",
     value: function draw(cam) {
-      var _this = this;
+      var _this2 = this;
 
       // If render mode is active, we draw object
       if (this.render) {
@@ -8582,7 +8679,7 @@ var SpaceObject = /*#__PURE__*/function () {
           if (child.render) {
             var dist = child.relations.dist;
 
-            var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(_this.x, _this.y, dist),
+            var _cam$calcCoordsAndSiz = cam.calcCoordsAndSize(_this2.x, _this2.y, dist),
                 x = _cam$calcCoordsAndSiz.x,
                 y = _cam$calcCoordsAndSiz.y,
                 size = _cam$calcCoordsAndSiz.size; // Drawing orbit if its radius is less than maximum radius
@@ -8687,6 +8784,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
 /* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
+/* harmony import */ var _PlanetObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PlanetObject */ "./resources/js/game/PlanetObject.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8712,6 +8810,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -8748,6 +8847,9 @@ var StarObject = /*#__PURE__*/function (_SpaceObject) {
     _this.setDrawingObject();
 
     _this.objectType = 1;
+
+    _this.createChildren(clss);
+
     return _this;
   } // Main information
 
@@ -8776,6 +8878,10 @@ var StarObject = /*#__PURE__*/function (_SpaceObject) {
   return StarObject;
 }(_SpaceObject__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
+var clss = {
+  2: StarObject,
+  3: _PlanetObject__WEBPACK_IMPORTED_MODULE_4__["default"]
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StarObject);
 
 /***/ }),
@@ -8845,13 +8951,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CanvasCamera */ "./resources/js/game/CanvasCamera.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
-/* harmony import */ var _DataControlManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DataControlManager */ "./resources/js/game/DataControlManager.js");
-/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
-/* harmony import */ var _PlanetObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PlanetObject */ "./resources/js/game/PlanetObject.js");
-/* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
-/* harmony import */ var _StarObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./StarObject */ "./resources/js/game/StarObject.js");
+/* harmony import */ var _api_game_getSystems__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/game/getSystems */ "./resources/js/api/game/getSystems.js");
+/* harmony import */ var _CanvasCamera__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CanvasCamera */ "./resources/js/game/CanvasCamera.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
+/* harmony import */ var _DataControlManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DataControlManager */ "./resources/js/game/DataControlManager.js");
+/* harmony import */ var _DrawingObject__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DrawingObject */ "./resources/js/game/DrawingObject.js");
+/* harmony import */ var _PlanetObject__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PlanetObject */ "./resources/js/game/PlanetObject.js");
+/* harmony import */ var _SpaceObject__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SpaceObject */ "./resources/js/game/SpaceObject.js");
+/* harmony import */ var _StarObject__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./StarObject */ "./resources/js/game/StarObject.js");
+/* harmony import */ var _ClassesList__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ClassesList */ "./resources/js/game/ClassesList.js");
+
+
 
 
 
@@ -8861,43 +8971,52 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var startGame = function startGame(cnv, ctx, uiElements) {
-  var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_0__["default"]({}, cnv, ctx);
-  var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_2__["default"](cam, uiElements);
-  var obj = new _StarObject__WEBPACK_IMPORTED_MODULE_6__["default"]({
-    rad: 109 * 6 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
-    temperature: 5.7,
-    rotation: Math.PI / 3,
-    name: "Солнце"
-  }, 0, 0, null);
-  obj.addChild({
-    rad: 6 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
-    color: "#1ac9ac",
-    name: "Земля",
-    image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
-    rotation: Math.PI / 3,
-    compositionType: 'rock'
-  }, {
-    dist: 1,
-    angle: Math.PI / 6
-  }, _PlanetObject__WEBPACK_IMPORTED_MODULE_4__["default"]);
-  var obj2 = new _StarObject__WEBPACK_IMPORTED_MODULE_6__["default"]({
-    rad: 109 * 6 * 0.145 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
-    temperature: 3.1,
-    rotation: Math.PI / 3,
-    name: "Проксима Центавра"
-  }, 270000, 0, null);
-  obj2.addChild({
-    rad: 2 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].AU_TO_TKM,
-    color: "#1AAAC9",
-    name: "Земля 2",
-    image: "http://127.0.0.1:8000/storage/images/planets/alive-red/planet7.png",
-    rotation: Math.PI * 0.02,
-    compositionType: 'rock'
-  }, {
-    dist: 2,
-    angle: 0.4 * Math.PI
-  }, _PlanetObject__WEBPACK_IMPORTED_MODULE_4__["default"]);
-  var objects = [obj, obj2];
+  var systems = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
+    objects: [],
+    types: {}
+  };
+  var camData = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+  var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_1__["default"]({}, cnv, ctx);
+  var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_3__["default"](cam, uiElements); // let obj = new StarObject({
+  //     rad: 109*6 / c.AU_TO_TKM,
+  //     temperature: 5.7,
+  //     rotation: Math.PI / 3,
+  //     name: "Солнце"
+  // }, 0, 0, null);
+  // obj.addChild({
+  //         rad: 6 / c.AU_TO_TKM,
+  //         color: "#1ac9ac",
+  //         name: "Земля",
+  //         image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
+  //         rotation: Math.PI / 3,
+  //         compositionType: 'rock'
+  //     }, {
+  //         dist: 1,
+  //         angle:  (Math.PI / 6)
+  // }, PlanetObject);
+  // let obj2 = new StarObject({
+  //     rad: 109*6*0.145 / c.AU_TO_TKM,
+  //     temperature: 3.1,
+  //     rotation: Math.PI / 3,
+  //     name: "Проксима Центавра"
+  // }, 270000, 0, null);
+  // obj2.addChild({
+  //         rad: 2 / c.AU_TO_TKM,
+  //         color: "#1AAAC9",
+  //         name: "Земля 2",
+  //         image: "http://127.0.0.1:8000/storage/images/planets/alive-red/planet7.png",
+  //         rotation: Math.PI * 0.02,
+  //         compositionType: 'rock'
+  //     }, {
+  //         dist: 2,
+  //         angle:  (0.4 * Math.PI)
+  // }, PlanetObject);
+
+  var objects = systems.objects.map(function (system) {
+    var cls = _ClassesList__WEBPACK_IMPORTED_MODULE_8__["default"][system.space_object_type_id];
+    var obj = new cls(system, system.x, system.y, null);
+    return obj;
+  });
 
   var gameLoop = function gameLoop() {
     // Main loop
