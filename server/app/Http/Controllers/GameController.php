@@ -119,4 +119,20 @@ class GameController extends Controller
         ]);
         $resp->echo();
     }
+
+    public function generateSystem(Request $req, Universe $universe)
+    {
+        SystemController::generateSystem($universe);
+        $resp = ApiController::getResp();
+        $resp->echo();
+    }
+
+    static public function generateSystems(Universe $universe)
+    {
+        for ($i = 0; $i < 10; $i++) {
+            SystemController::generateSystem($universe);
+        }
+        $resp = ApiController::getResp();
+        $resp->echo();
+    }
 }

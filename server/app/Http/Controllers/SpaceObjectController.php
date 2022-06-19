@@ -28,6 +28,22 @@ class SpaceObjectController extends Controller
         $tableData['tableName'] = "Объекты";
         $tableData['columns'] = SpaceObject::getColumns();
         $tableData['actions'][] = 'page';
+
+        if ($universe) {
+            $tableData['customActions'] = [
+                [
+                    'type' => 'light',
+                    'text' => 'Сгенерировать систему',
+                    'action' => "/api/game/generate_system/$universe"
+                ],
+                [
+                    'type' => 'warning',
+                    'text' => 'Сгенерировать системы',
+                    'action' => "/api/game/generate_systems/$universe"
+                ]
+            ];
+        }
+
         $tableData['page'] = '/content/crud/space_object?parentRecordId=:recordId&parentTable=space_object';
         $tableData['getColumns'] = "/api/get_record_columns/space_object/";
 
@@ -93,6 +109,31 @@ class SpaceObjectController extends Controller
         $resp = ApiController::getResp();
         $resp->addFormAlert('success', 'Объект успешно создан');
         $resp->echo();
+    }
+
+    static public function create($allData)
+    {
+
+        $props = [];
+        $propTypes = SpaceObjectPropType::where('space_object_type_id', '=', $allData['space_object_type_id'])->orWhere('space_object_type_id', '=', 0)->get();
+        foreach ($propTypes as $propType) {
+            if (array_key_exists($propType->name, $allData)) {
+                $props[$propType->id] = $allData[$propType->name];
+                unset($allData[$propType->name]);
+            }
+        }
+
+        $spaceObject = SpaceObject::create($allData);
+
+        foreach ($props as $key => $value) {
+            SpaceObjectPropValue::create([
+                'space_object_prop_type_id' => $key,
+                'space_object_id' => $spaceObject->id,
+                'value' => $value
+            ]);
+        }
+
+        return $spaceObject;
     }
 
     public function destroy(Request $req, SpaceObject $spaceObject)

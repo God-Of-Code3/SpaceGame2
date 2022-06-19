@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import request from '../../api/Request';
 import Btn from '../form/Btn';
 import { recordFormContext } from './CRUD';
 import RecordForm from './RecordForm';
@@ -21,6 +22,11 @@ const TableHeader = ({table, tableData, reload, parentTable, parentRecordId}) =>
                     tableData.actions.filter(action => btnProps[action]).map(action => 
                         <Btn cls={btnProps[action][0]} onClick={btnProps[action][2]}>{btnProps[action][1]}</Btn>
                     )
+                }
+                {
+                    tableData.customActions ? tableData.customActions.map(action => 
+                        <Btn cls={action.type} onClick={() => { request(action.action, {}, r => reload(), "GET") }}>{action.text}</Btn>    
+                    ) : ""
                 }
             </div>
             

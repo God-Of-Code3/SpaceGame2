@@ -6914,10 +6914,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
-/* harmony import */ var _CRUD__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CRUD */ "./resources/js/components/crud/CRUD.js");
-/* harmony import */ var _RecordForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RecordForm */ "./resources/js/components/crud/RecordForm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/Request */ "./resources/js/api/Request.js");
+/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
+/* harmony import */ var _CRUD__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CRUD */ "./resources/js/components/crud/CRUD.js");
+/* harmony import */ var _RecordForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./RecordForm */ "./resources/js/components/crud/RecordForm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -6932,7 +6934,7 @@ var TableHeader = function TableHeader(_ref) {
       parentTable = _ref.parentTable,
       parentRecordId = _ref.parentRecordId;
 
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_CRUD__WEBPACK_IMPORTED_MODULE_2__.recordFormContext),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_CRUD__WEBPACK_IMPORTED_MODULE_3__.recordFormContext),
       showForm = _useContext.showForm,
       setShowForm = _useContext.setShowForm,
       formData = _useContext.formData,
@@ -6944,24 +6946,34 @@ var TableHeader = function TableHeader(_ref) {
       setShowForm(true);
     }]
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
       children: tableData.tableName
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "mt-3 d-flex gap-3",
-      children: tableData.actions.filter(function (action) {
+      children: [tableData.actions.filter(function (action) {
         return btnProps[action];
       }).map(function (action) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
           cls: btnProps[action][0],
           onClick: btnProps[action][2],
           children: btnProps[action][1]
         });
-      })
-    }), showForm ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      }), tableData.customActions ? tableData.customActions.map(function (action) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          cls: action.type,
+          onClick: function onClick() {
+            (0,_api_Request__WEBPACK_IMPORTED_MODULE_1__["default"])(action.action, {}, function (r) {
+              return reload();
+            }, "GET");
+          },
+          children: action.text
+        });
+      }) : ""]
+    }), showForm ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "mt-3 p-3 bg-dark rounded",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_RecordForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_RecordForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
         parentTable: parentTable,
         parentRecordId: parentRecordId,
         setShowForm: setShowForm,

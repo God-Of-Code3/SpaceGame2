@@ -5,7 +5,6 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\SpaceObjectController;
 use App\Http\Controllers\SpaceObjectTypeController;
 use App\Http\Controllers\SpaceObjectPropTypeController;
-use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UniverseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,7 +53,12 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->get('get_record_column
 
 // Game functions
 Route::middleware('auth:sanctum')->prefix('game')->group(function () {
+    // Standart actions
     Route::get('/get_dashboard', [GameController::class, 'getDashboard']);
     Route::get('/join_universe/{universe}', [GameController::class, 'joinUniverse']);
     Route::get('/get_systems', [GameController::class, 'getSystems']);
+
+    // Admin actions
+    Route::middleware('isadmin')->get('/generate_system/{universe}', [GameController::class, 'generateSystem']);
+    Route::middleware('isadmin')->get('/generate_systems/{universe}', [GameController::class, 'generateSystems']);
 });
