@@ -102,7 +102,8 @@ class CivilizationController extends Controller
                         FROM 
                             user_universe_members 
                         WHERE 
-                            universe_id = '$universe->id'))")
+                            universe_id = '$universe->id')
+                )") // Finding free planets
             ->whereRaw("id IN 
                 (SELECT 
                     space_object_id
