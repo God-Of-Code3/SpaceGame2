@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Civilization;
 use App\Models\SpaceObject;
 use App\Models\SpaceObjectType;
 use App\Models\Universe;
@@ -85,7 +86,7 @@ class GameController extends Controller
             $resp->fail();
             $resp->echo();
         } else {
-            UserUniverseMember::create([
+            $userUniverseMember = UserUniverseMember::create([
                 'user_id' => $req->user()->id,
                 'universe_id' => $universe->id,
                 'x' => 0,
@@ -93,7 +94,11 @@ class GameController extends Controller
                 'scale' => 1
             ]);
 
+
+
+
             $resp = ApiController::getResp();
+            // $resp->setContent(['objects' => $freeObjects]);
             $resp->echo();
         }
     }

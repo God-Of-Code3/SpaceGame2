@@ -247,7 +247,7 @@ class SystemController extends Controller
         }
 
         $dist = 0.3;
-        $planetOrbitDist = ($dist + 0.1) + $dist * (2 ** ($n - 1));
+        $planetOrbitDist = ($dist + 0.1) + $dist * (2 ** ($n - 1)) * rand(990, 1010) / 1000;
 
         $planetAngle = rand(0, 360) / 180 * pi();
         $planetPeriod = 1;
