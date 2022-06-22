@@ -35,8 +35,13 @@ class GameController extends Controller
             $resp->setContent($ui->getUI());
             $resp->echo();
         } else {
+            $civilization = Civilization::where('user_universe_member_id', '=', $userUniverseMember->id)->first();
+            if ($civilization) {
+                $this->getSystemsUI($ui, $userUniverseMember);
+            } else {
+                $this->getCreatingCivilizationUI($ui, $userUniverseMember);
+            }
 
-            $this->getSystemsUI($ui, $userUniverseMember);
 
             $resp = ApiController::getResp();
             $resp->setContent($ui->getUI());
@@ -57,6 +62,50 @@ class GameController extends Controller
         $ui->setTitle("Системы текущей вселенной");
         $row = $ui->row($systems);
         $ui->addChild($row);
+    }
+
+    public function getCreatingCivilizationUI($ui, $userUniverseMember)
+    {
+        $fields = [
+            [
+                'name' => 'name',
+                'label' => 'Название цивилизации',
+                'type' => 'text',
+                'value' => '',
+            ]
+        ];
+
+        $ui->setTitle('Создание цивилизации');
+        $form = $ui->form("/api/game/create_civilization/", $fields, "Создать");
+        $block = $ui->block('Настройки цивилизации', [], [$form]);
+        $ui->addChild($block);
+    }
+
+    public function createCivilization(Request $req)
+    {
+        $userUniverseMember = $this->getUserUniverseMember($req);
+        $universe = Universe::find($userUniverseMember->universe_id);
+
+        $name = $req->input('name');
+        $issetName = Civilization::whereRaw("starting_planet_id IN (SELECT id FROM space_objects WHERE universe_id = '$universe->id')")->where('name', '=', $name)->first();
+        // dd($names);
+
+        if (!$issetName and $name) {
+            CivilizationController::createCivilization($universe, $userUniverseMember, $name);
+
+            $resp = ApiController::getResp();
+            $resp->echo();
+        } else {
+
+            $resp = ApiController::getResp();
+            $resp->fail();
+            if ($issetName) {
+                $resp->addFormAlert('error', 'Имя уже занято');
+            } else {
+                $resp->addFormAlert('error', 'Введите имя');
+            }
+            $resp->echo();
+        }
     }
 
     public function getUniversesUI($ui)
@@ -93,7 +142,6 @@ class GameController extends Controller
                 'y' => 0,
                 'scale' => 1
             ]);
-
 
 
 

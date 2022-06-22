@@ -89,6 +89,19 @@ class UI
         ]);
     }
 
+    public function form($action, $fields, $btnText)
+    {
+        return $this->getElement(
+            'form',
+            [
+                'fields' => $fields,
+                'action' => $action,
+                'btnText' => $btnText
+            ],
+            []
+        );
+    }
+
     public function addChild($child)
     {
         $this->ui['children'][] = $child;

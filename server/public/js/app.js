@@ -7644,6 +7644,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Column__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Column */ "./resources/js/components/ui/Column.js");
 /* harmony import */ var _Row__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Row */ "./resources/js/components/ui/Row.js");
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Button */ "./resources/js/components/ui/Button.js");
+/* harmony import */ var _FormEl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormEl */ "./resources/js/components/ui/FormEl.js");
+
 
 
 
@@ -7653,9 +7655,72 @@ var els = {
   'row': _Row__WEBPACK_IMPORTED_MODULE_3__["default"],
   'column': _Column__WEBPACK_IMPORTED_MODULE_2__["default"],
   'block': _Block__WEBPACK_IMPORTED_MODULE_1__["default"],
-  'button': _Button__WEBPACK_IMPORTED_MODULE_4__["default"]
+  'button': _Button__WEBPACK_IMPORTED_MODULE_4__["default"],
+  'form': _FormEl__WEBPACK_IMPORTED_MODULE_5__["default"]
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (els);
+
+/***/ }),
+
+/***/ "./resources/js/components/ui/FormEl.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/ui/FormEl.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _form_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/Form */ "./resources/js/components/form/Form.js");
+/* harmony import */ var _form_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/Input */ "./resources/js/components/form/Input.js");
+/* harmony import */ var _form_Btn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/Btn */ "./resources/js/components/form/Btn.js");
+/* harmony import */ var _Dashboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Dashboard */ "./resources/js/components/Dashboard.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["el"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+
+
+
+
+
+var FormEl = function FormEl(_ref) {
+  var el = _ref.el,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Dashboard__WEBPACK_IMPORTED_MODULE_4__.reloadContext),
+      reload = _useContext.reload;
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_form_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    callback: function callback(r) {
+      return reload();
+    },
+    action: el.props.action,
+    method: "POST",
+    children: [el.props.fields.map(function (field) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        name: field.name,
+        label: field.label,
+        type: field.type,
+        val: field.value
+      });
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_Btn__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: el.props.btnText
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormEl);
 
 /***/ }),
 

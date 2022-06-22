@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Universe;
 use App\Models\UserUniverseMember;
 use App\Models\SpaceObject;
-
+use App\Models\SpaceObjectPropValue;
 
 class CivilizationController extends Controller
 {
@@ -89,6 +89,7 @@ class CivilizationController extends Controller
 
     static public function createCivilization(Universe $universe, UserUniverseMember $userUniverseMember, $name)
     {
+
         $freeObject = SpaceObject::whereRaw("id NOT IN 
                 (SELECT 
                     starting_planet_id 
@@ -102,6 +103,23 @@ class CivilizationController extends Controller
                             user_universe_members 
                         WHERE 
                             universe_id = '$universe->id'))")
+            ->whereRaw("id IN 
+                (SELECT 
+                    space_object_id
+                FROM
+                    space_object_prop_values
+                WHERE
+                    value = 'rock'
+                AND
+                    space_object_prop_type_id IN
+                        (SELECT
+                            id
+                        FROM
+                            space_object_prop_types
+                        WHERE
+                            name = 'compositionType'
+                        )
+                )") // Finding rock-based planets
             ->where('universe_id', '=', $universe->id)
             ->inRandomOrder()
             ->first();

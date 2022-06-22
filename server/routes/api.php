@@ -58,6 +58,9 @@ Route::middleware('auth:sanctum')->prefix('game')->group(function () {
     Route::get('/join_universe/{universe}', [GameController::class, 'joinUniverse']);
     Route::get('/get_systems', [GameController::class, 'getSystems']);
 
+    // Civilization
+    Route::post('/create_civilization', [GameController::class, 'createCivilization']);
+
     // Admin actions
     Route::middleware('isadmin')->get('/generate_system/{universe}', [GameController::class, 'generateSystem']);
     Route::middleware('isadmin')->get('/generate_systems/{universe}', [GameController::class, 'generateSystems']);
