@@ -13,4 +13,12 @@ class ColonyType extends Model
         'name',
         'runame'
     ];
+
+    static public function getColumns()
+    {
+        return [
+            'runame' => ['Название', 'text'],
+            'name' => ['Системное имя', 'text'],
+        ];
+    }
 }

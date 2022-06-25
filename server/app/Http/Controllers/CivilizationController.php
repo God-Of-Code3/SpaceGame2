@@ -16,19 +16,24 @@ class CivilizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $userUniverseMember = $request->get('user_universe_member', 0);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $records = Civilization::where('user_universe_member_id', '=', $userUniverseMember)->paginate(20);
+        $tableData = CRUDController::getTableData();
+
+        $tableData['tableName'] = "Цивилизации";
+        $tableData['columns'] = Civilization::getColumns();
+        $tableData['actions'][] = 'page';
+        $tableData['page'] = '/content/crud/colony?parentRecordId=:recordId&parentTable=civilization';
+
+        $resp = ApiController::getResp();
+        $resp->setContent([
+            'records' => $records,
+            'tableData' => $tableData,
+        ]);
+        $resp->echo();
     }
 
     /**
@@ -39,52 +44,41 @@ class CivilizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->all();
+        $data['user_universe_member_id'] = $request->get('user_universe_member', 0);
+        Civilization::create($data);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Civilization  $civilization
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Civilization $civilization)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Civilization  $civilization
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Civilization $civilization)
-    {
-        //
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Civilization  $civilization
+     * @param  \App\Models\Civilization  $Civilization
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Civilization $civilization)
     {
-        //
+        $civilization->update($request->all());
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Civilization  $civilization
+     * @param  \App\Models\Civilization  $Civilization
      * @return \Illuminate\Http\Response
      */
     public function destroy(Civilization $civilization)
     {
-        //
+        $civilization->delete();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     static public function createCivilization(Universe $universe, UserUniverseMember $userUniverseMember, $name)

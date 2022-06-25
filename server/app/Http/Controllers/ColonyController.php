@@ -12,19 +12,22 @@ class ColonyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $civilization = $request->get('civilization');
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $records = Colony::where('civilization_id', '=', $civilization)->paginate(20);
+        $tableData = CRUDController::getTableData();
+
+        $tableData['tableName'] = "Колонии";
+        $tableData['columns'] = Colony::getColumns();
+
+        $resp = ApiController::getResp();
+        $resp->setContent([
+            'records' => $records,
+            'tableData' => $tableData,
+        ]);
+        $resp->echo();
     }
 
     /**
@@ -35,30 +38,15 @@ class ColonyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['civilization_id'] = $request->get('civilization', 0);
+
+        Colony::create($data);
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Colony  $colony
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Colony $colony)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Colony  $colony
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Colony $colony)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,7 +57,10 @@ class ColonyController extends Controller
      */
     public function update(Request $request, Colony $colony)
     {
-        //
+        $colony->update($request->all());
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     /**
@@ -80,6 +71,9 @@ class ColonyController extends Controller
      */
     public function destroy(Colony $colony)
     {
-        //
+        $colony->delete();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 }

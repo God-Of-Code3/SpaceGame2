@@ -16,7 +16,7 @@ class Colony extends Model
         'civilization_id'
     ];
 
-    function getColumns()
+    static public function getColumns()
     {
 
         $colonyTypes = [];
@@ -38,7 +38,7 @@ class Colony extends Model
         return [
             'name' => ['Название колонии', 'text'],
             'colony_type_id' => ['Тип колонии', 'select', $colonyTypes],
-            'name' => ['Название колонии', 'select', $spaceObjects],
+            'space_object_id' => ['Планета', 'select', $spaceObjects],
         ];
     }
 }

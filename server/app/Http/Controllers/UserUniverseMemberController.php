@@ -16,6 +16,8 @@ class UserUniverseMemberController extends Controller
 
         $tableData['tableName'] = "Участие во вселенных";
         $tableData['columns'] = UserUniverseMember::getColumns();
+        $tableData['actions'][] = 'page';
+        $tableData['page'] = '/content/crud/civilization?parentRecordId=:recordId&parentTable=user_universe_member';
 
         $resp = ApiController::getResp();
         $resp->setContent([
@@ -42,17 +44,6 @@ class UserUniverseMemberController extends Controller
         $resp = ApiController::getResp();
         $resp->addFormAlert('success', 'Камера успешно создана');
         $resp->echo();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserUniverseMember  $UserUniverseMember
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(UserUniverseMember $UserUniverseMember)
-    {
-        //
     }
 
     /**

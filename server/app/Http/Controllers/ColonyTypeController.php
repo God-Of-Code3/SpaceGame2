@@ -14,17 +14,18 @@ class ColonyTypeController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $records = ColonyType::paginate(20);
+        $tableData = CRUDController::getTableData();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $tableData['tableName'] = "Типы колоний";
+        $tableData['columns'] = ColonyType::getColumns();
+
+        $resp = ApiController::getResp();
+        $resp->setContent([
+            'records' => $records,
+            'tableData' => $tableData,
+        ]);
+        $resp->echo();
     }
 
     /**
@@ -35,29 +36,10 @@ class ColonyTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        ColonyType::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ColonyType  $colonyType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ColonyType $colonyType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ColonyType  $colonyType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ColonyType $colonyType)
-    {
-        //
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     /**
@@ -69,7 +51,10 @@ class ColonyTypeController extends Controller
      */
     public function update(Request $request, ColonyType $colonyType)
     {
-        //
+        $colonyType->update($request->all());
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 
     /**
@@ -80,6 +65,9 @@ class ColonyTypeController extends Controller
      */
     public function destroy(ColonyType $colonyType)
     {
-        //
+        $colonyType->delete();
+
+        $resp = ApiController::getResp();
+        $resp->echo();
     }
 }

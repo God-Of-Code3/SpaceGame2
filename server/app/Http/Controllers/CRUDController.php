@@ -27,6 +27,10 @@ class CRUDController extends Controller
                 'table' => 'user',
                 'title' => 'Пользователи'
             ],
+            [
+                'table' => 'colony_type',
+                'title' => 'Тип колоний'
+            ],
         ]);
         $resp->echo();
     }

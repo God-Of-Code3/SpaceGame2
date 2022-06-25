@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CivilizationController;
+use App\Http\Controllers\ColonyTypeController;
+use App\Http\Controllers\ColonyController;
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\SpaceObjectController;
@@ -42,12 +45,16 @@ Route::get('/logout', [UserController::class, 'logout']);
 
 Route::middleware('auth:sactum')->middleware('isadmin')->get('/getTables', [CRUDController::class, 'getTables'])->name('getTables');
 
+// CRUD
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('universe', UniverseController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_type', SpaceObjectTypeController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object_prop_type', SpaceObjectPropTypeController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('space_object', SpaceObjectController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user', UserController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('user_universe_member', UserUniverseMemberController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('civilization', CivilizationController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('colony_type', ColonyTypeController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('colony', ColonyController::class);
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->get('get_record_columns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);
 
