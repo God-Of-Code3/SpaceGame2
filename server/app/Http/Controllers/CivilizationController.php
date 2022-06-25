@@ -126,6 +126,12 @@ class CivilizationController extends Controller
             'user_universe_member_id' => $userUniverseMember->id
         ]);
 
+        $colony = ColonyController::createColony($civilization, $freeObject);
+
+        $userUniverseMember->x = $freeObject->x;
+        $userUniverseMember->y = $freeObject->y;
+        $userUniverseMember->save();
+
         return $civilization;
     }
 }

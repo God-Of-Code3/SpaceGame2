@@ -42,6 +42,9 @@ const c = {
 
     // Random
     RANDINT: (min, max) => Math.trunc((max - min + 1) * Math.random()) + min,
+
+    // Times
+    UPDATE_TIME_PERIOD: 2000,
 }
 
 export default c;

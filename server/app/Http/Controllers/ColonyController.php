@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Civilization;
 use App\Models\Colony;
+use App\Models\ColonyType;
+use App\Models\SpaceObject;
 use Illuminate\Http\Request;
 
 class ColonyController extends Controller
@@ -75,5 +78,17 @@ class ColonyController extends Controller
 
         $resp = ApiController::getResp();
         $resp->echo();
+    }
+
+    static public function createColony(Civilization $civilization, SpaceObject $startingPlanet)
+    {
+        $colony = Colony::create([
+            'name' => $civilization->name,
+            'civilization_id' => $civilization->id,
+            'space_object_id' => $startingPlanet->id,
+            'colony_type_id' => ColonyType::where('name', '=', 'starting_colony')->first()->id
+        ]);
+
+        return $colony;
     }
 }

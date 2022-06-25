@@ -1,3 +1,4 @@
+import request from "../api/Request";
 import c from "./constants";
 
 
@@ -52,6 +53,17 @@ class CanvasCamera {
                 z: c.RANDINT(0.5 / c.MIN_SCALE, c.BG_STARS_DIFF / c.MIN_SCALE),
             });
         }
+    }
+
+    // Updating camera data
+    updateCameraData() {
+        request('/api/game/update_camera', {
+            x: this.x,
+            y: this.y,
+            scale: this.scale,
+        }, r => {
+            
+        }, "POST");
     }
 
     // Set hover action object
@@ -329,6 +341,10 @@ class CanvasCamera {
         
         this.ctx.stroke();
         this.ctx.closePath();
+
+        this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        this.ctx.font = '11px serif';
+        this.ctx.fillText(`${Math.trunc(this.x)}; ${Math.trunc(this.y)}`, this.cnv.width / 2 + 2, this.cnv.height / 2 - offset);
     }
 
     // Draw background stars

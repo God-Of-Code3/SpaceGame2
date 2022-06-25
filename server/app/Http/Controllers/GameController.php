@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Civilization;
+use App\Models\Colony;
 use App\Models\SpaceObject;
 use App\Models\SpaceObjectType;
 use App\Models\Universe;
@@ -158,6 +159,8 @@ class GameController extends Controller
 
         $objects = [];
         if ($userUniverseMember) {
+
+
             $objects = SpaceObjectController::getSystems($userUniverseMember->universe_id);
         }
 
@@ -166,9 +169,22 @@ class GameController extends Controller
             $types[$type->id] = $type->name;
         }
 
+        $civilization = Civilization::where('user_universe_member_id', '=', $userUniverseMember->id)->first();
+        $colonies = [];
+        if ($civilization) {
+            $colonies = Colony::where('civilization_id', '=', $civilization->id)->get();
+        }
+
+
         $resp->setContent([
             'objects' => $objects,
-            'types' => $types
+            'types' => $types,
+            'camera' => [
+                'x' => $userUniverseMember->x,
+                'y' => $userUniverseMember->y,
+                'scale' => $userUniverseMember->scale,
+            ],
+            'colonies' => $colonies
         ]);
         $resp->echo();
     }
@@ -186,6 +202,23 @@ class GameController extends Controller
             SystemController::generateSystem($universe);
         }
         $resp = ApiController::getResp();
+        $resp->echo();
+    }
+
+    public function updateCamera(Request $request)
+    {
+        $user = $request->user();
+
+        $userUniverseMember = UserUniverseMember::where('user_id', '=', $user->id)->first();
+
+        $userUniverseMember->x = $request->input('x');
+        $userUniverseMember->y = $request->input('y');
+        $userUniverseMember->scale = $request->input('scale');
+
+        $userUniverseMember->save();
+
+        $resp = ApiController::getResp();
+        $resp->setContent($request->all());
         $resp->echo();
     }
 }

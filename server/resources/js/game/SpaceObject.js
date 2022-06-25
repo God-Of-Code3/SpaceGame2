@@ -6,6 +6,8 @@ class SpaceObject {
         this.x = x;
         this.y = y;
         this.props = props;
+
+        this.colony = props.colony;
         
         this.parent = parent;
         this.children = [];
@@ -46,7 +48,7 @@ class SpaceObject {
 
         children.forEach(child => {
             const cls = clss[child.space_object_type_id];
-            this.addChild(child, {
+            this.addChild({civilization: this.civilization, ...child}, {
                     dist: child.dist,
                     angle:  child.angle
             }, cls);

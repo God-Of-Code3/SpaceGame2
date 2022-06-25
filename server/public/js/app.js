@@ -7848,12 +7848,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
+/* harmony import */ var _api_Request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/Request */ "./resources/js/api/Request.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./resources/js/game/constants.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
 
 
 
@@ -7899,15 +7901,25 @@ var CanvasCamera = /*#__PURE__*/function () {
 
     for (var i = 0; i < 200; i++) {
       this.bgStars.push({
-        x: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(-1000, 1000),
-        y: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(-1000, 1000),
-        z: _constants__WEBPACK_IMPORTED_MODULE_0__["default"].RANDINT(0.5 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)
+        x: _constants__WEBPACK_IMPORTED_MODULE_1__["default"].RANDINT(-1000, 1000),
+        y: _constants__WEBPACK_IMPORTED_MODULE_1__["default"].RANDINT(-1000, 1000),
+        z: _constants__WEBPACK_IMPORTED_MODULE_1__["default"].RANDINT(0.5 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].MIN_SCALE, _constants__WEBPACK_IMPORTED_MODULE_1__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].MIN_SCALE)
       });
     }
-  } // Set hover action object
+  } // Updating camera data
 
 
   _createClass(CanvasCamera, [{
+    key: "updateCameraData",
+    value: function updateCameraData() {
+      (0,_api_Request__WEBPACK_IMPORTED_MODULE_0__["default"])('/api/game/update_camera', {
+        x: this.x,
+        y: this.y,
+        scale: this.scale
+      }, function (r) {}, "POST");
+    } // Set hover action object
+
+  }, {
     key: "setHover",
     value: function setHover(obj, value) {
       if (value) this.actionObjects.hover = obj;
@@ -7979,8 +7991,8 @@ var CanvasCamera = /*#__PURE__*/function () {
       });
       this.cnv.addEventListener("wheel", function (ev) {
         var delta = delta = ev.deltaY || ev.detail || ev.wheelDelta;
-        _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_0__["default"].SCROLL_SPEED;
-        _this.target.scale = Math.max(_this.target.scale, _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE);
+        _this.target.scale *= delta > 0 ? 1 / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].SCROLL_SPEED : _constants__WEBPACK_IMPORTED_MODULE_1__["default"].SCROLL_SPEED;
+        _this.target.scale = Math.max(_this.target.scale, _constants__WEBPACK_IMPORTED_MODULE_1__["default"].MIN_SCALE);
       });
       this.cnv.addEventListener("contextmenu", function (ev) {
         ev.preventDefault();
@@ -8076,7 +8088,7 @@ var CanvasCamera = /*#__PURE__*/function () {
   }, {
     key: "fill",
     value: function fill() {
-      this.ctx.fillStyle = _constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_COLOR;
+      this.ctx.fillStyle = _constants__WEBPACK_IMPORTED_MODULE_1__["default"].BG_COLOR;
       this.ctx.fillRect(0, 0, this.cnv.width, this.cnv.height);
       this.drawBackgroundStars();
     } // Handle events
@@ -8091,19 +8103,19 @@ var CanvasCamera = /*#__PURE__*/function () {
       };
       var ln = Math.pow(Math.pow(vec.x, 2) + Math.pow(vec.y, 2), 0.5);
 
-      if (ln * this.scale > _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED) {
+      if (ln * this.scale > _constants__WEBPACK_IMPORTED_MODULE_1__["default"].CAM_MOVE_SPEED) {
         vec.x /= ln;
         vec.y /= ln;
-        this.x += vec.x * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED / this.scale;
-        this.y += vec.y * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_MOVE_SPEED / this.scale;
+        this.x += vec.x * _constants__WEBPACK_IMPORTED_MODULE_1__["default"].CAM_MOVE_SPEED / this.scale;
+        this.y += vec.y * _constants__WEBPACK_IMPORTED_MODULE_1__["default"].CAM_MOVE_SPEED / this.scale;
       } else {
         this.x = this.target.x;
         this.y = this.target.y; // Scaling
 
         if (this.scale < this.target.scale) {
-          this.scale = Math.min(this.scale * _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
+          this.scale = Math.min(this.scale * _constants__WEBPACK_IMPORTED_MODULE_1__["default"].CAM_SCROLL_SPEED, this.target.scale);
         } else if (this.scale > this.target.scale) {
-          this.scale = Math.max(this.scale / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].CAM_SCROLL_SPEED, this.target.scale);
+          this.scale = Math.max(this.scale / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].CAM_SCROLL_SPEED, this.target.scale);
         }
       }
     } // Draw objects
@@ -8196,6 +8208,9 @@ var CanvasCamera = /*#__PURE__*/function () {
       this.ctx.lineTo(this.cnv.width / 2, this.cnv.height / 2 + offset);
       this.ctx.stroke();
       this.ctx.closePath();
+      this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+      this.ctx.font = '11px serif';
+      this.ctx.fillText("".concat(Math.trunc(this.x), "; ").concat(Math.trunc(this.y)), this.cnv.width / 2 + 2, this.cnv.height / 2 - offset);
     } // Draw background stars
 
   }, {
@@ -8209,7 +8224,7 @@ var CanvasCamera = /*#__PURE__*/function () {
         x = (star.x - _this2.x / star.z) * Math.pow(_this2.scale, 1 / star.z);
         y = (star.y - _this2.y / star.z) * Math.pow(_this2.scale, 1 / star.z);
 
-        _this2.drawCircle(x + _this2.cnv.width / 2, y + _this2.cnv.height / 2, (1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 1 + 1, "rgba(255, 255, 255, ".concat((1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_0__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_0__["default"].MIN_SCALE)) * 0.6, ")"), {
+        _this2.drawCircle(x + _this2.cnv.width / 2, y + _this2.cnv.height / 2, (1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_1__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].MIN_SCALE)) * 1 + 1, "rgba(255, 255, 255, ".concat((1 - star.z / (_constants__WEBPACK_IMPORTED_MODULE_1__["default"].BG_STARS_DIFF / _constants__WEBPACK_IMPORTED_MODULE_1__["default"].MIN_SCALE)) * 0.6, ")"), {
           shadow: {
             blur: 15
           }
@@ -8569,6 +8584,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -8591,6 +8612,7 @@ var SpaceObject = /*#__PURE__*/function () {
     this.x = x;
     this.y = y;
     this.props = props;
+    this.colony = props.colony;
     this.parent = parent;
     this.children = [];
     this.relations = relations;
@@ -8624,7 +8646,9 @@ var SpaceObject = /*#__PURE__*/function () {
       children.forEach(function (child) {
         var cls = clss[child.space_object_type_id];
 
-        _this.addChild(child, {
+        _this.addChild(_objectSpread({
+          civilization: _this.civilization
+        }, child), {
           dist: child.dist,
           angle: child.angle
         }, cls);
@@ -9011,7 +9035,9 @@ var c = {
   // Random
   RANDINT: function RANDINT(min, max) {
     return Math.trunc((max - min + 1) * Math.random()) + min;
-  }
+  },
+  // Times
+  UPDATE_TIME_PERIOD: 2000
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (c);
 
@@ -9050,50 +9076,22 @@ __webpack_require__.r(__webpack_exports__);
 var startGame = function startGame(cnv, ctx, uiElements) {
   var systems = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
     objects: [],
-    types: {}
+    types: {},
+    camera: {},
+    civilization: {}
   };
-  var camData = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
-  var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_1__["default"]({}, cnv, ctx);
-  var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_3__["default"](cam, uiElements); // let obj = new StarObject({
-  //     rad: 109*6 / c.AU_TO_TKM,
-  //     temperature: 5.7,
-  //     rotation: Math.PI / 3,
-  //     name: "Солнце"
-  // }, 0, 0, null);
-  // obj.addChild({
-  //         rad: 6 / c.AU_TO_TKM,
-  //         color: "#1ac9ac",
-  //         name: "Земля",
-  //         image: "http://127.0.0.1:8000/storage/images/planets/alive-standart/planet4.png",
-  //         rotation: Math.PI / 3,
-  //         compositionType: 'rock'
-  //     }, {
-  //         dist: 1,
-  //         angle:  (Math.PI / 6)
-  // }, PlanetObject);
-  // let obj2 = new StarObject({
-  //     rad: 109*6*0.145 / c.AU_TO_TKM,
-  //     temperature: 3.1,
-  //     rotation: Math.PI / 3,
-  //     name: "Проксима Центавра"
-  // }, 270000, 0, null);
-  // obj2.addChild({
-  //         rad: 2 / c.AU_TO_TKM,
-  //         color: "#1AAAC9",
-  //         name: "Земля 2",
-  //         image: "http://127.0.0.1:8000/storage/images/planets/alive-red/planet7.png",
-  //         rotation: Math.PI * 0.02,
-  //         compositionType: 'rock'
-  //     }, {
-  //         dist: 2,
-  //         angle:  (0.4 * Math.PI)
-  // }, PlanetObject);
-
+  var cam = new _CanvasCamera__WEBPACK_IMPORTED_MODULE_1__["default"](systems.camera, cnv, ctx);
+  var dataControlManager = new _DataControlManager__WEBPACK_IMPORTED_MODULE_3__["default"](cam, uiElements);
   var objects = systems.objects.map(function (system) {
     var cls = _ClassesList__WEBPACK_IMPORTED_MODULE_8__["default"][system.space_object_type_id];
     var obj = new cls(system, system.x, system.y, null);
     return obj;
   });
+  var updateTime = performance.now();
+
+  var update = function update() {
+    cam.updateCameraData();
+  };
 
   var gameLoop = function gameLoop() {
     // Main loop
@@ -9105,6 +9103,13 @@ var startGame = function startGame(cnv, ctx, uiElements) {
       obj.draw(cam);
     });
     cam.drawAdditionalGraphics(); // End main loop
+    // Updating
+
+    if (performance.now() - updateTime > _constants__WEBPACK_IMPORTED_MODULE_2__["default"].UPDATE_TIME_PERIOD) {
+      update();
+      updateTime = performance.now();
+    } // End updating
+
 
     requestAnimationFrame(gameLoop);
   };

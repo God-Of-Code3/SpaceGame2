@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->prefix('game')->group(function () {
     Route::get('/get_dashboard', [GameController::class, 'getDashboard']);
     Route::get('/join_universe/{universe}', [GameController::class, 'joinUniverse']);
     Route::get('/get_systems', [GameController::class, 'getSystems']);
+    Route::post('/update_camera', [GameController::class, 'updateCamera']);
 
     // Civilization
     Route::post('/create_civilization', [GameController::class, 'createCivilization']);
