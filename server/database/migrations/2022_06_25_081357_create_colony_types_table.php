@@ -1,12 +1,10 @@
 <?php
 
-use App\Models\ColonyType;
-use App\Models\SpaceObject;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateColoniesTable extends Migration
+class CreateColonyTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,13 +13,12 @@ class CreateColoniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('colonies', function (Blueprint $table) {
+        Schema::create('colony_types', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
             $table->string("name");
-            $table->foreignIdFor(SpaceObject::class);
-            $table->foreignIdFor(ColonyType::class);
+            $table->string("runame");
         });
     }
 
@@ -32,6 +29,6 @@ class CreateColoniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('colonies');
+        Schema::dropIfExists('colony_types');
     }
 }
