@@ -26,6 +26,7 @@ const c = {
     FOCUS_LINE_WIDTH: 5,
     HOVER_OFFSET: 6,
     FOCUS_OFFSET: 30,
+    COLONY_ICON_OFFSET: 40,
 
     MIN_STAR_RAD: 4,
     MIN_PLANET_RAD: 3,

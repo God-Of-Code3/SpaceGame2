@@ -172,7 +172,23 @@ class GameController extends Controller
         $civilization = Civilization::where('user_universe_member_id', '=', $userUniverseMember->id)->first();
         $colonies = [];
         if ($civilization) {
-            $colonies = Colony::where('civilization_id', '=', $civilization->id)->get();
+            $colonies = DB::select(DB::raw("
+                SELECT 
+                    col.name, 
+                    col.colony_type_id,
+                    so.x, 
+                    so.y, 
+                    so.rad ,
+                    so.dist,
+                    so.angle
+                FROM 
+                    colonies as col,
+                    space_objects as so
+                WHERE
+                    col.space_object_id = so.id AND
+                    col.civilization_id = '$civilization->id'
+                    
+            "));
         }
 
 

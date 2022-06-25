@@ -6,8 +6,6 @@ class SpaceObject {
         this.x = x;
         this.y = y;
         this.props = props;
-
-        this.colony = props.colony;
         
         this.parent = parent;
         this.children = [];

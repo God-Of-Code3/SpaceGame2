@@ -7,9 +7,10 @@ import PlanetObject from "./PlanetObject";
 import SpaceObject from "./SpaceObject";
 import StarObject from "./StarObject";
 import clss from "./ClassesList";
+import Colony from "./Colony";
 
 
-const startGame = (cnv, ctx, uiElements, systems={objects: [], types: {}, camera: {}, civilization: {}},) => {
+const startGame = (cnv, ctx, uiElements, systems={objects: [], types: {}, camera: {}, colonies: {}},) => {
 
     const cam = new CanvasCamera(systems.camera, cnv, ctx);
     const dataControlManager = new DataControlManager(cam, uiElements);
@@ -20,6 +21,12 @@ const startGame = (cnv, ctx, uiElements, systems={objects: [], types: {}, camera
         const obj = new cls(system, system.x, system.y, null);
         return obj;
     });
+
+    const colonies = systems.colonies.map(colony => {
+        const col = new Colony(colony, colony.x, colony.y, null);
+
+        return col;
+    })
 
     let updateTime = performance.now();
 
@@ -37,6 +44,11 @@ const startGame = (cnv, ctx, uiElements, systems={objects: [], types: {}, camera
             
             obj.handle(cam);
             obj.draw(cam);
+        })
+        colonies.forEach(colony => {
+
+            colony.handle(cam);
+            colony.draw(cam);
         })
         cam.drawAdditionalGraphics();
         // End main loop
