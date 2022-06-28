@@ -6,26 +6,11 @@ import Container from './Container';
 const reloadContext = React.createContext({});
 
 const Dashboard = () => {
-    const [elements, setElements] = useState([]);
-    const [title, setTitle] = useState("");
-
-    const reload = () => {
-        request('/api/game/get_dashboard', {}, r => {
-            setElements(r.content.children);
-            setTitle(r.content.title);
-        }, "GET");
-    }
-
-    useEffect(() => {
-        reload();
-    }, []);
+    
 
     return (
         <Container>
-            <reloadContext.Provider value={{reload}}>
-                <UIConstructor title={title} elements={elements}></UIConstructor>
-            </reloadContext.Provider>  
-            
+                <UIConstructor ttl={"Рабочая панель"} elements={[]} api={`api/game/get_dashboard`}></UIConstructor>
         </Container>
     );
 };
