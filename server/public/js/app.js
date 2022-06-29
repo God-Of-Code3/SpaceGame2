@@ -5972,7 +5972,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router */ "./resources/js/router/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["auth"];
@@ -6018,9 +6017,9 @@ var NavBar = function NavBar(_ref) {
           children: _router__WEBPACK_IMPORTED_MODULE_1__.routes[auth].map(function (route, i) {
             return route.show ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
               className: "nav-item",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
                 className: "nav-link",
-                to: route.path,
+                href: route.path,
                 children: route.label
               }, i)
             }, "navbar_item_".concat(i)) : "";
@@ -6333,17 +6332,23 @@ var Canvas = function Canvas() {
       sidebarData = _useState6[0],
       setSidebarData = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState8 = _slicedToArray(_useState7, 2),
-      dataManager = _useState8[0],
-      setDataManager = _useState8[1]; // Starting game
+      modalApi = _useState8[0],
+      setModalApi = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      dataManager = _useState10[0],
+      setDataManager = _useState10[1]; // Starting game
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     (0,_api_game_getSystems__WEBPACK_IMPORTED_MODULE_1__["default"])({
       setSystems: function setSystems(systems) {
         setDataManager((0,_game__WEBPACK_IMPORTED_MODULE_2__["default"])(cnv.current, ctx, {
-          setSidebarData: setSidebarData
+          setSidebarData: setSidebarData,
+          setModalApi: setModalApi
         }, systems));
       }
     });
@@ -6352,7 +6357,8 @@ var Canvas = function Canvas() {
     className: "area",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_game_GameUi__WEBPACK_IMPORTED_MODULE_3__["default"], {
       dataManager: dataManager,
-      sidebarData: sidebarData
+      sidebarData: sidebarData,
+      modalApi: modalApi
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("canvas", {
       ref: cnv,
       width: width,
@@ -7217,8 +7223,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _ui_UIConstructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/UIConstructor */ "./resources/js/components/ui/UIConstructor.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["getModalApi"];
+/* harmony import */ var _GameUi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameUi */ "./resources/js/components/game/GameUi.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["modalApi"];
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -7241,8 +7248,10 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
+
 var GameModal = function GameModal(_ref) {
-  var getModalApi = _ref.getModalApi,
+  var modalApi = _ref.modalApi,
       props = _objectWithoutProperties(_ref, _excluded);
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
@@ -7250,44 +7259,39 @@ var GameModal = function GameModal(_ref) {
       show = _useState2[0],
       setShow = _useState2[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {}, [getModalApi]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    "class": "modal d-block",
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (modalApi) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [modalApi]);
+  var dataManager = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_GameUi__WEBPACK_IMPORTED_MODULE_2__.dataManagerContext);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    "class": "modal ".concat(show ? 'd-block' : ''),
     tabindex: "-1",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      "class": "modal-dialog",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      "class": "modal-dialog modal-lg my-5",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         "class": "modal-content bg-dark text-light",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           "class": "modal-header",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h5", {
             "class": "modal-title",
             children: "Modal title"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            type: "button",
-            "class": "btn-close",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+            "class": "bi bi-x-lg",
+            onClick: function onClick() {
+              return dataManager.setModalApi("");
+            }
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           "class": "modal-body",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_ui_UIConstructor__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_ui_UIConstructor__WEBPACK_IMPORTED_MODULE_1__["default"], {
             ttl: "Рабочая панель",
             elements: [],
-            api: "api/game/get_dashboard"
+            api: modalApi
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          "class": "modal-footer",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            type: "button",
-            "class": "btn btn-secondary",
-            "data-bs-dismiss": "modal",
-            children: "Close"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            type: "button",
-            "class": "btn btn-primary",
-            children: "Save changes"
-          })]
         })]
       })
     })
@@ -7448,13 +7452,14 @@ var GameSidebarSection = function GameSidebarSection(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "dataManagerContext": () => (/* binding */ dataManagerContext),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _GameSidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameSidebar */ "./resources/js/components/game/GameSidebar.js");
 /* harmony import */ var _GameModal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameModal */ "./resources/js/components/game/GameModal.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-var _excluded = ["dataManager", "sidebarData"];
+var _excluded = ["dataManager", "sidebarData", "modalApi"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
 
@@ -7465,22 +7470,28 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+var dataManagerContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({});
 
 var GameUi = function GameUi(_ref) {
   var dataManager = _ref.dataManager,
       sidebarData = _ref.sidebarData,
+      modalApi = _ref.modalApi,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_GameSidebar__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      sidebarData: sidebarData
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_GameModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      getModalApi: ''
-    })]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(dataManagerContext.Provider, {
+      value: dataManager,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_GameSidebar__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        sidebarData: sidebarData
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_GameModal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        modalApi: modalApi
+      })]
+    })
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameUi);
+
 
 /***/ }),
 
@@ -7496,7 +7507,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _GameUi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameUi */ "./resources/js/components/game/GameUi.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["item"];
 
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
@@ -7507,17 +7519,19 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
+
 var SpaceObjectCard = function SpaceObjectCard(_ref) {
   var item = _ref.item,
       props = _objectWithoutProperties(_ref, _excluded);
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  var dataManager = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_GameUi__WEBPACK_IMPORTED_MODULE_1__.dataManagerContext);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     className: "mt-2",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "row flex-nowrap rounded border",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col-3 bg-space center rounded-start",
-        children: item.image ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+        children: item.image ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
           src: item.image,
           alt: "ObjectImage",
           className: "circle",
@@ -7527,7 +7541,7 @@ var SpaceObjectCard = function SpaceObjectCard(_ref) {
             background: item.color,
             boxShadow: "0px 0px 20px ".concat(item.color)
           }
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           className: "circle",
           style: {
             width: '30px',
@@ -7536,18 +7550,21 @@ var SpaceObjectCard = function SpaceObjectCard(_ref) {
             boxShadow: "0px 0px 20px ".concat(item.color)
           }
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "col-8 p-3",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h6", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h6", {
           children: item.title
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
           className: "text-secondary mt-1",
           children: item.subtitle
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col-1 p-0 pl-3 d-flex align-items-center justify-space-between bg-light rounded-end",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-          className: "bi bi-chevron-right m-1"
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+          className: "bi bi-chevron-right m-1",
+          onClick: function onClick() {
+            return dataManager.setModalApi("/api/game/get_space_object_modal/".concat(item.id));
+          }
         })
       })]
     })
@@ -7708,6 +7725,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Row__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Row */ "./resources/js/components/ui/Row.js");
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Button */ "./resources/js/components/ui/Button.js");
 /* harmony import */ var _FormEl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormEl */ "./resources/js/components/ui/FormEl.js");
+/* harmony import */ var _TableEl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TableEl */ "./resources/js/components/ui/TableEl.js");
+
 
 
 
@@ -7719,7 +7738,8 @@ var els = {
   'column': _Column__WEBPACK_IMPORTED_MODULE_2__["default"],
   'block': _Block__WEBPACK_IMPORTED_MODULE_1__["default"],
   'button': _Button__WEBPACK_IMPORTED_MODULE_4__["default"],
-  'form': _FormEl__WEBPACK_IMPORTED_MODULE_5__["default"]
+  'form': _FormEl__WEBPACK_IMPORTED_MODULE_5__["default"],
+  'table': _TableEl__WEBPACK_IMPORTED_MODULE_6__["default"]
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (els);
 
@@ -7825,6 +7845,64 @@ var Row = function Row(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/ui/TableEl.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/ui/TableEl.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["el"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+var TableEl = function TableEl(_ref) {
+  var el = _ref.el,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "table",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("table", {
+      className: "table table-dark table-striped",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("tr", {
+          children: el.props.headers.map(function (header) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+              children: header
+            });
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("tbody", {
+        children: el.props.body.map(function (row) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("tr", {
+            children: row.map(function (ch) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+                children: ch
+              });
+            })
+          });
+        })
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TableEl);
+
+/***/ }),
+
 /***/ "./resources/js/components/ui/UIConstructor.js":
 /*!*****************************************************!*\
   !*** ./resources/js/components/ui/UIConstructor.js ***!
@@ -7890,7 +7968,7 @@ var UIConstructor = function UIConstructor(_ref) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     reload();
-  }, []);
+  }, [api]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(reloadContext.Provider, {
     value: {
       reload: reload
@@ -8502,6 +8580,12 @@ var DataControlManager = /*#__PURE__*/function () {
       } else {
         this.uiElements.setSidebarData({});
       }
+    } // Opening modal by spaceObjectCard button
+
+  }, {
+    key: "setModalApi",
+    value: function setModalApi(api) {
+      this.uiElements.setModalApi(api);
     }
   }, {
     key: "getSidebars",
@@ -8905,7 +8989,8 @@ var SpaceObject = /*#__PURE__*/function () {
       return {
         color: this.props.color,
         title: this.name,
-        type: 'spaceObjectCard'
+        type: 'spaceObjectCard',
+        id: this.props.id
       };
     } // Setting focus
 

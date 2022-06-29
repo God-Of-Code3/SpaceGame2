@@ -102,6 +102,18 @@ class UI
         );
     }
 
+    public function table($headers, $body)
+    {
+        return $this->getElement(
+            'table',
+            [
+                'headers' => $headers,
+                'body' => $body
+            ],
+            []
+        );
+    }
+
     public function addChild($child)
     {
         $this->ui['children'][] = $child;

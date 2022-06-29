@@ -8,7 +8,6 @@ class DataControlManager {
         this.cam.dataManager = this;
 
         this.uiElements = uiElements;
-
     }
 
     // Showing focused object
@@ -19,6 +18,11 @@ class DataControlManager {
         } else {
             this.uiElements.setSidebarData({});
         }
+    }
+
+    // Opening modal by spaceObjectCard button
+    setModalApi(api) {
+        this.uiElements.setModalApi(api);
     }
 
     getSidebars() {

@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { dataManagerContext } from './GameUi';
 
 const SpaceObjectCard = ({item, ...props}) => {
+
+    const dataManager = useContext(dataManagerContext);
+
     return (
         <div className="mt-2">
             <div className="row flex-nowrap rounded border">
@@ -29,7 +33,7 @@ const SpaceObjectCard = ({item, ...props}) => {
                     <p className="text-secondary mt-1">{item.subtitle}</p>
                 </div>
                 <div className="col-1 p-0 pl-3 d-flex align-items-center justify-space-between bg-light rounded-end">
-                    <i className="bi bi-chevron-right m-1"></i>
+                    <i className="bi bi-chevron-right m-1" onClick={() => dataManager.setModalApi(`/api/game/get_space_object_modal/${item.id}`)}></i>
                 </div>
             </div>
         </div>

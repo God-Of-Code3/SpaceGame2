@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Civilization;
 use App\Models\Colony;
 use App\Models\SpaceObject;
+use App\Models\SpaceObjectPropType;
 use App\Models\SpaceObjectType;
 use App\Models\Universe;
 use App\Models\UserUniverseMember;
@@ -218,6 +219,50 @@ class GameController extends Controller
             SystemController::generateSystem($universe);
         }
         $resp = ApiController::getResp();
+        $resp->echo();
+    }
+
+    static public function getSpaceObjectModal(Request $req, SpaceObject $spaceObject)
+    {
+        $headers = ['Характеристика', 'Значение'];
+        $object = SpaceObjectController::getOne($spaceObject);
+
+        $objectTypes = SpaceObjectType::get()->keyBy('id');
+
+        $compositionTypes = [];
+        foreach (explode(";", SpaceObjectPropType::where('name', '=', 'compositionType')->first()->default) as $comp) {
+            $compositionTypes[explode(":", $comp)[0]] = explode(":", $comp)[1];
+        }
+
+        $tableBody = [
+            ['Радиус, тыс. км', SystemController::AU2TKM($object['rad'])],
+            ['Масса, м. Земли', $object['mass']],
+        ];
+
+        $ui = UIController::getUI();
+        $ui->setTitle($objectTypes[$object['space_object_type_id']]['runame'] . " " . $spaceObject->name);
+
+        switch ($objectTypes[$object['space_object_type_id']]['name']) {
+            case 'planet':
+
+                $tableBody[] = ['Радиус орбиты, а. е.', $object['dist']];
+                $tableBody[] = ['Тип состава', $compositionTypes[$object['compositionType']]];
+
+                break;
+
+            case 'star':
+
+                $tableBody[] = ['Температура, тыс. К', $object['temperature']];
+
+                break;
+        }
+
+
+        $table = $ui->table($headers, $tableBody);
+        $ui->addChild($table);
+
+        $resp = ApiController::getResp();
+        $resp->setContent($ui->getUI());
         $resp->echo();
     }
 

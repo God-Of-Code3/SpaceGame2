@@ -78,6 +78,7 @@ class SpaceObject {
         let mainInformation = this.getMainInformation();
         return {
             title: "Основная информация",
+
             content: [
                 mainInformation
             ]
@@ -110,7 +111,8 @@ class SpaceObject {
         return {
             color: this.props.color,
             title: this.name,
-            type: 'spaceObjectCard'
+            type: 'spaceObjectCard',
+            id: this.props.id
         }
     }
 

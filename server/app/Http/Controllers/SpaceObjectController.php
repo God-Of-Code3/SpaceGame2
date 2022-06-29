@@ -233,4 +233,39 @@ class SpaceObjectController extends Controller
 
         return $objects;
     }
+
+    static public function getOne(SpaceObject $spaceObject)
+    {
+        $props = DB::select(DB::raw("
+            SELECT 
+                so.id, 
+                so.name,  
+                sopt.runame AS typeName, 
+                sopt.name AS propName, 
+                sopv.value, 
+                sopt.space_object_type_id, 
+                sot.runame AS objType, 
+                sot.name AS objTypeName 
+            FROM 
+                space_objects AS so, 
+                space_object_prop_types AS sopt, 
+                space_object_prop_values AS sopv,
+                space_object_types AS sot
+            WHERE 
+                so.id = sopv.space_object_id
+                AND sot.id = so.space_object_type_id
+                AND sopv.space_object_prop_type_id = sopt.id 
+                AND (sopt.space_object_type_id = so.space_object_type_id 
+                    OR sopt.space_object_type_id = '0') 
+                AND so.id = '$spaceObject->id'
+        "));
+
+        $object = $spaceObject->toArray();
+
+        foreach ($props as $prop) {
+            $object[$prop->propName] = $prop->value;
+        }
+
+        return $object;
+    }
 }

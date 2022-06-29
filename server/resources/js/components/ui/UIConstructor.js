@@ -20,7 +20,7 @@ const UIConstructor = ({api, ...props}) => {
 
     useEffect(() => {
         reload();
-    }, []);
+    }, [api]);
 
     return (
         <reloadContext.Provider value={{reload}}>

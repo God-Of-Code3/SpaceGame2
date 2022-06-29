@@ -19,7 +19,7 @@ const NavBar = ({auth, ...props}) => {
                             {
                                 return route.show ? 
                                     <li key={`navbar_item_${i}`} className="nav-item">
-                                        <Link key={i} className="nav-link" to={route.path}>{route.label}</Link>
+                                        <a key={i} className="nav-link" href={route.path}>{route.label}</a>
                                     </li>
                                 : ""
                             }

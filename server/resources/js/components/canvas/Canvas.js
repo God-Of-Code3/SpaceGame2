@@ -21,6 +21,7 @@ const Canvas = () => {
     });
 
     const [sidebarData, setSidebarData] = useState({});
+    const [modalApi, setModalApi] = useState("");
     const [dataManager, setDataManager] = useState(null);
 
     // Starting game
@@ -28,7 +29,8 @@ const Canvas = () => {
 
         getSystems({setSystems: systems => {
             setDataManager(startGame(cnv.current, ctx, {
-                setSidebarData: setSidebarData
+                setSidebarData: setSidebarData,
+                setModalApi: setModalApi,
             },
             systems
             ));
@@ -39,7 +41,7 @@ const Canvas = () => {
 
     return (
         <div className="area">
-            <GameUi dataManager={dataManager} sidebarData={sidebarData}></GameUi>
+            <GameUi dataManager={dataManager} sidebarData={sidebarData} modalApi={modalApi}></GameUi>
             <canvas ref={cnv} width={width} height={height}>
 
             </canvas>

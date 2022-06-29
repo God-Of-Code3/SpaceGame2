@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import UIConstructor from '../ui/UIConstructor';
+import { useContext } from 'react';
+import { dataManagerContext } from './GameUi';
 
-const GameModal = ({getModalApi, ...props}) => {
+const GameModal = ({modalApi, ...props}) => {
 
     const [show, setShow] = useState(true);
 
     useEffect(() => {
+        if (modalApi) {
+            setShow(true);
+        } else {
+            setShow(false);
+        }
+    }, [modalApi]);
 
-    }, [getModalApi]);
+    const dataManager = useContext(dataManagerContext);
 
     return (
-        <div class="modal d-block" tabindex="-1">
-            <div class="modal-dialog">
+        <div class={`modal ${show ? 'd-block' : ''}`} tabindex="-1">
+            <div class="modal-dialog modal-lg my-5">
                 <div class="modal-content bg-dark text-light">
                     <div class="modal-header">
                         <h5 class="modal-title">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <i class="bi bi-x-lg" onClick={() => dataManager.setModalApi("")}></i>
                     </div>
                     <div class="modal-body">
-                        <UIConstructor ttl={"Рабочая панель"} elements={[]} api={`api/game/get_dashboard`}></UIConstructor>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <UIConstructor ttl={"Рабочая панель"} elements={[]} api={modalApi}></UIConstructor>
                     </div>
                 </div>
             </div>
