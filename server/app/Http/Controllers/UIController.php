@@ -143,6 +143,15 @@ class UI
         );
     }
 
+    public function h5($text)
+    {
+        return $this->getElement(
+            'h5',
+            [],
+            $text
+        );
+    }
+
     public function addChild($child)
     {
         $this->ui['children'][] = $child;

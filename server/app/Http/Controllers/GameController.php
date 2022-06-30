@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Civilization;
 use App\Models\Colony;
+use App\Models\ColonyType;
 use App\Models\SpaceObject;
 use App\Models\SpaceObjectPropType;
 use App\Models\SpaceObjectType;
@@ -229,12 +230,19 @@ class GameController extends Controller
 
         $this->getSpaceObjectModalTitle($spaceObject, $ui);
         $table = $this->getSpaceObjectInfoModalTable($spaceObject, $ui);
+        $colonyData = $this->getSpaceObjectColonyInfoModal($req->user(), $spaceObject, $ui);
         $text = $ui->text("Abrakadabra");
 
-        $tabs = $ui->tabs([
+        $tabsData = [
             'Характеристики' => [$table],
-            'Текст' => [$text]
-        ]);
+            'Текст' => [$text],
+        ];
+
+        if ($colonyData) {
+            $tabsData['Колония'] = $colonyData;
+        }
+
+        $tabs =  $ui->tabs($tabsData);
 
         $ui->addChild($tabs);
 
@@ -284,6 +292,29 @@ class GameController extends Controller
 
         $table = $ui->table($headers, $tableBody);
         return $table;
+    }
+
+    public function getSpaceObjectColonyInfoModal($user, $spaceObject, $ui)
+    {
+        $colony = Colony::where('space_object_id', $spaceObject->id)
+            ->where(
+                'civilization_id',
+                '=',
+                Civilization::where('user_universe_member_id', '=', UserUniverseMember::where('user_id', '=', $user->id)->first()->id)->first()->id
+            )
+            ->first();
+
+        if (!$colony) {
+            return [];
+        }
+
+        $colonyTypes = ColonyType::get()->keyBy('id');
+
+        // $header = $ui->h5($colony->name);
+        $text = $ui->text($colonyTypes[$colony->colony_type_id]->runame);
+        $block = $ui->block($colony->name, [], [$text]);
+
+        return [$block];
     }
 
     public function updateCamera(Request $request)

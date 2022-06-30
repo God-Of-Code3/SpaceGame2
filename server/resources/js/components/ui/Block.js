@@ -6,7 +6,7 @@ const Block = ({el, ...props}) => {
         <div className='bg-dark rounded p-3'>
             {
                 el.props.title ? 
-                <h2 className='mb-3'>{el.props.title}</h2>
+                <h4 className='mb-3'>{el.props.title}</h4>
                 : ""
             }
             {

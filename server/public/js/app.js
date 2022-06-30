@@ -7616,13 +7616,10 @@ var Tabs = function Tabs(_ref) {
       activeTab = _useState2[0],
       setActiveTab = _useState2[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    console.log(props.tabs[activeTab]);
-  }, [activeTab]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
-      className: "nav nav-pills mt-4",
+      className: "nav nav-tabs mt-4 mb-2",
       children: props.tabs.map(function (tab, i) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
           className: "nav-item",
@@ -7675,7 +7672,7 @@ var Block = function Block(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "bg-dark rounded p-3",
-    children: [el.props.title ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
+    children: [el.props.title ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h4", {
       className: "mb-3",
       children: el.props.title
     }) : "", (0,_childrenMap__WEBPACK_IMPORTED_MODULE_1__["default"])(el), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -7798,6 +7795,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TabsEl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TabsEl */ "./resources/js/components/ui/TabsEl.js");
 /* harmony import */ var _TabEl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TabEl */ "./resources/js/components/ui/TabEl.js");
 /* harmony import */ var _Text__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Text */ "./resources/js/components/ui/Text.js");
+/* harmony import */ var _H5__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./H5 */ "./resources/js/components/ui/H5.js");
+
 
 
 
@@ -7817,7 +7816,8 @@ var els = {
   'table': _TableEl__WEBPACK_IMPORTED_MODULE_6__["default"],
   'tabs': _TabsEl__WEBPACK_IMPORTED_MODULE_7__["default"],
   'tab': _TabEl__WEBPACK_IMPORTED_MODULE_8__["default"],
-  'text': _Text__WEBPACK_IMPORTED_MODULE_9__["default"]
+  'text': _Text__WEBPACK_IMPORTED_MODULE_9__["default"],
+  'h5': _H5__WEBPACK_IMPORTED_MODULE_10__["default"]
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (els);
 
@@ -7882,6 +7882,41 @@ var FormEl = function FormEl(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormEl);
+
+/***/ }),
+
+/***/ "./resources/js/components/ui/H5.js":
+/*!******************************************!*\
+  !*** ./resources/js/components/ui/H5.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["el"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var H5 = function H5(_ref) {
+  var el = _ref.el,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h5", {
+    children: el.children
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (H5);
 
 /***/ }),
 
