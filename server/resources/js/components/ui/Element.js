@@ -5,6 +5,9 @@ import Row from './Row';
 import Button from './Button';
 import FormEl from './FormEl';
 import TableEl from './TableEl';
+import TabsEl from './TabsEl';
+import TabEl from './TabEl';
+import Text from './Text';
 
 const els = {
     'row': Row,
@@ -13,6 +16,9 @@ const els = {
     'button': Button,
     'form': FormEl,
     'table': TableEl,
+    'tabs': TabsEl,
+    'tab': TabEl,
+    'text': Text,
 };
 
 export default els;

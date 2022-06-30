@@ -222,7 +222,34 @@ class GameController extends Controller
         $resp->echo();
     }
 
-    static public function getSpaceObjectModal(Request $req, SpaceObject $spaceObject)
+    public function getSpaceObjectModal(Request $req, SpaceObject $spaceObject)
+    {
+
+        $ui = UIController::getUI();
+
+        $this->getSpaceObjectModalTitle($spaceObject, $ui);
+        $table = $this->getSpaceObjectInfoModalTable($spaceObject, $ui);
+        $text = $ui->text("Abrakadabra");
+
+        $tabs = $ui->tabs([
+            'Характеристики' => [$table],
+            'Текст' => [$text]
+        ]);
+
+        $ui->addChild($tabs);
+
+        $resp = ApiController::getResp();
+        $resp->setContent($ui->getUI());
+        $resp->echo();
+    }
+
+    public function getSpaceObjectModalTitle($spaceObject, $ui)
+    {
+        $objectTypes = SpaceObjectType::get()->keyBy('id');
+        $ui->setTitle($objectTypes[$spaceObject->space_object_type_id]['runame'] . " " . $spaceObject->name);
+    }
+
+    public function getSpaceObjectInfoModalTable($spaceObject, $ui)
     {
         $headers = ['Характеристика', 'Значение'];
         $object = SpaceObjectController::getOne($spaceObject);
@@ -238,9 +265,6 @@ class GameController extends Controller
             ['Радиус, тыс. км', SystemController::AU2TKM($object['rad'])],
             ['Масса, м. Земли', $object['mass']],
         ];
-
-        $ui = UIController::getUI();
-        $ui->setTitle($objectTypes[$object['space_object_type_id']]['runame'] . " " . $spaceObject->name);
 
         switch ($objectTypes[$object['space_object_type_id']]['name']) {
             case 'planet':
@@ -259,11 +283,7 @@ class GameController extends Controller
 
 
         $table = $ui->table($headers, $tableBody);
-        $ui->addChild($table);
-
-        $resp = ApiController::getResp();
-        $resp->setContent($ui->getUI());
-        $resp->echo();
+        return $table;
     }
 
     public function updateCamera(Request $request)

@@ -1,17 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import childrenMap from '../ui/childrenMap';
 
 const Tabs = ({ ...props}) => {
     
+    const [activeTab, setActiveTab] = useState(0);
+
+    useEffect(() => {
+        console.log(props.tabs[activeTab]);
+
+    }, [activeTab]);
+
     return (
-        <ul className="nav nav-pills mt-4">
+        <div className="">
+            <ul className="nav nav-pills mt-4">
+                {
+                    props.tabs.map((tab, i) => {
+                        return <li key={`tab_${i}`} className="nav-item">
+                            <div role="button" className={`nav-link ${activeTab == i ? 'active' : ''} text-light`} onClick={() => setActiveTab(i)}>{tab.props.title}</div>
+                        </li>
+
+                        }
+                    )
+                }
+            </ul>
             {
-                props.tabs.map((tab, i) => 
-                    <li key={`tab_${i}`} className="nav-item">
-                        <div role="button" className={`nav-link ${tab.active ? 'active' : ''} text-light`} onClick={() => tab.action(tab)}>{tab.title}</div>
-                    </li>
-                )
-            }
-        </ul>
+                props.tabs ? 
+                    childrenMap(props.tabs[activeTab])
+                : ""
+            }    
+        </div>
+        
     );
 };
 

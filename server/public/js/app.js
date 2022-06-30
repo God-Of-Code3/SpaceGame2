@@ -7575,6 +7575,75 @@ var SpaceObjectCard = function SpaceObjectCard(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/tabs/Tabs.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/tabs/Tabs.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ui_childrenMap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/childrenMap */ "./resources/js/components/ui/childrenMap.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+
+var Tabs = function Tabs(_ref) {
+  var props = _extends({}, _ref);
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      activeTab = _useState2[0],
+      setActiveTab = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(props.tabs[activeTab]);
+  }, [activeTab]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
+      className: "nav nav-pills mt-4",
+      children: props.tabs.map(function (tab, i) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          className: "nav-item",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            role: "button",
+            className: "nav-link ".concat(activeTab == i ? 'active' : '', " text-light"),
+            onClick: function onClick() {
+              return setActiveTab(i);
+            },
+            children: tab.props.title
+          })
+        }, "tab_".concat(i));
+      })
+    }), props.tabs ? (0,_ui_childrenMap__WEBPACK_IMPORTED_MODULE_1__["default"])(props.tabs[activeTab]) : ""]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tabs);
+
+/***/ }),
+
 /***/ "./resources/js/components/ui/Block.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/ui/Block.js ***!
@@ -7726,6 +7795,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Button */ "./resources/js/components/ui/Button.js");
 /* harmony import */ var _FormEl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormEl */ "./resources/js/components/ui/FormEl.js");
 /* harmony import */ var _TableEl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TableEl */ "./resources/js/components/ui/TableEl.js");
+/* harmony import */ var _TabsEl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TabsEl */ "./resources/js/components/ui/TabsEl.js");
+/* harmony import */ var _TabEl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TabEl */ "./resources/js/components/ui/TabEl.js");
+/* harmony import */ var _Text__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Text */ "./resources/js/components/ui/Text.js");
+
+
+
 
 
 
@@ -7739,7 +7814,10 @@ var els = {
   'block': _Block__WEBPACK_IMPORTED_MODULE_1__["default"],
   'button': _Button__WEBPACK_IMPORTED_MODULE_4__["default"],
   'form': _FormEl__WEBPACK_IMPORTED_MODULE_5__["default"],
-  'table': _TableEl__WEBPACK_IMPORTED_MODULE_6__["default"]
+  'table': _TableEl__WEBPACK_IMPORTED_MODULE_6__["default"],
+  'tabs': _TabsEl__WEBPACK_IMPORTED_MODULE_7__["default"],
+  'tab': _TabEl__WEBPACK_IMPORTED_MODULE_8__["default"],
+  'text': _Text__WEBPACK_IMPORTED_MODULE_9__["default"]
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (els);
 
@@ -7845,6 +7923,30 @@ var Row = function Row(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/ui/TabEl.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/ui/TabEl.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+var TabEl = function TabEl() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {});
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TabEl);
+
+/***/ }),
+
 /***/ "./resources/js/components/ui/TableEl.js":
 /*!***********************************************!*\
   !*** ./resources/js/components/ui/TableEl.js ***!
@@ -7900,6 +8002,91 @@ var TableEl = function TableEl(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TableEl);
+
+/***/ }),
+
+/***/ "./resources/js/components/ui/TabsEl.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/ui/TabsEl.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _tabs_Tabs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tabs/Tabs */ "./resources/js/components/tabs/Tabs.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["el"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+
+var TabsEl = function TabsEl(_ref) {
+  var el = _ref.el,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  // useEffect(() => {
+  //     // setTabs(el.children.map(tab => {
+  //     //     const tabData = {
+  //     //         title: tab.props.title,
+  //     //         action: () => {}
+  //     //     };
+  //     //     console.log(tabData);
+  //     //     return tabData;
+  //     // }));
+  //     console.log(909);
+  // }, [el]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_tabs_Tabs__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    tabs: el.children
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TabsEl);
+
+/***/ }),
+
+/***/ "./resources/js/components/ui/Text.js":
+/*!********************************************!*\
+  !*** ./resources/js/components/ui/Text.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var _excluded = ["el"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
+
+
+var Text = function Text(_ref) {
+  var el = _ref.el,
+      props = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      children: el.children
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Text);
 
 /***/ }),
 

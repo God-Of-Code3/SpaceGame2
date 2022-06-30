@@ -215,7 +215,7 @@ class SystemController extends Controller
                 }
                 break;
             case 'rock':
-                $planetRadius = $earthRadius * rand(50, 300) / 100;
+                $planetRadius = $earthRadius * rand(50, 150) / 100;
                 $planetMass = $earthMass * ($planetRadius / $earthRadius) ** 3;
 
                 $type = rand(0, 4);

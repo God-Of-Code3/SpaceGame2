@@ -114,6 +114,35 @@ class UI
         );
     }
 
+    public function tab($title, $children)
+    {
+        return $this->getElement(
+            'tab',
+            [
+                'title' => $title,
+            ],
+            $children
+        );
+    }
+
+    public function tabs($tabs)
+    {
+        $tabsElements = [];
+
+        foreach ($tabs as $tabTitle => $tabChildren) {
+            $tabsElements[] = $this->tab(
+                $tabTitle,
+                $tabChildren
+            );
+        }
+
+        return $this->getElement(
+            'tabs',
+            [],
+            $tabsElements
+        );
+    }
+
     public function addChild($child)
     {
         $this->ui['children'][] = $child;
