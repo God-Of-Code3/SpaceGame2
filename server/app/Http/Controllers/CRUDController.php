@@ -29,7 +29,11 @@ class CRUDController extends Controller
             ],
             [
                 'table' => 'colony_type',
-                'title' => 'Тип колоний'
+                'title' => 'Типы колоний'
+            ],
+            [
+                'table' => 'production_category',
+                'title' => 'Категории деятельности'
             ],
         ]);
         $resp->echo();

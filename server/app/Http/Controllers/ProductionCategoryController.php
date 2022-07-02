@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ColonyType;
+use App\Models\ProductionCategory;
 use Illuminate\Http\Request;
 
-class ColonyTypeController extends Controller
+class ProductionCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,18 +14,15 @@ class ColonyTypeController extends Controller
      */
     public function index()
     {
-        $records = ColonyType::paginate(20);
+        $records = ProductionCategory::paginate(20);
         $tableData = CRUDController::getTableData();
-
-        $tableData['tableName'] = "Типы колоний";
-        $tableData['columns'] = ColonyType::getColumns();
-        $tableData['actions'][] = 'page';
-        $tableData['page'] = '/content/crud/colony_type_production_category?parentRecordId=:recordId&parentTable=colony_type';
+        $tableData['columns'] = ProductionCategory::getColumns();
+        $tableData['tableName'] = "Категории деятельности";
 
         $resp = ApiController::getResp();
         $resp->setContent([
             'records' => $records,
-            'tableData' => $tableData,
+            'tableData' => $tableData
         ]);
         $resp->echo();
     }
@@ -38,7 +35,7 @@ class ColonyTypeController extends Controller
      */
     public function store(Request $request)
     {
-        ColonyType::create($request->all());
+        ProductionCategory::create($request->all());
 
         $resp = ApiController::getResp();
         $resp->echo();
@@ -48,12 +45,12 @@ class ColonyTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ColonyType  $colonyType
+     * @param  \App\Models\ProductionCategory  $productionCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ColonyType $colonyType)
+    public function update(Request $request, ProductionCategory $productionCategory)
     {
-        $colonyType->update($request->all());
+        $productionCategory->update($request->all());
 
         $resp = ApiController::getResp();
         $resp->echo();
@@ -62,12 +59,12 @@ class ColonyTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ColonyType  $colonyType
+     * @param  \App\Models\ProductionCategory  $productionCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ColonyType $colonyType)
+    public function destroy(ProductionCategory $productionCategory)
     {
-        $colonyType->delete();
+        $productionCategory->delete();
 
         $resp = ApiController::getResp();
         $resp->echo();
