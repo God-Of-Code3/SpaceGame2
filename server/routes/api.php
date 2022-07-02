@@ -7,6 +7,7 @@ use App\Http\Controllers\ColonyTypeProductionCategoryController;
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ProductionCategoryController;
+use App\Http\Controllers\ProductionBranchController;
 use App\Http\Controllers\SpaceObjectController;
 use App\Http\Controllers\SpaceObjectTypeController;
 use App\Http\Controllers\SpaceObjectPropTypeController;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserUniverseMemberController;
 use App\Models\ColonyTypeProductionCategory;
+use App\Models\ProductionBranch;
 use App\Models\ProductionCategory;
 use App\Models\Role;
 use App\Models\SpaceObject;
@@ -61,6 +63,7 @@ Route::middleware('auth:sanctum')->middleware('isadmin')->resource('colony_type'
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('colony', ColonyController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('production_category', ProductionCategoryController::class);
 Route::middleware('auth:sanctum')->middleware('isadmin')->resource('colony_type_production_category', ColonyTypeProductionCategoryController::class);
+Route::middleware('auth:sanctum')->middleware('isadmin')->resource('production_branch', ProductionBranchController::class);
 
 Route::middleware('auth:sanctum')->middleware('isadmin')->get('get_record_columns/space_object/{spaceObject}', [SpaceObjectController::class, 'getRecordColumns']);
 

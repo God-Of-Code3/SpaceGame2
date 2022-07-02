@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductionCategory;
+use App\Models\ProductionBranch;
 use Illuminate\Http\Request;
 
-class ProductionCategoryController extends Controller
+class ProductionBranchController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $records = ProductionCategory::paginate(20);
-        $tableData = CRUDController::getTableData();
-        $tableData['columns'] = ProductionCategory::getColumns();
-        $tableData['tableName'] = "Категории деятельности";
+        $productionCategory = $request->get('production_category');
 
-        $tableData['actions'][] = 'page';
-        $tableData['page'] = '/content/crud/production_branch?parentRecordId=:recordId&parentTable=production_category';;
+        $records = ProductionBranch::where('production_category_id', '=', $productionCategory)->paginate(20);
+        $tableData = CRUDController::getTableData();
+        $tableData['tableName'] = "Отрасли";
+        $tableData['columns'] = ProductionBranch::getColumns();
 
         $resp = ApiController::getResp();
         $resp->setContent([
@@ -38,7 +37,9 @@ class ProductionCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        ProductionCategory::create($request->all());
+        $data = $request->all();
+        $data['production_category_id'] = $request->get('production_category');
+        ProductionBranch::create($data);
 
         $resp = ApiController::getResp();
         $resp->echo();
@@ -48,12 +49,12 @@ class ProductionCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProductionCategory  $productionCategory
+     * @param  \App\Models\ProductionBranch  $productionBranch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductionCategory $productionCategory)
+    public function update(Request $request, ProductionBranch $productionBranch)
     {
-        $productionCategory->update($request->all());
+        $productionBranch->update($request->all());
 
         $resp = ApiController::getResp();
         $resp->echo();
@@ -62,12 +63,12 @@ class ProductionCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ProductionCategory  $productionCategory
+     * @param  \App\Models\ProductionBranch  $productionBranch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductionCategory $productionCategory)
+    public function destroy(ProductionBranch $productionBranch)
     {
-        $productionCategory->delete();
+        $productionBranch->delete();
 
         $resp = ApiController::getResp();
         $resp->echo();

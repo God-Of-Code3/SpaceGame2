@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Civilization;
 use App\Models\Colony;
 use App\Models\ColonyType;
+use App\Models\ProductionCategory;
 use App\Models\SpaceObject;
 use App\Models\SpaceObjectPropType;
 use App\Models\SpaceObjectType;
@@ -311,10 +312,23 @@ class GameController extends Controller
         $colonyTypes = ColonyType::get()->keyBy('id');
 
         // $header = $ui->h5($colony->name);
+
         $text = $ui->text($colonyTypes[$colony->colony_type_id]->runame);
         $block = $ui->block($colony->name, [], [$text]);
 
+        $tabsData = [
+            "Главное" => [$block]
+        ];
+
+
+
+        $tabs = $ui->tabs();
+
         return [$block];
+    }
+
+    public function getColonyProductionCategories(Colony $colony)
+    {
     }
 
     public function updateCamera(Request $request)
