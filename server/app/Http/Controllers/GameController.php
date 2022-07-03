@@ -320,15 +320,31 @@ class GameController extends Controller
             "Главное" => [$block]
         ];
 
+        foreach ($this->getColonyProductionCategories($colony, $ui) as $key => $value) {
+            $tabsData[$key] = $value;
+        }
 
+        $tabs = $ui->tabs($tabsData);
 
-        $tabs = $ui->tabs();
-
-        return [$block];
+        return [$tabs];
     }
 
-    public function getColonyProductionCategories(Colony $colony)
+    public function getColonyProductionCategories(Colony $colony, $ui)
     {
+        $productionCategories = [];
+
+        foreach (ProductionCategory::whereRaw("id IN (
+            SELECT 
+                production_category_id 
+            FROM 
+                colony_type_production_categories 
+            WHERE 
+                colony_type_id = '$colony->colony_type_id'
+        )")->get() as $productionCategory) {
+            $productionCategories[$productionCategory->runame] = [$ui->block($productionCategory->runame, [], [$ui->text($productionCategory->name)])];
+        }
+
+        return $productionCategories;
     }
 
     public function updateCamera(Request $request)
